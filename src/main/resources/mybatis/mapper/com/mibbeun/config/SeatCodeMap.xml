@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.config.Map.SeatCodeMap">
+
+  <select id="SelectSeatCode" parameterType="com.mibbeun.config.Vo.SeatCodeVo" resultType="com.mibbeun.config.Vo.SeatCodeVo">
+     SELECT SeatOut.코드  As code, 
+			SeatOut.코드분류	as codeGb,	-- 코드분류
+		    SeatOut.예약분류	as seatGb,	-- 예약분류
+			SeatOut.예약값	as seatValue,	-- 예약값
+			SeatOut.금액  as amt, 
+			SeatOut.비고  as cnte, 
+			SeatOut.계정코드1  as code1,  
+			SeatOut.계정코드2  as code2,  
+			SeatOut.계정코드3  as code3, 
+			CoutConf1.관       As codeNm1,
+			CoutConf2.항       As codeNm2, 
+			CoutConf3.목       As codeNm3, 
+			SeatOut.년도       As year 
+	 FROM  지출예약 SeatOut, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	 Where  SeatOut.계정코드1  =  CoutConf1.관코드 
+	 AND    SeatOut.코드분류   =  CoutConf1.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf2.관코드
+	 AND    SeatOut.계정코드2  =  CoutConf2.항코드      
+	 AND    SeatOut.코드분류   =  CoutConf2.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf3.관코드 
+	 AND    SeatOut.계정코드2  =  CoutConf3.항코드
+	 AND    SeatOut.계정코드3  =  CoutConf3.목코드          
+	 AND    SeatOut.코드분류   =  CoutConf3.코드분류
+	 AND    SeatOut.코드분류 = #{codeGb}
+ 	 AND    SeatOut.년도 = #{year}
+    <choose>
+      <when test='code != null and code != ""'>
+         AND  SeatOut.코드 = #{code}
+      </when>
+     <otherwise>
+        AND  SeatOut.코드 = (Select Max(코드) From  지출예약)
+     </otherwise>
+    </choose> 
+     	
+  </select>
+  <select id="SelectSeatCodeList" parameterType="com.mibbeun.config.Vo.SeatCodeVo" resultType="com.mibbeun.config.Vo.SeatCodeVo">
+	     SELECT SeatOut.코드  As code, 
+			SeatOut.코드분류	as codeGb,	-- 코드분류
+		    SeatOut.예약분류	as seatGb,	-- 예약분류
+			SeatOut.예약값	as seatValue,	-- 예약값
+			SeatOut.금액  as amt, 
+			SeatOut.비고  as cnte, 
+			SeatOut.계정코드1  as code1,  
+			SeatOut.계정코드2  as code2,  
+			SeatOut.계정코드3  as code3, 
+			CoutConf1.관       As codeNm1,
+			CoutConf2.항       As codeNm2, 
+			CoutConf3.목       As codeNm3, 
+			SeatOut.년도       As year 
+	 FROM  지출예약 SeatOut, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	 Where  SeatOut.계정코드1  =  CoutConf1.관코드 
+	 AND    SeatOut.코드분류   =  CoutConf1.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf2.관코드
+	 AND    SeatOut.계정코드2  =  CoutConf2.항코드      
+	 AND    SeatOut.코드분류   =  CoutConf2.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf3.관코드 
+	 AND    SeatOut.계정코드2  =  CoutConf3.항코드
+	 AND    SeatOut.계정코드3  =  CoutConf3.목코드          
+	 AND    SeatOut.코드분류   =  CoutConf3.코드분류
+ 
+    <if test='codeGb != null and codeGb != "" '>
+     AND  SeatOut.코드분류 = #{codeGb}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  SeatOut.년도 = #{year}
+    </if>      
+    
+    <if test='code != null and code != 0'>
+      AND  SeatOut.코드 = #{code}
+    </if>
+    
+    <if test='cnte != null and cnte != ""'>
+      AND  SeatOut.비고 Like '%'||#{cnte}||'%'
+    </if>
+        
+            
+	<if test='seatGb != null and seatGb != ""'>
+	  AND  SeatOut.예약분류  = #{seatGb}
+    </if>      
+    
+	<if test='seatValue != null and seatValue != ""'>
+   	   AND ( SeatOut.예약값  = '0' or SeatOut.예약값  = #{seatValue}
+   	        or SeatOut.예약값  = #{seatValue2})   
+    </if>         
+    
+	<if test='code1 != null and code1 != 0'>
+      AND  SeatOut.계정코드1 = #{code1} 
+    </if> 
+    <if test='code2 != null and code2 != 0'>
+      AND  SeatOut.계정코드2 = #{code2} 
+    </if>  
+    <if test='code3 != null and code3 != 0'>
+      AND  SeatOut.계정코드3 = #{code3} 
+    </if>  	
+    Order by SeatOut.코드 desc, SeatOut.계정코드1, SeatOut.계정코드2, SeatOut.계정코드3 	
+</select>
+
+<select id="seatCodeInsertCheckList" parameterType="com.mibbeun.config.Vo.SeatCodeVo" resultType="com.mibbeun.config.Vo.SeatCodeVo">
+	     SELECT SeatOut.코드  As code, 
+			SeatOut.코드분류	as codeGb,	-- 코드분류
+		    SeatOut.예약분류	as seatGb,	-- 예약분류
+			SeatOut.예약값	as seatValue,	-- 예약값
+			SeatOut.금액  as amt, 
+			SeatOut.비고  as cnte, 
+			SeatOut.계정코드1  as code1,  
+			SeatOut.계정코드2  as code2,  
+			SeatOut.계정코드3  as code3, 
+			CoutConf1.관       As codeNm1,
+			CoutConf2.항       As codeNm2, 
+			CoutConf3.목       As codeNm3, 
+			SeatOut.년도       As year,
+			(Select count(*) 
+			   From 지출 aa
+			  where aa.날짜 = #{inputDate}
+                and aa.계정코드1  = SeatOut.계정코드1 			            
+                and aa.계정코드2  = SeatOut.계정코드2 			            
+                and aa.계정코드3  = SeatOut.계정코드3 			            
+			    and aa.코드분류  = SeatOut.코드분류 			            
+                and aa.년도  = SeatOut.년도) as insertValue		
+	 FROM  지출예약 SeatOut, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	 Where  SeatOut.계정코드1  =  CoutConf1.관코드 
+	 AND    SeatOut.코드분류   =  CoutConf1.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf2.관코드
+	 AND    SeatOut.계정코드2  =  CoutConf2.항코드      
+	 AND    SeatOut.코드분류   =  CoutConf2.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf3.관코드 
+	 AND    SeatOut.계정코드2  =  CoutConf3.항코드
+	 AND    SeatOut.계정코드3  =  CoutConf3.목코드          
+	 AND    SeatOut.코드분류   =  CoutConf3.코드분류
+     AND  SeatOut.코드분류 = #{codeGb}
+     AND  SeatOut.년도 = #{year}
+ 	<if test='seatValue != null and seatValue != ""'>
+   	   AND ( SeatOut.예약값  = '0' or SeatOut.예약값  = #{seatValue}
+   	        or SeatOut.예약값  = #{seatValue2})   
+    </if>         
+    Order by SeatOut.코드 desc, SeatOut.계정코드1, SeatOut.계정코드2, SeatOut.계정코드3 	
+</select>
+<select id="seatCodeInsertCheckList2" parameterType="com.mibbeun.config.Vo.SeatCodeVo" resultType="com.mibbeun.config.Vo.SeatCodeVo">
+		SELECT 
+		        AA.code3 as code, 
+				AA.codeGb,	-- 코드분류
+				AA.seatGb,	-- 예약분류
+				AA.seatValue,	-- 예약값
+				AA.amt, 
+				AA.cnte, 
+				AA.code1,  
+				AA.code2,  
+				AA.code3, 
+				AA.codeNm1,
+				AA.codeNm2, 
+				AA.codeNm3, 
+				AA.year,
+				(Select count(*) 
+				   From 지출 bb
+				  where bb.날짜 = #{inputDate}
+					and bb.계정코드1  = AA.code1 			            
+					and bb.계정코드2  = AA.code2 			            
+					and bb.계정코드3  = AA.code3 			            
+					and bb.코드분류  = AA.codeGb 			            
+					and bb.년도  = AA.year) as insertValue			
+		   from (
+		     SELECT 0  As code, 
+					inputAmt.코드분류	as codeGb,	-- 코드분류
+				    '0'	as seatGb,	-- 예약분류
+					'0'	as seatValue,	-- 예약값
+					 sum(inputAmt.금액)  as amt, 
+			        case when inputAmt.계정코드3 = 4 then  '선교' 
+			             when inputAmt.계정코드3 = 3 then  '사랑방' 
+			             when inputAmt.계정코드3 = 25 then  '건축' 
+			             when inputAmt.계정코드3 = 27 then  '구제' 
+			        end as cnte,
+			        3 as code1,                 
+			        case when inputAmt.계정코드2 = 2 then  13  -- 선교 
+			             when inputAmt.계정코드2 = 9 then  14  -- 건축 
+			             when inputAmt.계정코드2 = 8 then  30  -- 구제 
+			        end as code2,                          
+			        case when inputAmt.계정코드3 = 4 then  57  -- 선교 
+			             when inputAmt.계정코드3 = 3 then  87  -- 사랑 
+			             when inputAmt.계정코드3 = 25 then  32  -- 건축 
+			             when inputAmt.계정코드3 = 27 then  58  -- 구제 
+			        end as code3,  
+			        '비목이전' as codeNm1,                 
+			        case when inputAmt.계정코드2 = 2 then  '선교' 
+			             when inputAmt.계정코드2 = 9 then  '건축' 
+			             when inputAmt.계정코드2 = 8 then  '구제' 
+			        end as codeNm2,                          
+			        case when inputAmt.계정코드3 = 4 then  '선교'
+			             when inputAmt.계정코드3 = 3 then  '사랑방' 
+			             when inputAmt.계정코드3 = 25 then  '건축' 
+			             when inputAmt.계정코드3 = 27 then  '구제' 
+			        end as codeNm3, 
+					inputAmt.년도       As year
+			 FROM  수입 inputAmt	   
+			 where  inputAmt.코드분류 = #{codeGb} 
+			   AND   inputAmt.년도  = #{year}   
+			   AND   inputAmt.날짜  = #{inputDate}          
+			   and inputAmt.계정코드2 in (2,8,9) 
+			   group by  inputAmt.코드분류, inputAmt.날짜, inputAmt.계정코드2, inputAmt.계정코드3,inputAmt.년도
+			   ) AA
+		 union all	  
+	     SELECT SeatOut.코드  As code, 
+			SeatOut.코드분류	as codeGb,	-- 코드분류
+		    SeatOut.예약분류	as seatGb,	-- 예약분류
+			SeatOut.예약값	as seatValue,	-- 예약값
+			SeatOut.금액  as amt, 
+			SeatOut.비고  as cnte, 
+			SeatOut.계정코드1  as code1,  
+			SeatOut.계정코드2  as code2,  
+			SeatOut.계정코드3  as code3, 
+			CoutConf1.관       As codeNm1,
+			CoutConf2.항       As codeNm2, 
+			CoutConf3.목       As codeNm3, 
+			SeatOut.년도       As year,
+			(Select count(*) 
+			   From 지출 aa
+			  where aa.날짜 = #{inputDate}
+                and aa.계정코드1  = SeatOut.계정코드1 			            
+                and aa.계정코드2  = SeatOut.계정코드2 			            
+                and aa.계정코드3  = SeatOut.계정코드3 			            
+			    and aa.코드분류  = SeatOut.코드분류 			            
+                and aa.년도  = SeatOut.년도) as insertValue		
+	 FROM  지출예약 SeatOut, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	 Where  SeatOut.계정코드1  =  CoutConf1.관코드 
+	 AND    SeatOut.코드분류   =  CoutConf1.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf2.관코드
+	 AND    SeatOut.계정코드2  =  CoutConf2.항코드      
+	 AND    SeatOut.코드분류   =  CoutConf2.코드분류
+	 AND    SeatOut.계정코드1  =  CoutConf3.관코드 
+	 AND    SeatOut.계정코드2  =  CoutConf3.항코드
+	 AND    SeatOut.계정코드3  =  CoutConf3.목코드          
+	 AND    SeatOut.코드분류   =  CoutConf3.코드분류
+     AND  SeatOut.코드분류 = #{codeGb}
+     AND  SeatOut.년도 = #{year}
+ 	<if test='seatValue != null and seatValue != ""'>
+   	   AND ( SeatOut.예약값  = '0' or SeatOut.예약값  = #{seatValue}
+   	        or SeatOut.예약값  = #{seatValue2})   
+    </if>         
+    Order by 2, 1, 7,8,9  	
+</select>
+
+<insert id="BeforCopyInsertSeatCode" parameterType="com.mibbeun.config.Vo.SeatCodeVo">
+	
+	INSERT INTO 지출예약 (
+		코드분류, 
+		예약분류, 
+		예약값, 
+		금액, 
+		비고, 
+		계정코드1, 
+		계정코드2, 
+		계정코드3, 
+		년도, 
+		입력일자)
+	select
+		"코드분류", 
+		"예약분류", 
+		"예약값", 
+		"금액", 
+		"비고", 
+		"계정코드1", 
+		"계정코드2", 
+		"계정코드3", 
+		#{year}, 
+		"입력일자"
+	 from 지출예약
+	 where 코드분류 = #{codeGb}
+	   and "년도" = CAST(CAST(#{year} AS int)-1 As Text) 
+  </insert>	   
+  <insert id="InsertSeatCode" parameterType="com.mibbeun.config.Vo.SeatCodeVo">
+	insert into 지출예약( 
+		코드분류	-- 코드분류
+		,예약분류	-- 예약분류
+		,예약값	-- 예약값
+		,금액	-- 금액
+		,비고	-- 비고
+		,계정코드1	-- 계정코드1
+		,계정코드2	-- 계정코드2
+		,계정코드3	-- 계정코드3
+		,년도	-- 년도
+		,입력일자	-- 입력일자
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{seatGb}	 -- 예약분류
+		,#{seatValue}	 -- 예약값
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{code1}	 -- 계정코드1
+		,#{code2}	 -- 계정코드2
+		,#{code3}	 -- 계정코드3
+		,#{year}	 -- 년도
+		,now()	 -- 입력일자
+)
+</insert>
+  <update id="UpdateSeatCode" parameterType="com.mibbeun.config.Vo.SeatCodeVo">
+	update 지출예약 
+	Set 
+		  코드분류	 = #{codeGb}	-- 코드분류
+		, 예약분류	 = #{seatGb}	-- 예약분류
+		, 예약값	 = #{seatValue}	-- 예약값
+		, 금액	 = #{amt}	-- 금액
+		, 비고	 = #{cnte}	-- 비고
+		, 계정코드1	 = #{code1}	-- 계정코드1
+		, 계정코드2	 = #{code2}	-- 계정코드2
+		, 계정코드3	 = #{code3}	-- 계정코드3
+		, 년도	 = #{year}	-- 년도
+		, 입력일자	 = #{inputDate}	-- 입력일자
+	where 코드	 = #{code}
+</update>
+  <update id="DeleteSeatCode" parameterType="com.mibbeun.config.Vo.SeatCodeVo">
+	delete from 지출예약 
+	where 코드 = #{code}
+</update>
+  <update id="MergeSeatCode" parameterType="com.mibbeun.config.Vo.SeatCodeVo">
+	Merge  into  지출예약  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.코드 = #{code}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 예약분류	 = #{seatGb}	 -- 예약분류
+		, 예약값	 = #{seatValue}	 -- 예약값
+		, 금액	 = #{amt}	 -- 금액
+		, 비고	 = #{cnte}	 -- 비고
+		, 계정코드1	 = #{code1}	 -- 계정코드1
+		, 계정코드2	 = #{code2}	 -- 계정코드2
+		, 계정코드3	 = #{code3}	 -- 계정코드3
+		, 년도	 = #{year}	 -- 년도
+		, 입력일자	 = #{inputDate}	 -- 입력일자
+	When not Matched then 
+	insert ( 
+		 코드분류	 -- 코드분류
+		,예약분류	 -- 예약분류
+		,예약값	 -- 예약값
+		,금액	 -- 금액
+		,비고	 -- 비고
+		,계정코드1	 -- 계정코드1
+		,계정코드2	 -- 계정코드2
+		,계정코드3	 -- 계정코드3
+		,년도	 -- 년도
+		,입력일자	 -- 입력일자
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{seatGb}	 -- 예약분류
+		,#{seatValue}	 -- 예약값
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{code1}	 -- 계정코드1
+		,#{code2}	 -- 계정코드2
+		,#{code3}	 -- 계정코드3
+		,#{year}	 -- 년도
+		,#{inputDate}	 -- 입력일자
+	)
+</update>
+</mapper>

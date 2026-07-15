@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.config.Map.CarryOverMap">
+
+  <select id="SelectCarryOver" parameterType="com.mibbeun.config.Vo.CarryOverVo" resultType="com.mibbeun.config.Vo.CarryOverVo">
+	Select 
+		 년도 as year	 -- 년도
+		,코드분류 as codeGb	 -- 코드분류
+		,이월금 as bofAmt	 -- 이월금
+	From 환경
+	where 년도	=	#{bofAmt} 
+	order by 년도
+</select>
+  <select id="SelectCarryOverList" parameterType="com.mibbeun.config.Vo.CarryOverVo" resultType="com.mibbeun.config.Vo.CarryOverVo">
+   <![CDATA[
+	 Select 
+	      년도 as year,  
+	      이월금 as bofAmt,  
+	      코드분류 as codeGb  
+	  From  환경  
+	  where 코드분류 >= #{codeGb} 
+	]]>
+	   
+    <if test='year != null and year != ""'>
+      AND  년도 = #{year}
+    </if>      
+    
+    <if test='codeGb != null and codeGb != ""'>
+      AND  코드분류 = #{codeGb}
+    </if> 
+    order by 년도
+</select>
+  <insert id="InsertCarryOver" parameterType="com.mibbeun.config.Vo.CarryOverVo">
+	insert into 환경( 
+		 년도	 -- 년도
+		,코드분류	-- 코드분류
+		,이월금	-- 이월금
+	) Values ( 
+		 #{year}	 -- 년도
+		,#{codeGb}	 -- 코드분류
+		,#{bofAmt}	 -- 이월금
+)
+</insert>
+  <update id="UpdateCarryOver" parameterType="com.mibbeun.config.Vo.CarryOverVo">
+	update 환경 
+	Set 
+		이월금	 = #{bofAmt}	-- 이월금
+	where 년도	 = #{year}
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+  <update id="DeleteCarryOver" parameterType="com.mibbeun.config.Vo.CarryOverVo">
+	delete from 환경 
+	where 년도	 = #{year}
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+  <update id="MergeCarryOver" parameterType="com.mibbeun.config.Vo.CarryOverVo">
+	Merge  into  환경  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.년도 = #{year}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 이월금	 = #{bofAmt}	 -- 이월금
+	When not Matched then 
+	insert ( 
+		 년도	 -- 년도
+		,코드분류	 -- 코드분류
+		,이월금	 -- 이월금
+	) Values ( 
+		 #{year}	 -- 년도
+		,#{codeGb}	 -- 코드분류
+		,#{bofAmt}	 -- 이월금
+	)
+</update>
+</mapper>

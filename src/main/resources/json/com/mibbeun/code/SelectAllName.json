@@ -1,0 +1,17 @@
+﻿{"ServiceIDs":"selectAllNameID","Response":{"selectAllNameVo":[{"dataCode":"familyNo","dataSize":"5","dataNm":"familyno","dataType":"STRING"}
+,{"dataCode":"familyNm","dataSize":"8","dataNm":"familynm","dataType":"STRING"}
+,{"dataCode":"familySubNo","dataSize":"8","dataNm":"familysubno","dataType":"STRING"}
+,{"dataCode":"name","dataSize":"50","dataNm":"name","dataType":"STRING"}
+,{"dataCode":"numSeq","dataSize":"0","dataNm":"numseq","dataType":"INT"}
+],"selectAllNameListVo":[{"dataCode":"familyNo","dataSize":"5","dataNm":"familyno","dataType":"STRING"}
+,{"dataCode":"familyNm","dataSize":"8","dataNm":"familynm","dataType":"STRING"}
+,{"dataCode":"familySubNo","dataSize":"8","dataNm":"familysubno","dataType":"STRING"}
+,{"dataCode":"name","dataSize":"50","dataNm":"name","dataType":"STRING"}
+,{"dataCode":"numSeq","dataSize":"0","dataNm":"numseq","dataType":"INT"}
+]}
+,"Request":[{"dataCode":"familyNo","dataSize":"5","dataNm":"familyno","dataType":"STRING"}
+,{"dataCode":"familyNm","dataSize":"8","dataNm":"familynm","dataType":"STRING"}
+,{"dataCode":"familySubNo","dataSize":"8","dataNm":"familysubno","dataType":"STRING"}
+,{"dataCode":"name","dataSize":"50","dataNm":"name","dataType":"STRING"}
+,{"dataCode":"numSeq","dataSize":"0","dataNm":"numseq","dataType":"INT"}
+]}

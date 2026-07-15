@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.PmRelationMap">
+
+  <select id="SelectPmRelation" parameterType="com.mibbeun.code.Vo.PmRelationVo" resultType="com.mibbeun.code.Vo.PmRelationVo">
+	Select 
+		 가족명 as tNo	 -- 가족명
+		,가족원 as pNo	 -- 가족원
+	From 가족관계
+	where 가족명	=	#{pNo} 
+	order by 가족명
+</select>
+  <select id="SelectPmRelationList" parameterType="com.mibbeun.code.Vo.PmRelationVo" resultType="com.mibbeun.code.Vo.PmRelationVo">
+	Select 
+		 가족명 as tNo	 -- 가족명
+		,가족원 as pNo	 -- 가족원
+	From 가족관계
+	where 가족명	=	#{pNo} 
+	order by 가족명
+</select>
+  <insert id="InsertPmRelation" parameterType="com.mibbeun.code.Vo.PmRelationVo">
+	insert into 가족관계( 
+		 가족명	 -- 가족명
+		,가족원	-- 가족원
+	) Values ( 
+		 #{tNo}	 -- 가족명
+		,#{pNo}	 -- 가족원
+)
+</insert>
+  <update id="UpdatePmRelation" parameterType="com.mibbeun.code.Vo.PmRelationVo">
+	update 가족관계 
+	Set 
+		  가족명	 = #{tNo}	-- 가족명
+		, 가족원	 = #{pNo}	-- 가족원
+	where 가족명	 = #{tNo}
+</update>
+  <update id="MergePmRelation" parameterType="com.mibbeun.code.Vo.PmRelationVo">
+	Merge  into  가족관계  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.가족명 = #{tNo}) 
+	When Matched then 
+	update  
+	Set 
+		  가족원	 = #{pNo}	 -- 가족원
+	When not Matched then 
+	insert ( 
+		 가족명	 -- 가족명
+		,가족원	 -- 가족원
+	) Values ( 
+		 #{tNo}	 -- 가족명
+		,#{pNo}	 -- 가족원
+	)
+</update>
+</mapper>

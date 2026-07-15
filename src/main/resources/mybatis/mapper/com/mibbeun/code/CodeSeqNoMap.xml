@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.CodeSeqNoMap">
+
+  <select id="SelectCodeSeqNo" parameterType="com.mibbeun.code.Vo.CodeSeqNoVo" resultType="com.mibbeun.code.Vo.CodeSeqNoVo">
+	Select 
+		 분류코드 as clssCode	 -- 분류코드
+		,구분코드 as divisCode	 -- 구분코드
+		,코드분류 as codeGb	 -- 코드분류
+		,번호 as number	 -- 번호
+	From 일련번호
+	where 분류코드	=	#{clssCode} 
+	  and 구분코드	=	#{divisCode} 
+	  and 코드분류	=	#{codeGb} 
+</select>
+  <select id="SelectCodeSeqNoList" parameterType="com.mibbeun.code.Vo.CodeSeqNoVo" resultType="com.mibbeun.code.Vo.CodeSeqNoVo">
+	Select 
+		 분류코드 as clssCode	 -- 분류코드
+		,구분코드 as divisCode	 -- 구분코드
+		,코드분류 as codeGb	 -- 코드분류
+		,번호 as number	 -- 번호
+	From 일련번호
+	where 분류코드	=	#{number} 
+	order by 분류코드
+</select>
+  <insert id="InsertCodeSeqNo" parameterType="com.mibbeun.code.Vo.CodeSeqNoVo">
+	insert into 일련번호( 
+		 분류코드	 -- 분류코드
+		,구분코드	-- 구분코드
+		,코드분류	-- 코드분류
+		,번호	-- 번호
+	) Values ( 
+		 #{clssCode}	 -- 분류코드
+		,#{divisCode}	 -- 구분코드
+		,#{codeGb}	 -- 코드분류
+		,#{number}	 -- 번호
+)
+</insert>
+  <update id="UpdateCodeSeqNo" parameterType="com.mibbeun.code.Vo.CodeSeqNoVo">
+	update 일련번호 
+	Set 
+		 번호	 = #{number}	-- 번호
+	where 분류코드	 = #{clssCode}
+	  and 구분코드	 = #{divisCode}	-- 구분코드
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+  <update id="MergeCodeSeqNo" parameterType="com.mibbeun.code.Vo.CodeSeqNoVo">
+	Merge  into  일련번호  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.분류코드 = #{clssCode}) 
+	When Matched then 
+	update  
+	Set 
+		  구분코드	 = #{divisCode}	 -- 구분코드
+		, 코드분류	 = #{codeGb}	 -- 코드분류
+		, 번호	 = #{number}	 -- 번호
+	When not Matched then 
+	insert ( 
+		 분류코드	 -- 분류코드
+		,구분코드	 -- 구분코드
+		,코드분류	 -- 코드분류
+		,번호	 -- 번호
+	) Values ( 
+		 #{clssCode}	 -- 분류코드
+		,#{divisCode}	 -- 구분코드
+		,#{codeGb}	 -- 코드분류
+		,#{number}	 -- 번호
+	)
+</update>
+</mapper>

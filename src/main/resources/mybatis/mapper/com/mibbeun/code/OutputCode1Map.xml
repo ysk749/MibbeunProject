@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.OutputCode1Map">
+
+  <select id="SelectOutputCode1" parameterType="com.mibbeun.code.Vo.OutputCode1Vo" resultType="com.mibbeun.code.Vo.OutputCode1Vo">
+	Select 
+		 관코드 as code1	 -- 관코드
+		,코드분류 as codeGb	 -- 코드분류
+		,관 as code1Nm	 -- 관
+		,순서 as seqNo	 -- 순서
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYN	 -- 사용여부
+	From 지출관
+	where 관코드	=	#{code1} 
+	order by 관코드
+</select>
+  <select id="SelectOutputCode1List" parameterType="com.mibbeun.code.Vo.OutputCode1Vo" resultType="com.mibbeun.code.Vo.OutputCode1Vo">
+	Select 
+		 관코드 as code1	 -- 관코드
+		,코드분류 as codeGb	 -- 코드분류
+		,관 as code1Nm	 -- 관
+		,순서 as seqNo	 -- 순서
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 지출관 
+	where 사용여부 >= '1' 
+	  and 코드분류 = #{codeGb} 
+	order by 순서
+ </select>
+  <insert id="InsertOutputCode1" parameterType="com.mibbeun.code.Vo.OutputCode1Vo">
+	insert into 지출관( 
+		 관코드	 -- 관코드
+		,코드분류	-- 코드분류
+		,관	-- 관
+		,순서	-- 순서
+		,설명	-- 설명
+		,사용여부	-- 사용여부
+	) Values ( 
+		 #{code1}	 -- 관코드
+		,#{codeGb}	 -- 코드분류
+		,#{code1Nm}	 -- 관
+		,#{seqNo}	 -- 순서
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+)
+</insert>
+  <update id="UpdateOutputCode1" parameterType="com.mibbeun.code.Vo.OutputCode1Vo">
+	update 지출관 
+	Set 
+		  관	 = #{code1Nm}	-- 관
+		, 순서	 = #{seqNo}	-- 순서
+		, 설명	 = #{cnte}	-- 설명
+		, 사용여부	 = #{userYn}	-- 사용여부
+	where 관코드	 = #{code1}
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+ <update id="DeleteOutputCode1" parameterType="com.mibbeun.code.Vo.OutputCode1Vo">
+	delete From 지출관 
+	where 관코드	 = #{code1}
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+  <update id="MergeOutputCode1" parameterType="com.mibbeun.code.Vo.OutputCode1Vo">
+	Merge  into  지출관  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.관코드 = #{code1} and and 코드분류	 = #{codeGb}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 관	 = #{code1Nm}	 -- 관
+		, 순서	 = #{seqNo}	 -- 순서
+		, 설명	 = #{cnte}	 -- 설명
+		, 사용여부	 = #{userYn}	 -- 사용여부
+	When not Matched then 
+	insert ( 
+		 관코드	 -- 관코드
+		,코드분류	 -- 코드분류
+		,관	 -- 관
+		,순서	 -- 순서
+		,설명	 -- 설명
+		,사용여부	 -- 사용여부
+	) Values ( 
+		 #{code1}	 -- 관코드
+		,#{codeGb}	 -- 코드분류
+		,#{code1Nm}	 -- 관
+		,#{seqNo}	 -- 순서
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+	)
+</update>
+</mapper>

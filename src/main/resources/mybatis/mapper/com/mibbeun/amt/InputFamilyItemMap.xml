@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.InputFamilyItemMap">
+
+  <select id="SelectInputFamilyItemList1" parameterType="com.mibbeun.amt.Vo.InputFamilyItemVo" resultType="com.mibbeun.amt.Vo.InputFamilyItemVo">
+   <![CDATA[
+	 SELECT 가족.대표번호 as mfamilyNo, 
+			   Max(IIF(가족구성원.경제활동 ='1', 가족구성원.개인번호,'')) as mfamilyNo1, 
+			   Max(IIF(가족구성원.경제활동 ='2', 가족구성원.개인번호,'')) as mfamilyNo2, 
+			   Max(IIF(가족구성원.경제활동 ='3', 가족구성원.개인번호,'')) as mfamilyNo3, 
+			   Max(IIF(가족구성원.경제활동 ='4', 가족구성원.개인번호,'')) as mfamilyNo4, 
+			   Max(IIF(가족구성원.경제활동 ='5', 가족구성원.개인번호,'')) as mfamilyNo5, 
+			   가족.대표 as mfamilyName, 
+			   Max(IIF(가족구성원.경제활동 ='1', 가족구성원.성명,'')) as mfamilyName1, 
+			   Max(IIF(가족구성원.경제활동 ='2', 가족구성원.성명,'')) as mfamilyName2,           
+			   Max(IIF(가족구성원.경제활동 ='3', 가족구성원.성명,'')) as mfamilyName3, 
+			   Max(IIF(가족구성원.경제활동 ='4', 가족구성원.성명,'')) as mfamilyName4, 
+			   Max(IIF(가족구성원.경제활동 ='5', 가족구성원.성명,'')) as mfamilyName5, 
+			   수입항.항 as flNm2, 
+			   수입목.목  as flNm3, 
+			   수입항.순서 as  Seq2, 수입목.순서 AS Seq3, 
+			   수입항.순서 as  Seq4, 수입목.순서 AS Seq5, 
+			   수입.계정코드2 As code2,수입.계정코드3 As code3,
+			   Sum(수입.금액) AS totAmt,
+			   Sum(IIF(가족구성원.경제활동 ='1', 수입.금액,0)) AS totAmt1,
+			   Sum(IIF(가족구성원.경제활동 ='2', 수입.금액,0)) AS totAmt2,
+			   Sum(IIF(가족구성원.경제활동 ='3', 수입.금액,0)) AS totAmt3,
+			   Sum(IIF(가족구성원.경제활동 ='4', 수입.금액,0)) AS totAmt4,
+			   Sum(IIF(가족구성원.경제활동 ='5', 수입.금액,0)) AS totAmt5
+			 FROM (((가족구성원 
+					INNER JOIN 수입 
+						  ON 가족구성원.성명 = 수입.이름1) 
+					INNER JOIN 수입항 
+						  ON (수입.계정코드2 = 수입항.항코드) 
+						  AND (수입.코드분류 = 수입항.코드분류))
+				   INNER JOIN 수입목 
+						  ON (수입.계정코드2 = 수입목.항코드) 
+						  AND (수입.계정코드3 = 수입목.목코드) 
+						  AND (수입.코드분류 = 수입목.코드분류)) 
+				  INNER JOIN 가족 
+						  ON 가족구성원.대표번호 = 가족.대표번호
+	 WHERE 수입.년도 = #{year}
+	 And   수입.코드분류 = #{codeType}
+	 and   가족.대표번호 <> '10330'
+ 	]]>   
+	<if test='mfamilyNo != null and mfamilyNo != ""' >
+	 And  가족.대표번호 = #{mfamilyNo}
+	</if>  
+	 GROUP BY 가족.대표번호, 가족.대표번호, 가족.대표, 가족.대표, 수입항.항, 수입목.목, 수입항.순서, 수입목.순서,수입.계정코드2,수입.계정코드3
+ <![CDATA[
+    UNION ALL	 
+    SELECT 가족.대표번호 as mfamilyNo, 
+	           Max(IIF(가족구성원.경제활동 ='1', 가족구성원.개인번호,'')) as mfamilyNo1, 
+	           Max(IIF(가족구성원.경제활동 ='2', 가족구성원.개인번호,'')) as mfamilyNo2, 
+	           Max(IIF(가족구성원.경제활동 ='3', 가족구성원.개인번호,'')) as mfamilyNo3, 
+	           Max(IIF(가족구성원.경제활동 ='4', 가족구성원.개인번호,'')) as mfamilyNo4, 
+	           Max(IIF(가족구성원.경제활동 ='5', 가족구성원.개인번호,'')) as mfamilyNo5, 
+	           가족.대표 as mfamilyName, 
+	           Max(IIF(가족구성원.경제활동 ='1', 가족구성원.성명,'')) as mfamilyName1, 
+	           Max(IIF(가족구성원.경제활동 ='2', 가족구성원.성명,'')) as mfamilyName2,           
+	           Max(IIF(가족구성원.경제활동 ='3', 가족구성원.성명,'')) as mfamilyName3, 
+	           Max(IIF(가족구성원.경제활동 ='4', 가족구성원.성명,'')) as mfamilyName4, 
+	           Max(IIF(가족구성원.경제활동 ='5', 가족구성원.성명,'')) as mfamilyName5, 
+	           '주일헌금' as flNm2, 
+	           '주일헌금' as flNm3, 
+	           99 as  Seq2, 99 AS Seq3, 
+	           99 as  Seq4, 99 AS Seq5, 
+	           99 As code2, 99 As code3,
+			   Sum(주일헌금.금액) AS totAmt,
+	           Sum(IIF(가족구성원.경제활동 ='1', 주일헌금.금액,0)) AS totAmt1,
+	           Sum(IIF(가족구성원.경제활동 ='2', 주일헌금.금액,0)) AS totAmt2,
+	           Sum(IIF(가족구성원.경제활동 ='3', 주일헌금.금액,0)) AS totAmt3,
+	           Sum(IIF(가족구성원.경제활동 ='4', 주일헌금.금액,0)) AS totAmt4,
+	           Sum(IIF(가족구성원.경제활동 ='5', 주일헌금.금액,0)) AS totAmt5
+	 FROM ((가족구성원 
+	                INNER JOIN 주일헌금 
+	                      ON 가족구성원.성명 = 주일헌금.이름1) 
+  	                INNER JOIN 가족 
+	                      ON 가족구성원.대표번호 = 가족.대표번호
+			)
+	 WHERE 주일헌금.년도 = #{year}
+	 And   주일헌금.코드분류 = #{codeType}
+	 and   가족.대표번호 <> '10330'			
+    ]]>
+	<if test='mfamilyNo != null and mfamilyNo != ""' >
+	   And  가족.대표번호 = #{mfamilyNo}
+	</if>  	 
+	 GROUP BY 가족.대표번호, 가족.대표번호, 가족.대표, 가족.대표 
+  	 ORDER BY 1,15,16   	 
+  </select>
+    
+   <select id="SelectInputFamilyItemList2" parameterType="com.mibbeun.amt.Vo.InputFamilyItemVo" resultType="com.mibbeun.amt.Vo.InputFamilyItemVo">
+   <![CDATA[
+	 SELECT 가족.대표번호 as mfamilyNo, 
+	           Max(IIF(가족구성원.경제활동 ='1', 가족구성원.개인번호,'')) as mfamilyNo1, 
+	           Max(IIF(가족구성원.경제활동 ='2', 가족구성원.개인번호,'')) as mfamilyNo2, 
+	           Max(IIF(가족구성원.경제활동 ='3', 가족구성원.개인번호,'')) as mfamilyNo3, 
+	           Max(IIF(가족구성원.경제활동 ='4', 가족구성원.개인번호,'')) as mfamilyNo4, 
+	           Max(IIF(가족구성원.경제활동 ='5', 가족구성원.개인번호,'')) as mfamilyNo5, 
+	           가족.대표 as mfamilyName, 
+	           Max(IIF(가족구성원.경제활동 ='1', 가족구성원.성명,'')) as mfamilyName1, 
+	           Max(IIF(가족구성원.경제활동 ='2', 가족구성원.성명,'')) as mfamilyName2,           
+	           Max(IIF(가족구성원.경제활동 ='3', 가족구성원.성명,'')) as mfamilyName3, 
+	           Max(IIF(가족구성원.경제활동 ='4', 가족구성원.성명,'')) as mfamilyName4, 
+	           Max(IIF(가족구성원.경제활동 ='5', 가족구성원.성명,'')) as mfamilyName5, 
+	           수입항.항 as flNm2, 
+	           수입목.목  as flNm3, 
+	           수입항.순서 as  Seq2, 수입목.순서 AS Seq3, 
+	           수입항.순서 as  Seq4, 수입목.순서 AS Seq5,
+	           수입.계정코드2 As code2,수입.계정코드3 As code3,
+	           Sum(수입.금액 
+	            - IIF(가족구성원.경제활동 ='1', 수입.금액,0)
+	            - IIF(가족구성원.경제활동 ='2', 수입.금액,0)
+	            - IIF(가족구성원.경제활동 ='3', 수입.금액,0)
+	            - IIF(가족구성원.경제활동 ='4', 수입.금액,0)
+	            - IIF(가족구성원.경제활동 ='5', 수입.금액,0)) AS totAmt,
+	           Sum(IIF(가족구성원.경제활동 ='1', 수입.금액,0)) AS totAmt1,
+	           Sum(IIF(가족구성원.경제활동 ='2', 수입.금액,0)) AS totAmt2,
+	           Sum(IIF(가족구성원.경제활동 ='3', 수입.금액,0)) AS totAmt3,
+	           Sum(IIF(가족구성원.경제활동 ='4', 수입.금액,0)) AS totAmt4,
+	           Sum(IIF(가족구성원.경제활동 ='5', 수입.금액,0)) AS totAmt5
+	 FROM (((가족구성원 
+	                INNER JOIN 수입 
+	                      ON 가족구성원.성명 = 수입.이름1) 
+	                INNER JOIN 수입항 
+	                      ON (수입.계정코드2 = 수입항.항코드) 
+	                      AND (수입.코드분류 = 수입항.코드분류))
+	               INNER JOIN 수입목 
+	                      ON (수입.계정코드2 = 수입목.항코드) 
+	                      AND (수입.계정코드3 = 수입목.목코드) 
+	                      AND (수입.코드분류 = 수입목.코드분류)) 
+	              INNER JOIN 가족 
+	                      ON 가족구성원.대표번호 = 가족.대표번호
+	 WHERE 수입.년도 = #{year}
+	 And   수입.코드분류 = #{codeType}
+	 and   가족.대표번호 <> '10330'
+	]]>	
+	<if test='mfamilyNo != null and mfamilyNo != ""' >
+	 And  가족.대표번호 = #{mfamilyNo}
+	</if>  
+	 GROUP BY 가족.대표번호, 가족.대표번호, 가족.대표, 가족.대표, 수입항.항, 수입목.목, 수입항.순서, 수입목.순서,수입.계정코드2,수입.계정코드3
+ <![CDATA[
+  UNION ALL	 
+  SELECT 가족.대표번호 as mfamilyNo, 
+	           Max(IIF(가족구성원.경제활동 ='1', 가족구성원.개인번호,'')) as mfamilyNo1, 
+	           Max(IIF(가족구성원.경제활동 ='2', 가족구성원.개인번호,'')) as mfamilyNo2, 
+	           Max(IIF(가족구성원.경제활동 ='3', 가족구성원.개인번호,'')) as mfamilyNo3, 
+	           Max(IIF(가족구성원.경제활동 ='4', 가족구성원.개인번호,'')) as mfamilyNo4, 
+	           Max(IIF(가족구성원.경제활동 ='5', 가족구성원.개인번호,'')) as mfamilyNo5, 
+	           가족.대표 as mfamilyName, 
+	           Max(IIF(가족구성원.경제활동 ='1', 가족구성원.성명,'')) as mfamilyName1, 
+	           Max(IIF(가족구성원.경제활동 ='2', 가족구성원.성명,'')) as mfamilyName2,           
+	           Max(IIF(가족구성원.경제활동 ='3', 가족구성원.성명,'')) as mfamilyName3, 
+	           Max(IIF(가족구성원.경제활동 ='4', 가족구성원.성명,'')) as mfamilyName4, 
+	           Max(IIF(가족구성원.경제활동 ='5', 가족구성원.성명,'')) as mfamilyName5, 
+	           '주일헌금' as flNm2, 
+	           '주일헌금' as flNm3, 
+	           99 as  Seq2, 99 AS Seq3, 
+	           99 as  Seq4, 99 AS Seq5, 
+	           99 As code2, 99 As code3,
+	           Sum(주일헌금.금액 
+	            - IIF(가족구성원.경제활동 ='1', 주일헌금.금액,0)
+	            - IIF(가족구성원.경제활동 ='2', 주일헌금.금액,0)
+	            - IIF(가족구성원.경제활동 ='3', 주일헌금.금액,0)
+	            - IIF(가족구성원.경제활동 ='4', 주일헌금.금액,0)
+	            - IIF(가족구성원.경제활동 ='5', 주일헌금.금액,0)) AS totAmt,
+	           Sum(IIF(가족구성원.경제활동 ='1', 주일헌금.금액,0)) AS totAmt1,
+	           Sum(IIF(가족구성원.경제활동 ='2', 주일헌금.금액,0)) AS totAmt2,
+	           Sum(IIF(가족구성원.경제활동 ='3', 주일헌금.금액,0)) AS totAmt3,
+	           Sum(IIF(가족구성원.경제활동 ='4', 주일헌금.금액,0)) AS totAmt4,
+	           Sum(IIF(가족구성원.경제활동 ='5', 주일헌금.금액,0)) AS totAmt5
+	 FROM ((가족구성원 
+	                INNER JOIN 주일헌금 
+	                      ON 가족구성원.성명 = 주일헌금.이름1) 
+  	                INNER JOIN 가족 
+	                      ON 가족구성원.대표번호 = 가족.대표번호
+			)
+	 WHERE 주일헌금.년도 = #{year}
+	 And   주일헌금.코드분류 = #{codeType}
+	 and   가족.대표번호 <> '10330'			
+  ]]>
+	<if test='mfamilyNo != null and mfamilyNo != ""' >
+	   And  가족.대표번호 = #{mfamilyNo}
+	</if>  	 
+	 GROUP BY 가족.대표번호, 가족.대표번호, 가족.대표, 가족.대표 
+  	 ORDER BY 1,15,16   
+  </select>
+  
+</mapper>

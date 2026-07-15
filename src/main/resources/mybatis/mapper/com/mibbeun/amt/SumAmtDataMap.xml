@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.SumAmtDataMap">
+
+  <select id="SelectSumAmtData" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumAmtDataVo">
+	SELECT
+	         &apos;수입&apos; as iType,  
+	         InAmt.날짜  as ADate, 
+	         CoutConf2.항       As Nm1, 
+	         CoutConf3.목       As Nm2, 
+	         Case when InAmt.비고 is not null and InAmt.이름2 is not null then  InAmt.이름1 || &apos; &apos;||   InAmt.이름2  || &apos; [&apos; ||  InAmt.비고||&apos;]&apos; 
+	              when InAmt.비고 is not null then InAmt.이름1 || &apos; [&apos; ||  InAmt.비고||&apos;]&apos;                                                     
+	              when InAmt.이름2 is not null then  InAmt.이름1 || &apos; &apos;||   InAmt.이름2                                                       
+	              else  InAmt.이름1     
+	           end as Nm3,             
+	         InAmt.금액  as Amt,         
+	         InAmt.계정코드1  as Code1,  
+	         InAmt.계정코드2  as Code2,  
+	         InAmt.계정코드3  as Code3,
+	         0  as Seq1,  
+	         CoutConf2.순서  as Seq2,  
+	         CoutConf3.순서  as Seq3
+	  FROM 수입 InAmt, 수입항 CoutConf2, 수입목 CoutConf3 
+	  WHERE  InAmt.계정코드2  =  CoutConf2.항코드 
+	  AND    InAmt.코드분류   =  CoutConf2.코드분류 
+	  AND    InAmt.계정코드2  =  CoutConf3.항코드
+	  AND    InAmt.계정코드3  =  CoutConf3.목코드 
+	  AND    InAmt.코드분류   =  CoutConf3.코드분류 
+	  AND  InAmt.년도 = #{year}
+	  AND  InAmt.날짜  = #{date}
+	  And  InAmt.코드분류 = #{codeGb}
+	 union all
+	 SELECT 
+	         &apos;지출&apos; as iType,  
+	         OutAmt.날짜  as ADate,
+	         CoutConf1.관       As Nm1, 
+	         CoutConf2.항       As Nm2, 
+	         case when OutAmt.비고 is not null then CoutConf3.목 || &apos; [&apos;||  OutAmt.비고||&apos;]&apos; 
+	              else CoutConf3.목 
+	         end as Nm3,           
+	         OutAmt.금액  as Amt, 
+	         OutAmt.계정코드1  as Code1,  
+	         OutAmt.계정코드2  as Code2,  
+	         OutAmt.계정코드3  as Code3, 
+	         CoutConf1.순서  as Seq1,  
+	         CoutConf2.순서  as Seq2,  
+	         CoutConf3.순서  as Seq3
+	  FROM  지출 OutAmt, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	  Where  OutAmt.계정코드1  =  CoutConf1.관코드 
+	  AND    OutAmt.코드분류   =  CoutConf1.코드분류 
+	  AND    OutAmt.계정코드1  =  CoutConf2.관코드
+	  AND    OutAmt.계정코드2  =  CoutConf2.항코드 
+	  AND    OutAmt.코드분류   =  CoutConf2.코드분류 
+	  AND    OutAmt.계정코드1  =  CoutConf3.관코드 
+	  AND    OutAmt.계정코드2  =  CoutConf3.항코드
+	  AND    OutAmt.계정코드3  =  CoutConf3.목코드 
+	  AND    OutAmt.코드분류   =  CoutConf3.코드분류 
+	  and  OutAmt.년도   = #{year}
+	  AND  OutAmt.날짜   = #{date}
+	  And  OutAmt.코드분류 = #{codeGb}
+	 order by 1,2,10,11,12,7,8,9,5
+</select>
+  <select id="SelectSumAmtDataList" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumAmtDataVo">
+    <![CDATA[
+      SELECT
+	         '수입' as iType,  
+	         InAmt.날짜  as ADate, 
+	         CoutConf2.항       As Nm1, 
+	         CoutConf3.목       As Nm2, 
+	         Case when InAmt.비고 is not null and InAmt.비고 <> '' and InAmt.이름2 is not null then  InAmt.이름1 || ' '||   InAmt.이름2  || ' [' ||  InAmt.비고||']' 
+	              when InAmt.비고 is not null and InAmt.비고 <> '' then InAmt.이름1 || ' [' ||  InAmt.비고||']'                                                     
+	              when InAmt.이름2 is not null then  InAmt.이름1 || ' '||   InAmt.이름2                                                       
+	              else  InAmt.이름1     
+	           end as Nm3,             
+	         InAmt.금액  as Amt,         
+	         InAmt.계정코드1  as Code1,  
+	         InAmt.계정코드2  as Code2,  
+	         InAmt.계정코드3  as Code3,
+	         0  as Seq1,  
+	         CoutConf2.순서  as Seq2,  
+	         CoutConf3.순서  as Seq3
+	  FROM 수입 InAmt, 수입항 CoutConf2, 수입목 CoutConf3 
+	  WHERE  InAmt.계정코드2  =  CoutConf2.항코드 
+	  AND    InAmt.코드분류   =  CoutConf2.코드분류 
+	  AND    InAmt.계정코드2  =  CoutConf3.항코드
+	  AND    InAmt.계정코드3  =  CoutConf3.목코드 
+	  AND    InAmt.코드분류   =  CoutConf3.코드분류 
+	  AND  InAmt.년도 = #{year}
+	  AND  InAmt.날짜  = #{date}
+	  And  InAmt.코드분류 = #{codeGb}
+	 union all
+	 SELECT 
+	         '지출' as iType,  
+	         OutAmt.날짜  as ADate,
+	         CoutConf1.관       As Nm1, 
+	         CoutConf2.항       As Nm2, 
+	         case when OutAmt.비고 is not null and OutAmt.비고 <> '' then CoutConf3.목 || ' ['||  OutAmt.비고||']' 
+	              else CoutConf3.목 
+	         end as Nm3,           
+	         OutAmt.금액  as Amt, 
+	         OutAmt.계정코드1  as Code1,  
+	         OutAmt.계정코드2  as Code2,  
+	         OutAmt.계정코드3  as Code3, 
+	         CoutConf1.순서  as Seq1,  
+	         CoutConf2.순서  as Seq2,  
+	         CoutConf3.순서  as Seq3
+	  FROM  지출 OutAmt, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	  Where  OutAmt.계정코드1  =  CoutConf1.관코드 
+	  AND    OutAmt.코드분류   =  CoutConf1.코드분류 
+	  AND    OutAmt.계정코드1  =  CoutConf2.관코드
+	  AND    OutAmt.계정코드2  =  CoutConf2.항코드 
+	  AND    OutAmt.코드분류   =  CoutConf2.코드분류 
+	  AND    OutAmt.계정코드1  =  CoutConf3.관코드 
+	  AND    OutAmt.계정코드2  =  CoutConf3.항코드
+	  AND    OutAmt.계정코드3  =  CoutConf3.목코드 
+	  AND    OutAmt.코드분류   =  CoutConf3.코드분류 
+	  and  OutAmt.년도   = #{year}
+	  AND  OutAmt.날짜   = #{date}
+	  And  OutAmt.코드분류 = #{codeGb}
+     union all
+	 SELECT 
+	         '주일헌금' as iType,  
+	         InSunAmt.날짜  as ADate,
+	         ''       As Nm1, 
+	         '주일헌금'       As Nm2, 	         
+	         Case when InSunAmt.비고 is not null and InSunAmt.비고 <> '' and InSunAmt.이름2 is not null then  InSunAmt.이름1 || ' '||   InSunAmt.이름2  || ' [' ||  InSunAmt.비고||']' 
+	              when InSunAmt.비고 is not null and InSunAmt.비고 <> '' then InSunAmt.이름1 || ' [' ||  InSunAmt.비고||']'                                                     
+	              when InSunAmt.이름2 is not null then  InSunAmt.이름1 || ' '||   InSunAmt.이름2                                                       
+	              else  InSunAmt.이름1     
+	           end as Nm3,        
+	         InSunAmt.금액  as Amt, 
+	         1  as Code1,  
+	         1  as Code2,  
+	         1  as Code3, 
+	         99  as Seq1,  
+	         0  as Seq2,  
+	         InSunAmt.코드  as Seq3
+	  FROM  주일헌금 InSunAmt
+	  Where  InSunAmt.년도   = #{year}
+	  AND  InSunAmt.날짜   = #{date}
+	  And  InSunAmt.코드분류 = #{codeGb}	  
+	 order by 10,1,2,11,12,7,8,9,5	
+	]]>
+</select>
+
+ <select id="SelectSumAmtDataList2" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumAmtDataVo">
+    SELECT
+	         &apos;수입&apos; as iType,  
+	         InAmt.날짜  as ADate, 
+	         CoutConf2.항       As Nm1, 
+	         CoutConf3.목       As Nm2, 
+	         Case when InAmt.비고 is not null and InAmt.이름2 is not null then  InAmt.이름1 || &apos; &apos;||   InAmt.이름2  || &apos; [&apos; ||  InAmt.비고||&apos;]&apos; 
+	              when InAmt.비고 is not null then InAmt.이름1 || &apos; [&apos; ||  InAmt.비고||&apos;]&apos;                                                     
+	              when InAmt.이름2 is not null then  InAmt.이름1 || &apos; &apos;||   InAmt.이름2                                                       
+	              else  InAmt.이름1     
+	           end as Nm3,             
+	         InAmt.금액  as Amt,         
+	         InAmt.계정코드1  as Code1,  
+	         InAmt.계정코드2  as Code2,  
+	         InAmt.계정코드3  as Code3,
+	         0  as Seq1,  
+	         CoutConf2.순서  as Seq2,  
+	         CoutConf3.순서  as Seq3
+	  FROM 수입 InAmt, 수입항 CoutConf2, 수입목 CoutConf3 
+	  WHERE  InAmt.계정코드2  =  CoutConf2.항코드 
+	  AND    InAmt.코드분류   =  CoutConf2.코드분류 
+	  AND    InAmt.계정코드2  =  CoutConf3.항코드
+	  AND    InAmt.계정코드3  =  CoutConf3.목코드 
+	  AND    InAmt.코드분류   =  CoutConf3.코드분류 
+	  AND  InAmt.년도 = #{year}
+	  AND  InAmt.날짜  = #{date}
+	  And  InAmt.코드분류 = #{codeGb}
+	 union all
+	 SELECT 
+	         &apos;지출&apos; as iType,  
+	         OutAmt.날짜  as ADate,
+	         CoutConf1.관       As Nm1, 
+	         CoutConf2.항       As Nm2, 
+	         case when OutAmt.비고 is not null then CoutConf3.목 || &apos; [&apos;||  OutAmt.비고||&apos;]&apos; 
+	              else CoutConf3.목 
+	         end as Nm3,           
+	         OutAmt.금액  as Amt, 
+	         OutAmt.계정코드1  as Code1,  
+	         OutAmt.계정코드2  as Code2,  
+	         OutAmt.계정코드3  as Code3, 
+	         CoutConf1.순서  as Seq1,  
+	         CoutConf2.순서  as Seq2,  
+	         CoutConf3.순서  as Seq3
+	  FROM  지출 OutAmt, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	  Where  OutAmt.계정코드1  =  CoutConf1.관코드 
+	  AND    OutAmt.코드분류   =  CoutConf1.코드분류 
+	  AND    OutAmt.계정코드1  =  CoutConf2.관코드
+	  AND    OutAmt.계정코드2  =  CoutConf2.항코드 
+	  AND    OutAmt.코드분류   =  CoutConf2.코드분류 
+	  AND    OutAmt.계정코드1  =  CoutConf3.관코드 
+	  AND    OutAmt.계정코드2  =  CoutConf3.항코드
+	  AND    OutAmt.계정코드3  =  CoutConf3.목코드 
+	  AND    OutAmt.코드분류   =  CoutConf3.코드분류 
+	  and  OutAmt.년도   = #{year}
+	  AND  OutAmt.날짜   = #{date}
+	  And  OutAmt.코드분류 = #{codeGb}
+	 order by 1,2,10,11,12,7,8,9,5	
+</select>
+</mapper>

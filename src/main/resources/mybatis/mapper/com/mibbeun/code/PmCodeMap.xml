@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.PmCodeMap">
+
+  <select id="SelectPmCode" parameterType="com.mibbeun.code.Vo.PmCodeVo" resultType="com.mibbeun.code.Vo.PmCodeVo">
+	Select 
+		 대표번호 as tNo	 -- 대표번호
+		,개인번호 as pNo	 -- 개인번호
+		,순서 as seqNo	 -- 순서
+		,성명 as pName	 -- 성명
+		,가족관계 as familyRelation	 -- 가족관계
+		,생년월일 as birthDate	 -- 생년월일
+		,세례일 as baptismDate	 -- 세례일
+		,사랑방 as loveGroup	 -- 사랑방
+		,핸드폰 as hTell	 -- 핸드폰
+		,직분 as duty	 -- 직분
+		,전화 as tell	 -- 전화
+		,메일 as email	 -- 메일
+		,주소 as addr	 -- 주소
+		,잔여주소 as addrD	 -- 잔여주소
+		,사용여부 as userYN	 -- 사용여부
+		,등록일 as regDate	 -- 등록일
+		,수정일 as upDate	 -- 수정일
+		,직업 as work	 -- 직업
+		,설명 as cnte	 -- 설명
+		,우편번호 as post	 -- 우편번호
+		,경제활동 as workActiveGb	 -- 경제활동
+		,순번그룹 as seqGroup	 -- 순번그룹
+		,순번번호 as codeSeqNo	 -- 순번번호
+		,인터넷통신 as web	 -- 인터넷통신
+	From 가족구성원
+	where 대표번호	=	#{web} 
+	order by 대표번호
+</select>
+  <select id="SelectPmCodeList" parameterType="com.mibbeun.code.Vo.PmCodeVo" resultType="com.mibbeun.code.Vo.PmCodeVo">
+	Select 
+		 대표번호 as tNo	 -- 대표번호
+		,개인번호 as pNo	 -- 개인번호
+		,순서 as seqNo	 -- 순서
+		,성명 as pName	 -- 성명
+		,가족관계 as familyRelation	 -- 가족관계
+		,생년월일 as birthDate	 -- 생년월일
+		,세례일 as baptismDate	 -- 세례일
+		,사랑방 as loveGroup	 -- 사랑방
+		,핸드폰 as hTell	 -- 핸드폰
+		,직분 as duty	 -- 직분
+		,전화 as tell	 -- 전화
+		,메일 as email	 -- 메일
+		,주소 as addr	 -- 주소
+		,잔여주소 as addrD	 -- 잔여주소
+		,사용여부 as userYN	 -- 사용여부
+		,등록일 as regDate	 -- 등록일
+		,수정일 as upDate	 -- 수정일
+		,직업 as work	 -- 직업
+		,설명 as cnte	 -- 설명
+		,우편번호 as post	 -- 우편번호
+		,경제활동 as workActiveGb	 -- 경제활동
+		,순번그룹 as seqGroup	 -- 순번그룹
+		,순번번호 as codeSeqNo	 -- 순번번호
+		,인터넷통신 as web	 -- 인터넷통신
+	From 가족구성원
+	where 대표번호	=	#{web} 
+	order by 대표번호
+</select>
+  <insert id="InsertPmCode" parameterType="com.mibbeun.code.Vo.PmCodeVo">
+	insert into 가족구성원( 
+		 대표번호	 -- 대표번호
+		,개인번호	-- 개인번호
+		,순서	-- 순서
+		,성명	-- 성명
+		,가족관계	-- 가족관계
+		,생년월일	-- 생년월일
+		,세례일	-- 세례일
+		,사랑방	-- 사랑방
+		,핸드폰	-- 핸드폰
+		,직분	-- 직분
+		,전화	-- 전화
+		,메일	-- 메일
+		,주소	-- 주소
+		,잔여주소	-- 잔여주소
+		,사용여부	-- 사용여부
+		,등록일	-- 등록일
+		,수정일	-- 수정일
+		,직업	-- 직업
+		,설명	-- 설명
+		,우편번호	-- 우편번호
+		,경제활동	-- 경제활동
+		,순번그룹	-- 순번그룹
+		,순번번호	-- 순번번호
+		,인터넷통신	-- 인터넷통신
+	) Values ( 
+		 #{tNo}	 -- 대표번호
+		,#{pNo}	 -- 개인번호
+		,#{seqNo}	 -- 순서
+		,#{pName}	 -- 성명
+		,#{familyRelation}	 -- 가족관계
+		,#{birthDate}	 -- 생년월일
+		,#{baptismDate}	 -- 세례일
+		,#{loveGroup}	 -- 사랑방
+		,#{hTell}	 -- 핸드폰
+		,#{duty}	 -- 직분
+		,#{tell}	 -- 전화
+		,#{email}	 -- 메일
+		,#{addr}	 -- 주소
+		,#{addrD}	 -- 잔여주소
+		,#{userYN}	 -- 사용여부
+		,#{regDate}	 -- 등록일
+		,#{upDate}	 -- 수정일
+		,#{work}	 -- 직업
+		,#{cnte}	 -- 설명
+		,#{post}	 -- 우편번호
+		,#{workActiveGb}	 -- 경제활동
+		,#{seqGroup}	 -- 순번그룹
+		,#{codeSeqNo}	 -- 순번번호
+		,#{web}	 -- 인터넷통신
+)
+</insert>
+  <update id="UpdatePmCode" parameterType="com.mibbeun.code.Vo.PmCodeVo">
+	update 가족구성원 
+	Set 
+		  대표번호	 = #{tNo}	-- 대표번호
+		, 개인번호	 = #{pNo}	-- 개인번호
+		, 순서	 = #{seqNo}	-- 순서
+		, 성명	 = #{pName}	-- 성명
+		, 가족관계	 = #{familyRelation}	-- 가족관계
+		, 생년월일	 = #{birthDate}	-- 생년월일
+		, 세례일	 = #{baptismDate}	-- 세례일
+		, 사랑방	 = #{loveGroup}	-- 사랑방
+		, 핸드폰	 = #{hTell}	-- 핸드폰
+		, 직분	 = #{duty}	-- 직분
+		, 전화	 = #{tell}	-- 전화
+		, 메일	 = #{email}	-- 메일
+		, 주소	 = #{addr}	-- 주소
+		, 잔여주소	 = #{addrD}	-- 잔여주소
+		, 사용여부	 = #{userYN}	-- 사용여부
+		, 등록일	 = #{regDate}	-- 등록일
+		, 수정일	 = #{upDate}	-- 수정일
+		, 직업	 = #{work}	-- 직업
+		, 설명	 = #{cnte}	-- 설명
+		, 우편번호	 = #{post}	-- 우편번호
+		, 경제활동	 = #{workActiveGb}	-- 경제활동
+		, 순번그룹	 = #{seqGroup}	-- 순번그룹
+		, 순번번호	 = #{codeSeqNo}	-- 순번번호
+		, 인터넷통신	 = #{web}	-- 인터넷통신
+	where 대표번호	 = #{tNo}
+</update>
+  <update id="MergePmCode" parameterType="com.mibbeun.code.Vo.PmCodeVo">
+	Merge  into  가족구성원  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.대표번호 = #{tNo}) 
+	When Matched then 
+	update  
+	Set 
+		  개인번호	 = #{pNo}	 -- 개인번호
+		, 순서	 = #{seqNo}	 -- 순서
+		, 성명	 = #{pName}	 -- 성명
+		, 가족관계	 = #{familyRelation}	 -- 가족관계
+		, 생년월일	 = #{birthDate}	 -- 생년월일
+		, 세례일	 = #{baptismDate}	 -- 세례일
+		, 사랑방	 = #{loveGroup}	 -- 사랑방
+		, 핸드폰	 = #{hTell}	 -- 핸드폰
+		, 직분	 = #{duty}	 -- 직분
+		, 전화	 = #{tell}	 -- 전화
+		, 메일	 = #{email}	 -- 메일
+		, 주소	 = #{addr}	 -- 주소
+		, 잔여주소	 = #{addrD}	 -- 잔여주소
+		, 사용여부	 = #{userYN}	 -- 사용여부
+		, 등록일	 = #{regDate}	 -- 등록일
+		, 수정일	 = #{upDate}	 -- 수정일
+		, 직업	 = #{work}	 -- 직업
+		, 설명	 = #{cnte}	 -- 설명
+		, 우편번호	 = #{post}	 -- 우편번호
+		, 경제활동	 = #{workActiveGb}	 -- 경제활동
+		, 순번그룹	 = #{seqGroup}	 -- 순번그룹
+		, 순번번호	 = #{codeSeqNo}	 -- 순번번호
+		, 인터넷통신	 = #{web}	 -- 인터넷통신
+	When not Matched then 
+	insert ( 
+		 대표번호	 -- 대표번호
+		,개인번호	 -- 개인번호
+		,순서	 -- 순서
+		,성명	 -- 성명
+		,가족관계	 -- 가족관계
+		,생년월일	 -- 생년월일
+		,세례일	 -- 세례일
+		,사랑방	 -- 사랑방
+		,핸드폰	 -- 핸드폰
+		,직분	 -- 직분
+		,전화	 -- 전화
+		,메일	 -- 메일
+		,주소	 -- 주소
+		,잔여주소	 -- 잔여주소
+		,사용여부	 -- 사용여부
+		,등록일	 -- 등록일
+		,수정일	 -- 수정일
+		,직업	 -- 직업
+		,설명	 -- 설명
+		,우편번호	 -- 우편번호
+		,경제활동	 -- 경제활동
+		,순번그룹	 -- 순번그룹
+		,순번번호	 -- 순번번호
+		,인터넷통신	 -- 인터넷통신
+	) Values ( 
+		 #{tNo}	 -- 대표번호
+		,#{pNo}	 -- 개인번호
+		,#{seqNo}	 -- 순서
+		,#{pName}	 -- 성명
+		,#{familyRelation}	 -- 가족관계
+		,#{birthDate}	 -- 생년월일
+		,#{baptismDate}	 -- 세례일
+		,#{loveGroup}	 -- 사랑방
+		,#{hTell}	 -- 핸드폰
+		,#{duty}	 -- 직분
+		,#{tell}	 -- 전화
+		,#{email}	 -- 메일
+		,#{addr}	 -- 주소
+		,#{addrD}	 -- 잔여주소
+		,#{userYN}	 -- 사용여부
+		,#{regDate}	 -- 등록일
+		,#{upDate}	 -- 수정일
+		,#{work}	 -- 직업
+		,#{cnte}	 -- 설명
+		,#{post}	 -- 우편번호
+		,#{workActiveGb}	 -- 경제활동
+		,#{seqGroup}	 -- 순번그룹
+		,#{codeSeqNo}	 -- 순번번호
+		,#{web}	 -- 인터넷통신
+	)
+</update>
+</mapper>

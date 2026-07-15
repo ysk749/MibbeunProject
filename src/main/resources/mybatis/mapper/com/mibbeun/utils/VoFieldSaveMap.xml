@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.utils.Map.VoFieldSaveMap">
+
+  <select id="SelectVoFieldSave" parameterType="com.mibbeun.utils.Vo.VoFieldSaveVo" resultType="com.mibbeun.utils.Vo.VoFieldSaveVo">
+	Select 
+		 id_code as idCode	 -- 
+		,inout_type as inoutType 
+		,field_owner as fieldOwner	 -- 
+		,field_id as fieldId	 -- 
+		,field_name as fieldName	 -- 
+		,field_type1 as fieldType1	 -- 
+		,field_type2 as fieldType2	 -- 
+		,field_size as fieldSize	 -- 
+		,field_scale as fieldScale	 -- 
+		,field_count as fieldCount	 -- 
+		,field_seq as fieldSeq	 -- 
+		,field_server as fieldServer
+		,field_server_path as fieldServerPath
+		,field_reference as fieldReference	 -- 
+		,field_use_yn as fieldUseYn	 -- 
+		,field_chk as fieldChk	 -- 
+		,reg_dttm as regDttm	 -- 
+		,update_dttm as updateDttm	 -- 
+	From sts_id_field
+	where id_code	=	#{idCode} 
+	order by id_code
+</select>
+  <select id="SelectVoFieldSaveList" parameterType="com.mibbeun.utils.Vo.VoFieldSaveVo" resultType="com.mibbeun.utils.Vo.VoFieldSaveVo">
+	Select 
+		 id_code as idCode	 --
+		,inout_type as inoutType 
+		,field_owner as fieldOwner	 -- 
+		,field_id as fieldId	 -- 
+		,field_name as fieldName	 -- 
+		,field_type1 as fieldType1	 -- 
+		,field_type2 as fieldType2	 -- 
+		,field_size as fieldSize	 -- 
+		,field_scale as fieldScale	 -- 
+		,field_count as fieldCount	 -- 
+		,field_seq as fieldSeq	 -- 
+		,field_server as fieldServer
+		,field_server_path as fieldServerPath
+		,field_reference as fieldReference	 -- 
+		,field_use_yn as fieldUseYn	 -- 
+		,field_chk as fieldChk	 -- 
+		,reg_dttm as regDttm	 -- 
+		,update_dttm as updateDttm	 -- 
+	From sts_id_field
+	where id_code	=	#{idCode} 
+	order by id_code,inout_type,field_owner 
+</select>
+  <insert id="InsertVoFieldSave" parameterType="com.mibbeun.utils.Vo.VoFieldSaveVo">
+	insert into sts_id_field( 
+		 id_code	 -- 
+	    ,inout_type  	 
+		,field_owner	-- 
+		,field_id	-- 
+		,field_name	-- 
+		,field_type1	-- 
+		,field_type2	-- 
+		,field_size	-- 
+		,field_scale	-- 
+		,field_count	-- 
+		,field_seq	-- 
+		,field_server
+		,field_server_path
+		,field_reference	-- 
+		,field_use_yn	-- 
+		,field_chk	-- 
+		,field_chk	-- 
+		,reg_dttm	-- 
+		,update_dttm	-- 
+	) Values ( 
+		 #{idCode}	 -- 
+		,#{inoutType}
+		,#{fieldOwner}	 -- 
+		,#{fieldId}	 -- 
+		,#{fieldName}	 -- 
+		,#{fieldType1}	 -- 
+		,#{fieldType2}	 -- 
+		,#{fieldSize}	 -- 
+		,#{fieldScale}	 -- 
+		,#{fieldCount}	 -- 
+		,#{fieldSeq}	 -- 
+		,#{fieldServer}
+		,#{fieldServerPath}
+		,#{fieldReference}	 -- 
+		,#{fieldUseYn}	 -- 
+		,#{fieldChk}	 -- 
+		,now()
+		,now()
+)
+</insert>
+  <update id="UpdateVoFieldSave" parameterType="com.mibbeun.utils.Vo.VoFieldSaveVo">
+	update sts_id_field 
+	Set 
+		  field_name	 = #{fieldName}	-- 
+		, field_type1	 = #{fieldType1}	-- 
+		, field_type2	 = #{fieldType2}	-- 
+		, field_size	 = #{fieldSize}	-- 
+		, field_scale	 = #{fieldScale}	-- 
+		, field_count	 = #{fieldCount}	-- 
+		, field_seq	 = #{fieldSeq}	-- 
+		, field_server	 = #{fieldServer}	-- 
+		, field_server_path	 = #{fieldServerPath}	-- 
+		, field_reference	 = #{fieldReference}	-- 
+		, field_use_yn	 = #{fieldUseYn}	-- 
+		, field_chk	 = #{fieldChk}	-- 
+		, update_dttm	 = now()	-- 
+	where id_code	 = #{idCode}
+	  and inout_type = #{inoutType}
+	  and field_owner	 = #{fieldOwner}	-- 
+	  and field_id	 = #{fieldId}	-- 
+		
+</update>
+  <delete id="DeleteVoFieldSave" parameterType="com.mibbeun.utils.Vo.VoSaveVo">
+	delete From STS_ID_FIELD 
+	where id_code	 = #{idCode}
+</delete>
+  <update id="MergeVoFieldSave" parameterType="com.mibbeun.utils.Vo.VoFieldSaveVo">
+  	with upsert as  ( 
+	update sts_id_field  
+	Set 
+		  inout_type	 = #{inoutType}	 -- inout_type
+		, field_owner	 = #{fieldOwner}	 -- field_owner
+		, field_id	 = #{fieldId}	 -- field_id
+		, field_name	 = #{fieldName}	 -- field_name
+		, field_type1	 = #{fieldType1}	 -- field_type1
+		, field_type2	 = #{fieldType2}	 -- field_type2
+		, field_size	 = #{fieldSize}	 -- field_size
+		, field_scale	 = #{fieldScale}	 -- field_scale
+		, field_count	 = #{fieldCount}	 -- field_count
+		, field_seq	 = #{fieldSeq}	 -- field_seq
+		, field_server	 = #{fieldServer}	 -- field_seq
+		, field_server_path	 = #{fieldServerPath}	 -- field_seq
+		, field_reference	 = #{fieldReference}	 -- field_reference
+		, field_use_yn	 = #{fieldUseYn}	 -- field_use_yn
+		, field_chk	 = #{fieldChk}	 -- field_chk
+		, update_dttm	 = now()	 -- update_dttm
+	where id_cdoe = #{idCdoe} 
+	   returning * 
+	) 
+	insert into sts_id_field ( 
+		 id_cdoe	 -- id_cdoe
+		,inout_type	 -- inout_type
+		,field_owner	 -- field_owner
+		,field_id	 -- field_id
+		,field_name	 -- field_name
+		,field_type1	 -- field_type1
+		,field_type2	 -- field_type2
+		,field_size	 -- field_size
+		,field_scale	 -- field_scale
+		,field_count	 -- field_count
+		,field_seq	 -- field_seq
+		,field_server	
+		,field_server_path
+		,field_reference	 -- field_reference
+		,field_use_yn	 -- field_use_yn
+		,field_chk	 -- field_chk
+		,reg_dttm	 -- reg_dttm
+		,update_dttm	 -- update_dttm
+	)  
+	Select 
+		 #{idCdoe}	 -- id_cdoe
+		,#{inoutType}	 -- inout_type
+		,#{fieldOwner}	 -- field_owner
+		,#{fieldId}	 -- field_id
+		,#{fieldName}	 -- field_name
+		,#{fieldType1}	 -- field_type1
+		,#{fieldType2}	 -- field_type2
+		,#{fieldSize}	 -- field_size
+		,#{fieldScale}	 -- field_scale
+		,#{fieldCount}	 -- field_count
+		,#{fieldSeq}	 -- field_seq
+		,#{fieldServer}	 -- field_seq
+		,#{fieldServerPath}	 -- field_seq
+		,#{fieldReference}	 -- field_reference
+		,#{fieldUseYn}	 -- field_use_yn
+		,#{fieldChk}	 -- field_chk
+		,now()	 -- reg_dttm
+		,now()	 -- update_dttm
+	where not exists(select * from upsert)
+  
+</update>
+</mapper>

@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.MonthSumMap">
+
+
+  <select id="SelectInMonthSumList" parameterType="com.mibbeun.amt.Vo.MonthStrSumVo" resultType="com.mibbeun.amt.Vo.MonthSumVo">
+  <![CDATA[
+	 Select    
+	          -1 aS code1
+	         ,수입.계정코드2 aS code2
+	         ,수입.계정코드3 aS code3
+	         ,'' aS codeNm1
+	         ,수입항.항  aS codeNm2
+	         ,수입목.목  aS codeNm3
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum01}),수입.금액,0)) As sum01
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum02}),수입.금액,0)) As sum02
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum03}),수입.금액,0)) As sum03
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum04}),수입.금액,0)) As sum04
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum05}),수입.금액,0)) As sum05
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum06}),수입.금액,0)) As sum06
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum07}),수입.금액,0)) As sum07
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum08}),수입.금액,0)) As sum08
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum09}),수입.금액,0)) As sum09
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum10}),수입.금액,0)) As sum10
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum11}),수입.금액,0)) As sum11
+			 ,Sum(IIF(mid(수입.날짜,1,6) = trim(#{sum12}),수입.금액,0)) As sum12
+	         ,Sum(수입.금액) As sumData
+	         ,수입.년도 as year
+	  FROM (((수입항 INNER JOIN 수입목 ON 수입항.항코드 = 수입목.항코드 and 수입항.코드분류 = 수입목.코드분류 )
+	                INNER JOIN 수입   ON 수입목.목코드 = 수입.계정코드3 AND 수입목.항코드 = 수입.계정코드2 
+	                          and 수입목.코드분류 = 수입.코드분류))
+	         --       INNER JOIN 예산수입  ON 예산수입.목코드 = 수입.계정코드3 AND 예산수입.항코드 = 수입.계정코드2 
+	         --                 and 예산수입.코드분류 = 수입.코드분류  and 수입.년도 = 예산수입.날짜)
+	  WHERE  수입.년도 = #{year}
+	  And    수입.날짜  >= concat(#{fmDate},'01')
+	  And    수입.날짜  <= concat(#{toDate},'31')
+	  And    수입.코드분류 = #{codeType}
+	  group by 수입항.순서,수입목.순서,수입.계정코드2,수입.계정코드3,수입.년도,수입항.항,수입목.목
+	  order by 수입항.순서,수입목.순서,수입.계정코드2,수입.계정코드3
+	 ]]> 
+</select>
+
+  <select id="SelectOutMonthSumList" parameterType="com.mibbeun.amt.Vo.MonthStrSumVo" resultType="com.mibbeun.amt.Vo.MonthSumVo">
+  <![CDATA[
+		Select     
+		         지출.계정코드1 as code1
+		        ,지출.계정코드2 as code2
+		        ,지출.계정코드3 as code3 
+		        ,지출관.관 as codeNm1 
+		        ,지출항.항  as codeNm2 
+		        ,지출목.목  as codeNm3 
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum01}),지출.금액,0)) As sum01
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum02}),지출.금액,0)) As sum02
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum03}),지출.금액,0)) As sum03
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum04}),지출.금액,0)) As sum04
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum05}),지출.금액,0)) As sum05
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum06}),지출.금액,0)) As sum06
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum07}),지출.금액,0)) As sum07
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum08}),지출.금액,0)) As sum08
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum09}),지출.금액,0)) As sum09
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum10}),지출.금액,0)) As sum10
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum11}),지출.금액,0)) As sum11
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(#{sum12}),지출.금액,0)) As sum12
+		         ,Sum(지출.금액) As sumData
+		        ,지출.년도 as year 
+		 FROM ((((지출관 INNER JOIN 지출목 ON 지출관.관코드 = 지출목.관코드 and 지출관.코드분류 = 지출목.코드분류)
+		               INNER JOIN 지출항 ON 지출항.항코드 = 지출목.항코드    AND 지출관.관코드 = 지출항.관코드 and 지출관.코드분류 = 지출항.코드분류 )
+		               INNER JOIN 지출  ON 지출목.목코드 = 지출.계정코드3 AND 지출목.항코드 = 지출.계정코드2 AND 지출목.관코드 = 지출.계정코드1 
+					               and 지출목.코드분류 = 지출.코드분류))
+		        --       INNER JOIN 예산지출  ON 예산지출.목코드 = 지출.계정코드3 AND 예산지출.항코드 = 지출.계정코드2 AND 예산지출.관코드 = 지출.계정코드1 
+				--	                and 예산지출.코드분류 = 지출.코드분류  and 지출.년도 = 예산지출.날짜)
+		  WHERE  지출.년도 = #{year}
+		  And    지출.날짜  >= concat(#{fmDate},'01')
+		  And    지출.날짜  <= concat(#{toDate},'31')
+		  And    지출.코드분류 = #{codeType} 
+		 group by 지출관.순서,지출항.순서,지출목.순서,지출.계정코드1,지출.계정코드2,지출.계정코드3,지출.년도,지출관.관,지출항.항,지출목.목
+		 order by 지출관.순서,지출항.순서,지출목.순서,지출.계정코드1,지출.계정코드2,지출.계정코드3
+	 ]]> 
+  </select>		
+  
+  <select id="SelectOutMonthSumList_2" parameterType="com.mibbeun.amt.Vo.MonthStrSumVo" resultType="com.mibbeun.amt.Vo.MonthSumVo">
+  <![CDATA[
+		Select     
+		         지출.계정코드1 as code1
+		        ,지출.계정코드2 as code2
+		        ,지출.계정코드3 as code3 
+		        ,지출관.관 as codeNm1 
+		        ,지출항.항  as codeNm2 
+		        ,지출목.목  as codeNm3 
+				 ,Sum(IIF(mid(지출.날짜,1,6) = #{fmDate},수입.금액,0)) As sum01
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 1,'000000')) ,지출.금액,0)) As sum02
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 2,'000000')),지출.금액,0)) As sum03
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 3,'000000')),지출.금액,0)) As sum04
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 4,'000000')),지출.금액,0)) As sum05
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 5,'000000')),지출.금액,0)) As sum06
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 6,'000000')),지출.금액,0)) As sum07
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 7,'000000')),지출.금액,0)) As sum08
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 8,'000000')),지출.금액,0)) As sum09
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 9,'000000')),지출.금액,0)) As sum10
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 10,'000000')),지출.금액,0)) As sum11
+				 ,Sum(IIF(mid(지출.날짜,1,6) = trim(TO_CHAR(CAST(#{fmDate} AS INTEGER) + 11,'000000')),지출.금액,0)) As sum12
+		         ,Sum(지출.금액) As sumData
+		        ,년도 as year 
+		 FROM ((((지출관 INNER JOIN 지출목 ON 지출관.관코드 = 지출목.관코드 and 지출관.코드분류 = 지출목.코드분류)
+		               INNER JOIN 지출항 ON 지출항.항코드 = 지출목.항코드    AND 지출관.관코드 = 지출항.관코드 and 지출관.코드분류 = 지출항.코드분류 )
+		               INNER JOIN 지출  ON 지출목.목코드 = 지출.계정코드3 AND 지출목.항코드 = 지출.계정코드2 AND 지출목.관코드 = 지출.계정코드1 
+					               and 지출목.코드분류 = 지출.코드분류))
+		          --     INNER JOIN 예산지출  ON 예산지출.목코드 = 지출.계정코드3 AND 예산지출.항코드 = 지출.계정코드2 AND 예산지출.관코드 = 지출.계정코드1 
+				--	                and 예산지출.코드분류 = 지출.코드분류  and 지출.년도 = 예산지출.날짜)
+		  WHERE  지출.년도 = #{year}
+		  And    지출.날짜  >= concat(#{fmDate},'01')
+		  And    지출.날짜  <= concat(#{toDate},'31')
+		  And    지출.코드분류 = #{codeType} 
+		 group by 지출관.순서,지출항.순서,지출목.순서,지출.계정코드1,지출.계정코드2,지출.계정코드3,지출.년도,지출관.관,지출항.항,지출목.목
+		 order by 지출관.순서,지출항.순서,지출목.순서,지출.계정코드1,지출.계정코드2,지출.계정코드3
+	 ]]> 
+  </select>	 
+  
+  <select id="SelectInMonthTotSumList" parameterType="com.mibbeun.amt.Vo.MonthStrSumVo" resultType="com.mibbeun.amt.Vo.MonthSumVo">
+  <![CDATA[
+  WITH SelectData AS (
+	   Select     
+		         수입.계정코드2 as code2
+		        ,수입.계정코드3 as code3 
+		        ,수입항.항  as codeNm2 
+		        ,수입목.목  as codeNm3 
+		         ,Sum(수입.금액) As sumData
+		        ,수입항.순서 as SeqNo2
+	            ,수입목.순서 as SeqNo3
+		 FROM (((수입목 INNER JOIN 수입항 ON 수입항.항코드 = 수입목.항코드 and 수입항.코드분류 = 수입목.코드분류  )
+		               INNER JOIN 수입  ON 수입목.목코드 = 수입.계정코드3 AND 수입목.항코드 = 수입.계정코드2 
+					               and 수입목.코드분류 = 수입.코드분류))
+		          --     INNER JOIN 예산수입  ON 예산수입.목코드 = 수입.계정코드3 AND 예산수입.항코드 = 수입.계정코드2 AND 예산수입.관코드 = 수입.계정코드1 
+				--	                and 예산수입.코드분류 = 수입.코드분류  and 수입.년도 = 예산수입.날짜)
+	     WHERE  수입.년도 = #{year}
+	       And    수입.날짜  >= concat(#{fmDate},'01')
+	       And    수입.날짜  <= concat(#{toDate},'31')
+	       And    수입.코드분류 = #{codeType}
+		 group by 수입항.순서,수입목.순서,수입.계정코드2,수입.계정코드3,수입.년도,수입항.항,수입목.목
+		 order by 수입항.순서,수입목.순서,수입.계정코드2,수입.계정코드3
+	 )
+	 select code2,code3,codeNm2,codeNm3, sumData
+	        ,SeqNo2,SeqNo3
+	 from SelectData
+	 union all
+	 select code2,9999,codeNm2,'소계', sum(sumData) 
+	        ,SeqNo2,9999  
+	 from SelectData
+	 group by code2,codeNm2,SeqNo2
+	 union all
+	 select 9999,9999,'총합계','', sum(sumData) 
+	        ,9999,9999  
+	 from SelectData
+	 order by 6,7
+	 ]]> 
+</select>
+
+  <select id="SelectOutMonthTotSumList" parameterType="com.mibbeun.amt.Vo.MonthStrSumVo" resultType="com.mibbeun.amt.Vo.MonthSumVo">
+  <![CDATA[
+		WITH SelectData AS (
+	   Select     
+		         지출.계정코드1 as code1
+		        ,지출.계정코드2 as code2
+		        ,지출.계정코드3 as code3 
+		        ,지출관.관 as codeNm1 
+		        ,지출항.항  as codeNm2 
+		        ,지출목.목  as codeNm3 
+		         ,Sum(지출.금액) As sumData
+		        ,지출관.순서 as SeqNo1
+	            ,지출항.순서 as SeqNo2
+	            ,지출목.순서 as SeqNo3
+		 FROM ((((지출관 INNER JOIN 지출목 ON 지출관.관코드 = 지출목.관코드 and 지출관.코드분류 = 지출목.코드분류)
+		               INNER JOIN 지출항 ON 지출항.항코드 = 지출목.항코드    AND 지출관.관코드 = 지출항.관코드 and 지출관.코드분류 = 지출항.코드분류 )
+		               INNER JOIN 지출  ON 지출목.목코드 = 지출.계정코드3 AND 지출목.항코드 = 지출.계정코드2 AND 지출목.관코드 = 지출.계정코드1 
+					               and 지출목.코드분류 = 지출.코드분류))
+		           --    INNER JOIN 예산지출  ON 예산지출.목코드 = 지출.계정코드3 AND 예산지출.항코드 = 지출.계정코드2 AND 예산지출.관코드 = 지출.계정코드1 
+				   --                and 예산지출.코드분류 = 지출.코드분류  and 지출.년도 = 예산지출.날짜)
+		  WHERE  지출.년도 = #{year}
+		  And    지출.날짜  >= concat(#{fmDate},'01')
+		  And    지출.날짜  <= concat(#{toDate},'31')
+		  And    지출.코드분류 = #{codeType} 
+		 group by 지출관.순서,지출항.순서,지출목.순서,지출.계정코드1,지출.계정코드2,지출.계정코드3,지출.년도,지출관.관,지출항.항,지출목.목
+		 order by 지출관.순서,지출항.순서,지출목.순서,지출.계정코드1,지출.계정코드2,지출.계정코드3
+	 )
+	 select code1,code2,code3,codeNm1,codeNm2,codeNm3, sumData
+	        ,SeqNo1,SeqNo2,SeqNo3
+	 from SelectData
+	 union all
+	 select code1,code2,9999,codeNm1,codeNm2,'소계', sum(sumData) 
+	        ,SeqNo1,SeqNo2,9999  
+	 from SelectData
+	 group by code1,code2,codeNm1,codeNm2,SeqNo1,SeqNo2
+	 union all
+	 select code1,9999,9999,codeNm1,'중간 합계',' ', sum(sumData) 
+	       ,SeqNo1,9999,9999 
+	 from SelectData
+	 group by code1,codeNm1,SeqNo1
+	 union all
+	 select 9999,9999,9999,'총합계',' ',' ', sum(sumData) 
+	       ,9999,9999,9999 
+	 from SelectData	 
+	 order by 8,9,10
+	 ]]> 
+  </select>	
+</mapper>

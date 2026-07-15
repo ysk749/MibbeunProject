@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.utils.Map.AtchFileMap">
+
+  <select id="SelectAtchFile" parameterType="com.mibbeun.utils.Vo.AtchFileVo" resultType="com.mibbeun.utils.Vo.AtchFileVo">
+	Select 
+		 atch_file_id as atchFileId	 -- 파일ID
+		,atch_file_sno as atchFileSno	 -- 번호
+		,atch_file_path as atchFilePath	 -- 서버저장Path
+		,atch_file_ogcp_nm as atchFileOgcpNm	 -- 화면이름
+		,atch_file_sav_nm as atchFileSavNm	 -- 서버파일이름
+		,atch_file_extsn_nm as atchFileExtsnNm	 -- 확장자
+		,atch_file_size_nval as atchFileSizeNval	 -- 사이즈
+		,frst_rgsr_id as frstRgsrId	 -- 아이디
+		,frst_rgst_ip as frstRgstIp	 -- 아이피
+		,frst_rgst_dt as frstRgstDt	 -- 저장일자
+		,last_updr_id as lastUpdrId	 -- 수정아이디
+		,last_updt_ip as lastUpdtIp	 -- 수정아이피
+		,last_updt_dt as lastUpdtDt	 -- 수정일자
+	From atch_file_info
+	where atch_file_id	=	#{atchFileId} 
+	order by atch_file_id
+</select>
+  <select id="SelectAtchFileList" parameterType="com.mibbeun.utils.Vo.AtchFileVo" resultType="com.mibbeun.utils.Vo.AtchFileVo">
+	Select 
+		 atch_file_id as atchFileId	 -- 파일ID
+		,atch_file_sno as atchFileSno	 -- 번호
+		,atch_file_path as atchFilePath	 -- 서버저장Path
+		,atch_file_ogcp_nm as atchFileOgcpNm	 -- 화면이름
+		,atch_file_sav_nm as atchFileSavNm	 -- 서버파일이름
+		,atch_file_extsn_nm as atchFileExtsnNm	 -- 확장자
+		,atch_file_size_nval as atchFileSizeNval	 -- 사이즈
+		,frst_rgsr_id as frstRgsrId	 -- 아이디
+		,frst_rgst_ip as frstRgstIp	 -- 아이피
+		,to_char(frst_rgst_dt, 'YYYY-MM-DD HH24:MI:SS') as frstRgstDt	 -- 저장일자
+		,last_updr_id as lastUpdrId	 -- 수정아이디
+		,last_updt_ip as lastUpdtIp	 -- 수정아이피
+		,last_updt_dt as lastUpdtDt	 -- 수정일자
+        ,to_char(last_updt_dt, 'YYYY-MM-DD HH24:MI:SS') as lastUpdtDt				
+	From atch_file_info
+	where 1 = 1
+    <if test='atchFileId != null and atchFileId != ""' >
+     AND  atch_file_id = #{atchFileId}
+    </if> 
+
+    <if test='fmDate != null and fmDate != ""' >
+    <![CDATA[
+     AND  to_char(last_updt_dt, 'YYYYMMDD')  >= #{fmDate}
+     ]]>
+    </if> 
+    <if test='toDate != null and toDate != ""' >
+    <![CDATA[
+     AND  to_char(last_updt_dt, 'YYYYMMDD')  <= #{toDate}
+     ]]>
+    </if> 
+	order by last_updt_dt desc, atch_file_id  desc
+</select>
+  <insert id="InsertAtchFile" parameterType="com.mibbeun.utils.Vo.AtchFileVo">
+	insert into atch_file_info( 
+		 atch_file_id	 -- 파일ID
+		,atch_file_sno	-- 번호
+		,atch_file_path	-- 서버저장Path
+		,atch_file_ogcp_nm	-- 화면이름
+		,atch_file_sav_nm	-- 서버파일이름
+		,atch_file_extsn_nm	-- 확장자
+		,atch_file_size_nval	-- 사이즈
+		,frst_rgsr_id	-- 아이디
+		,frst_rgst_ip	-- 아이피
+		,frst_rgst_dt	-- 저장일자
+		,last_updr_id	-- 수정아이디
+		,last_updt_ip	-- 수정아이피
+		,last_updt_dt	-- 수정일자
+	) Values ( 
+		 #{atchFileId}	 -- 파일ID
+		,#{atchFileSno}	 -- 번호
+		,#{atchFilePath}	 -- 서버저장Path
+		,#{atchFileOgcpNm}	 -- 화면이름
+		,#{atchFileSavNm}	 -- 서버파일이름
+		,#{atchFileExtsnNm}	 -- 확장자
+		,#{atchFileSizeNval}	 -- 사이즈
+		,#{frstRgsrId}	 -- 아이디
+		,#{frstRgstIp}	 -- 아이피
+		,now()	 -- 저장일자
+		,#{lastUpdrId}	 -- 수정아이디
+		,#{lastUpdtIp}	 -- 수정아이피
+		,now()	 -- 수정일자
+)
+</insert>
+  <update id="UpdateAtchFile" parameterType="com.mibbeun.utils.Vo.AtchFileVo">
+	update atch_file_info 
+	Set 
+		  atch_file_id	 = #{atchFileId}	-- 파일ID
+		, atch_file_sno	 = #{atchFileSno}	-- 번호
+		, atch_file_path	 = #{atchFilePath}	-- 서버저장Path
+		, atch_file_ogcp_nm	 = #{atchFileOgcpNm}	-- 화면이름
+		, atch_file_sav_nm	 = #{atchFileSavNm}	-- 서버파일이름
+		, atch_file_extsn_nm	 = #{atchFileExtsnNm}	-- 확장자
+		, atch_file_size_nval	 = #{atchFileSizeNval}	-- 사이즈
+		, last_updr_id	 = #{lastUpdrId}	-- 수정아이디
+		, last_updt_ip	 = #{lastUpdtIp}	-- 수정아이피
+		, last_updt_dt	 = now()	-- 수정일자
+	where atch_file_id	 = #{atchFileId}
+</update>
+  <update id="DeleteAtchFile" parameterType="com.mibbeun.utils.Vo.AtchFileVo">
+	delete from atch_file_info 
+	where atch_file_id = #{atchFileId}
+</update>
+  <update id="MergeAtchFile" parameterType="com.mibbeun.utils.Vo.AtchFileVo">
+	with upsert as  ( 
+	update atch_file_info  
+	Set 
+		  atch_file_sno	 = #{atchFileSno}	 -- 번호
+		, atch_file_path	 = #{atchFilePath}	 -- 서버저장Path
+		, atch_file_ogcp_nm	 = #{atchFileOgcpNm}	 -- 화면이름
+		, atch_file_sav_nm	 = #{atchFileSavNm}	 -- 서버파일이름
+		, atch_file_extsn_nm	 = #{atchFileExtsnNm}	 -- 확장자
+		, atch_file_size_nval	 = #{atchFileSizeNval}	 -- 사이즈
+		, last_updr_id	 = #{lastUpdrId}	 -- 수정아이디
+		, last_updt_ip	 = #{lastUpdtIp}	 -- 수정아이피
+		, last_updt_dt	 = now()	 -- 수정일자
+	where atch_file_id = #{atchFileId} 
+	   returning * 
+	) 
+	insert into atch_file_info ( 
+		 atch_file_id	 -- 파일ID
+		,atch_file_sno	 -- 번호
+		,atch_file_path	 -- 서버저장Path
+		,atch_file_ogcp_nm	 -- 화면이름
+		,atch_file_sav_nm	 -- 서버파일이름
+		,atch_file_extsn_nm	 -- 확장자
+		,atch_file_size_nval	 -- 사이즈
+		,frst_rgsr_id	 -- 아이디
+		,frst_rgst_ip	 -- 아이피
+		,frst_rgst_dt	 -- 저장일자
+		,last_updr_id	 -- 수정아이디
+		,last_updt_ip	 -- 수정아이피
+		,last_updt_dt	 -- 수정일자
+	)  
+	Select 
+		 #{atchFileId}	 -- 파일ID
+		,#{atchFileSno}	 -- 번호
+		,#{atchFilePath}	 -- 서버저장Path
+		,#{atchFileOgcpNm}	 -- 화면이름
+		,#{atchFileSavNm}	 -- 서버파일이름
+		,#{atchFileExtsnNm}	 -- 확장자
+		,#{atchFileSizeNval}	 -- 사이즈
+		,#{frstRgsrId}	 -- 아이디
+		,#{frstRgstIp}	 -- 아이피
+		,now()	 -- 저장일자
+		,#{lastUpdrId}	 -- 수정아이디
+		,#{lastUpdtIp}	 -- 수정아이피
+		,now() -- 수정일자
+	where not exists(select * from upsert)
+</update>
+</mapper>

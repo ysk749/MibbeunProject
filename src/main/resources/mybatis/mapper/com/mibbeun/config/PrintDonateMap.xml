@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.config.Map.PrintDonateMap">
+
+  <select id="SelectPrintDonate" parameterType="com.mibbeun.config.Vo.PrintDonateVo" resultType="com.mibbeun.config.Vo.PrintDonateVo">
+	Select 
+		 일련번호 as indexNo	 -- 일련번호
+		,코드분류 as codeGb	 -- 코드분류
+		,년도 as year	 -- 년도
+		,기본일자 as baseDt	 -- 기본일자
+		,증명일자 as sinDt	 -- 증명일자
+		,이름 as name	 -- 이름
+		,출력이름 as printNm	 -- 출력이름
+		,주민번호 as jumnNo	 -- 주민번호
+		,주소 as addr	 -- 주소
+		,분류 as typeGb	 -- 분류
+		,출력회수 as printCount	 -- 출력회수
+		,출력금액 as printAmt	 -- 출력금액
+		,출력일자 as printDt	 -- 출력일자
+	From 기부금영수증
+	where 일련번호	=	#{printDt} 
+	order by 일련번호
+</select>
+  <select id="SelectPrintDonateList" parameterType="com.mibbeun.config.Vo.PrintDonateVo" resultType="com.mibbeun.config.Vo.PrintDonateVo">
+	Select 
+		 일련번호 as indexNo	 -- 일련번호
+		,코드분류 as codeGb	 -- 코드분류
+		,년도 as year	 -- 년도
+		,기본일자 as baseDt	 -- 기본일자
+		,증명일자 as sinDt	 -- 증명일자
+		,이름 as name	 -- 이름
+		,출력이름 as printNm	 -- 출력이름
+		,주민번호 as jumnNo	 -- 주민번호
+		,주소 as addr	 -- 주소
+		,분류 as typeGb	 -- 분류
+		,출력회수 as printCount	 -- 출력회수
+		,출력금액 as printAmt	 -- 출력금액
+		,출력일자 as printDt	 -- 출력일자
+	From 기부금영수증
+	where 일련번호	=	#{printDt} 
+	order by 일련번호
+</select>
+  <insert id="InsertPrintDonate" parameterType="com.mibbeun.config.Vo.PrintDonateVo">
+	insert into 기부금영수증( 
+		 일련번호	 -- 일련번호
+		,코드분류	-- 코드분류
+		,년도	-- 년도
+		,기본일자	-- 기본일자
+		,증명일자	-- 증명일자
+		,이름	-- 이름
+		,출력이름	-- 출력이름
+		,주민번호	-- 주민번호
+		,주소	-- 주소
+		,분류	-- 분류
+		,출력회수	-- 출력회수
+		,출력금액	-- 출력금액
+		,출력일자	-- 출력일자
+	) Values ( 
+		 #{indexNo}	 -- 일련번호
+		,#{codeGb}	 -- 코드분류
+		,#{year}	 -- 년도
+		,#{baseDt}	 -- 기본일자
+		,#{sinDt}	 -- 증명일자
+		,#{name}	 -- 이름
+		,#{printNm}	 -- 출력이름
+		,#{jumnNo}	 -- 주민번호
+		,#{addr}	 -- 주소
+		,#{typeGb}	 -- 분류
+		,#{printCount}	 -- 출력회수
+		,#{printAmt}	 -- 출력금액
+		,#{printDt}	 -- 출력일자
+)
+</insert>
+  <update id="UpdatePrintDonate" parameterType="com.mibbeun.config.Vo.PrintDonateVo">
+	update 기부금영수증 
+	Set 
+		  일련번호	 = #{indexNo}	-- 일련번호
+		, 코드분류	 = #{codeGb}	-- 코드분류
+		, 년도	 = #{year}	-- 년도
+		, 기본일자	 = #{baseDt}	-- 기본일자
+		, 증명일자	 = #{sinDt}	-- 증명일자
+		, 이름	 = #{name}	-- 이름
+		, 출력이름	 = #{printNm}	-- 출력이름
+		, 주민번호	 = #{jumnNo}	-- 주민번호
+		, 주소	 = #{addr}	-- 주소
+		, 분류	 = #{typeGb}	-- 분류
+		, 출력회수	 = #{printCount}	-- 출력회수
+		, 출력금액	 = #{printAmt}	-- 출력금액
+		, 출력일자	 = #{printDt}	-- 출력일자
+	where 일련번호	 = #{indexNo}
+</update>
+  <update id="MergePrintDonate" parameterType="com.mibbeun.config.Vo.PrintDonateVo">
+	Merge  into  기부금영수증  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.일련번호 = #{indexNo}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 년도	 = #{year}	 -- 년도
+		, 기본일자	 = #{baseDt}	 -- 기본일자
+		, 증명일자	 = #{sinDt}	 -- 증명일자
+		, 이름	 = #{name}	 -- 이름
+		, 출력이름	 = #{printNm}	 -- 출력이름
+		, 주민번호	 = #{jumnNo}	 -- 주민번호
+		, 주소	 = #{addr}	 -- 주소
+		, 분류	 = #{typeGb}	 -- 분류
+		, 출력회수	 = #{printCount}	 -- 출력회수
+		, 출력금액	 = #{printAmt}	 -- 출력금액
+		, 출력일자	 = #{printDt}	 -- 출력일자
+	When not Matched then 
+	insert ( 
+		 일련번호	 -- 일련번호
+		,코드분류	 -- 코드분류
+		,년도	 -- 년도
+		,기본일자	 -- 기본일자
+		,증명일자	 -- 증명일자
+		,이름	 -- 이름
+		,출력이름	 -- 출력이름
+		,주민번호	 -- 주민번호
+		,주소	 -- 주소
+		,분류	 -- 분류
+		,출력회수	 -- 출력회수
+		,출력금액	 -- 출력금액
+		,출력일자	 -- 출력일자
+	) Values ( 
+		 #{indexNo}	 -- 일련번호
+		,#{codeGb}	 -- 코드분류
+		,#{year}	 -- 년도
+		,#{baseDt}	 -- 기본일자
+		,#{sinDt}	 -- 증명일자
+		,#{name}	 -- 이름
+		,#{printNm}	 -- 출력이름
+		,#{jumnNo}	 -- 주민번호
+		,#{addr}	 -- 주소
+		,#{typeGb}	 -- 분류
+		,#{printCount}	 -- 출력회수
+		,#{printAmt}	 -- 출력금액
+		,#{printDt}	 -- 출력일자
+	)
+</update>
+</mapper>

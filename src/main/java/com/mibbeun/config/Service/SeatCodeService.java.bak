@@ -1,0 +1,47 @@
+﻿package com.mibbeun.config.Service;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.mibbeun.config.Map.SeatCodeMap;
+import com.mibbeun.config.Vo.SeatCodeVo;
+
+@Service
+public class SeatCodeService {  
+	@Autowired
+	SeatCodeMap seatCodeMap;
+
+	// One Select
+	public SeatCodeVo seatCodeOneData(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.SelectSeatCode(seatCodeVo);
+	}
+	// List Select
+	public List<SeatCodeVo> seatCodeListData(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.SelectSeatCodeList(seatCodeVo);
+	}
+	
+	public List<SeatCodeVo> seatCodeInsertCheckListData(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.seatCodeInsertCheckList(seatCodeVo);
+	}
+		
+	
+	// insert
+	public int beforCopyInsertSeatCode(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.BeforCopyInsertSeatCode(seatCodeVo);
+	}	
+	// insert
+	public int insertSeatCode(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.InsertSeatCode(seatCodeVo);
+	}
+	// update
+	public int updateSeatCode(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.UpdateSeatCode(seatCodeVo);
+	}
+	// delete
+	public int deleteSeatCode(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.DeleteSeatCode(seatCodeVo);
+	}
+	// Merge
+	public int mergeSeatCode(SeatCodeVo seatCodeVo ) { 
+		return seatCodeMap.MergeSeatCode(seatCodeVo);
+	}
+}

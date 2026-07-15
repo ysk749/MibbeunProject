@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.SelectAllNameMap">
+
+  <select id="SelectSelectAllName" parameterType="com.mibbeun.code.Vo.SelectAllNameVo" resultType="com.mibbeun.code.Vo.SelectAllNameVo">
+	
+	SELECT AA.대표번호 AS FamilyNo   --  대표번호
+	 , AA.대표  AS FamilyNm          -- 대표
+	 ,BB.개인번호 AS FamilySubNo    -- 개인번호
+	 ,BB.성명 AS Name                -- 성명
+	 ,BB.순번번호 AS NumSeq            -- 성명
+	 FROM 가족 AA  INNER JOIN 가족구성원 BB ON (AA.대표번호 = BB.대표번호) 
+	 ORDER BY  BB.성명, AA.대표 
+</select>
+  <select id="SelectSelectAllNameList" parameterType="com.mibbeun.code.Vo.SelectAllNameVo" resultType="com.mibbeun.code.Vo.SelectAllNameVo">
+	
+	SELECT AA.대표번호 AS FamilyNo   --  대표번호
+	 , AA.대표  AS FamilyNm          -- 대표
+	 ,BB.개인번호 AS FamilySubNo    -- 개인번호
+	 ,BB.성명 AS Name                -- 성명
+	 ,BB.순번번호 AS NumSeq            -- 성명
+	 FROM 가족 AA  INNER JOIN 가족구성원 BB ON (AA.대표번호 = BB.대표번호) 
+	 ORDER BY  BB.성명, AA.대표 
+</select>
+</mapper>

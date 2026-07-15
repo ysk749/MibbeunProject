@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.HomeDataMap">
+
+  <update id="DeleteOutOtherHomeCodeGb" parameterType="com.mibbeun.amt.Vo.HomeDataVo">
+	 <![CDATA[ 
+        Delete            
+        FROM 수입         
+        WHERE 수입.코드분류 ='2' 
+          AND ((수입.계정코드2=1 AND (수입.계정코드3=1 Or 수입.계정코드3=2)) 
+                 OR (수입.계정코드2=2 AND 수입.계정코드3=3)) 	    
+          AND   년도  = #{year}     
+          AND   날짜 >= #{fmDate}
+          AND   날짜 <= #{toDate}  
+      ]]>        	  
+  </update>
+  
+  <insert id="InsertOutOtherHomeCodeGb" parameterType="com.mibbeun.amt.Vo.HomeDataVo">
+   <![CDATA[
+        insert into 수입 (                                 
+              날짜,                                        
+              코드분류,                                    
+              금액,                                        
+              이름1,                                        
+              성도코드1,                                   
+              성도코드2,                                   
+              분류,                                        
+              계정코드1,                                   
+              계정코드2,                                   
+              계정코드3,                                   
+              년도                                         
+           )                                               
+          SELECT 지출.날짜  As ADate,                      
+                  '2',                                     
+                  Sum(지출.금액) AS SumAmt,                
+                  '무명',                                  
+                  '-1',                                    
+                  '-1',                                    
+                  0,                                       
+                  -1 as inputCode1,                        
+                  IIF(지출.계정코드2=13,1,IIF(지출.계정코드2=30,2,-1))  as InputCode2,   
+                  IIF(지출.계정코드3=57,1,IIF(지출.계정코드3=87,2,IIF(지출.계정코드3=58,3,-1))) as inputCode3,   
+                  지출.년도 as Year                        
+            FROM 지출                                      
+            WHERE 지출.계정코드1=3                         
+            AND   지출.코드분류='1'                        
+            AND   지출.계정코드2<>14                       
+            AND   지출.년도  =#{year}     
+            AND   지출.날짜 >=#{fmDate}
+            AND   지출.날짜 <=#{toDate}   
+	        GROUP BY 지출.날짜, 지출.계정코드1, 지출.계정코드2, 지출.계정코드3, 지출.년도 
+	  ]]>      
+  </insert>  
+
+  
+</mapper>

@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.IntputCode2Map">
+
+  <select id="SelectIntputCode2" parameterType="com.mibbeun.code.Vo.IntputCode2Vo" resultType="com.mibbeun.code.Vo.IntputCode2Vo">
+	Select 
+		 항코드 as code2	 -- 항코드
+		,코드분류 as codeGb	 -- 코드분류
+		,항 as code2Nm	 -- 항
+		,순서 as seqNo	 -- 순서
+		,관코드 as code1	 -- 관코드
+		,계정관리 as codeManag	 -- 계정관리
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 수입항
+	where 사용여부 = '1'  
+	  and 코드분류  = #{codeGb}
+      and 항코드  = #{code2}      
+	order by 순서
+
+</select>
+  <select id="SelectIntputCode2List" parameterType="com.mibbeun.code.Vo.IntputCode2Vo" resultType="com.mibbeun.code.Vo.IntputCode2Vo">
+	Select 
+		 항코드 as code2	 -- 항코드
+		,코드분류 as codeGb	 -- 코드분류
+		,항 as code2Nm	 -- 항
+		,순서 as seqNo	 -- 순서
+		,관코드 as code1	 -- 관코드
+		,계정관리 as codeManag	 -- 계정관리
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 수입항
+	where 사용여부 = '1'  
+	  and 코드분류  = #{codeGb}
+    <if test='code1 != null and code1 != 0 '>
+       AND 관코드  = #{code1}      
+    </if>  
+	order by 순서
+	
+</select>
+  <insert id="InsertIntputCode2" parameterType="com.mibbeun.code.Vo.IntputCode2Vo">
+	insert into 수입항( 
+		 항코드	 -- 항코드
+		,코드분류	-- 코드분류
+		,항	-- 항
+		,순서	-- 순서
+		,관코드	-- 관코드
+		,계정관리	-- 계정관리
+		,설명	-- 설명
+		,사용여부	-- 사용여부
+	) Values ( 
+		 #{code2}	 -- 항코드
+		,#{codeGb}	 -- 코드분류
+		,#{code2Nm}	 -- 항
+		,#{seqNo}	 -- 순서
+		,#{code1}	 -- 관코드
+		,#{codeManag}	 -- 계정관리
+		,#{cnte}	 -- 설명
+		,'1'	 -- 사용여부
+)
+</insert>
+  <update id="UpdateIntputCode2" parameterType="com.mibbeun.code.Vo.IntputCode2Vo">
+	update 수입항 
+	Set   항	 = #{code2Nm}	-- 항
+		, 순서	 = #{seqNo}	-- 순서
+		, 관코드	 = #{code1}	-- 관코드
+		, 계정관리	 = #{codeManag}	-- 계정관리
+		, 설명	 = #{cnte}	-- 설명
+	where 항코드	 = #{code2}
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+  <update id="DeleteIntputCode2" parameterType="com.mibbeun.code.Vo.IntputCode2Vo">
+	delete From 수입항 
+	where 항코드	 = #{code2}
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+  <update id="MergeIntputCode2" parameterType="com.mibbeun.code.Vo.IntputCode2Vo">
+	Merge  into  수입항  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.항코드 = #{code2} and 코드분류	 = #{codeGb}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 항	 = #{code2Nm}	 -- 항
+		, 순서	 = #{seqNo}	 -- 순서
+		, 관코드	 = #{code1}	 -- 관코드
+		, 계정관리	 = #{codeManag}	 -- 계정관리
+		, 설명	 = #{cnte}	 -- 설명
+		, 사용여부	 = #{userYn}	 -- 사용여부
+	When not Matched then 
+	insert ( 
+		 항코드	 -- 항코드
+		,코드분류	 -- 코드분류
+		,항	 -- 항
+		,순서	 -- 순서
+		,관코드	 -- 관코드
+		,계정관리	 -- 계정관리
+		,설명	 -- 설명
+		,사용여부	 -- 사용여부
+	) Values ( 
+		 #{code2}	 -- 항코드
+		,#{codeGb}	 -- 코드분류
+		,#{code2Name}	 -- 항
+		,#{seqNo}	 -- 순서
+		,#{code1}	 -- 관코드
+		,#{codeWd}	 -- 계정관리
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+	)
+</update>
+</mapper>

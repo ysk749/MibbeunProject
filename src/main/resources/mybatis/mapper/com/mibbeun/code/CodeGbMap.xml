@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.CodeGbMap">
+
+  <select id="SelectCodeGb" parameterType="com.mibbeun.code.Vo.CodeGbVo" resultType="com.mibbeun.code.Vo.CodeGbVo">
+	Select 
+		 코드분류 as codeGb	 -- 코드분류
+		,분류명 as codeValueNm	 -- 분류명
+	From 코드분류
+	where 코드분류	=	#{codeValueNm} 
+	order by 코드분류
+</select>
+  <select id="SelectCodeGbList" parameterType="com.mibbeun.code.Vo.CodeGbVo" resultType="com.mibbeun.code.Vo.CodeGbVo">
+	Select 
+		 코드분류 as codeGb	 -- 코드분류
+		,분류명 as codeValueNm	 -- 분류명
+	From 코드분류
+	order by 코드분류
+</select>
+  <insert id="InsertCodeGb" parameterType="com.mibbeun.code.Vo.CodeGbVo">
+	insert into 코드분류( 
+		 코드분류	 -- 코드분류
+		,분류명	-- 분류명
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{codeValueNm}	 -- 분류명
+)
+</insert>
+  <update id="UpdatecodeGb" parameterType="com.mibbeun.code.Vo.CodeGbVo">
+	update 코드분류 
+	Set 
+		  코드분류	 = #{codeGb}	-- 코드분류
+		, 분류명	 = #{codeValueNm}	-- 분류명
+	where 코드분류	 = #{codeGb}
+</update>
+  <update id="MergecodeGb" parameterType="com.mibbeun.code.Vo.CodeGbVo">
+	Merge  into  코드분류  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.코드분류 = #{codeGb}) 
+	When Matched then 
+	update  
+	Set 
+		  분류명	 = #{codeValueNm}	 -- 분류명
+	When not Matched then 
+	insert ( 
+		 코드분류	 -- 코드분류
+		,분류명	 -- 분류명
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{codeValueNm}	 -- 분류명
+	)
+</update>
+</mapper>

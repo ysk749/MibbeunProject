@@ -1,0 +1,17 @@
+﻿{"ServiceIDs":"voSaveID","Response":{"SaveVo":[{"dataCode":"idCode","dataSize":"50","dataNm":"","dataType":"String"}
+,{"dataCode":"idNm","dataSize":"100","dataNm":"","dataType":"String"}
+,{"dataCode":"userYn","dataSize":"1","dataNm":"","dataType":"String"}
+,{"dataCode":"regDttm","dataSize":"7","dataNm":"","dataType":"datetime"}
+,{"dataCode":"updateDttm","dataSize":"7","dataNm":"","dataType":"datetime"}
+],"SaveListVo":[{"dataCode":"idCode","dataSize":"50","dataNm":"","dataType":"String"}
+,{"dataCode":"idNm","dataSize":"100","dataNm":"","dataType":"String"}
+,{"dataCode":"userYn","dataSize":"1","dataNm":"","dataType":"String"}
+,{"dataCode":"regDttm","dataSize":"7","dataNm":"","dataType":"datetime"}
+,{"dataCode":"updateDttm","dataSize":"7","dataNm":"","dataType":"datetime"}
+]}
+,"Request":[{"dataCode":"idCode","dataSize":"50","dataNm":"","dataType":"String"}
+,{"dataCode":"idNm","dataSize":"100","dataNm":"","dataType":"String"}
+,{"dataCode":"userYn","dataSize":"1","dataNm":"","dataType":"String"}
+,{"dataCode":"regDttm","dataSize":"7","dataNm":"","dataType":"datetime"}
+,{"dataCode":"updateDttm","dataSize":"7","dataNm":"","dataType":"datetime"}
+]}

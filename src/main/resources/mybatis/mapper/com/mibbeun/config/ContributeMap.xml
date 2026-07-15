@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.config.Map.ContributeMap">
+
+  <select id="SelectContribute" parameterType="com.mibbeun.config.Vo.ContributeVo" resultType="com.mibbeun.config.Vo.ContributeVo">
+	Select 
+		 일련번호 as indexNo	 -- 일련번호
+		,코드분류 as codeGb	 -- 코드분류
+		,년도 as year	 -- 년도
+		,기본일자 as baseDt	 -- 기본일자
+		,증명일자 as sinDt	 -- 증명일자
+		,이름 as name	 -- 이름
+		,출력이름 as printNm	 -- 출력이름
+		,주민번호 as jumnNo	 -- 주민번호
+		,주소 as addr	 -- 주소
+		,분류 as typeGb	 -- 분류
+		,출력회수 as printCount	 -- 출력회수
+		,출력금액 as printAmt	 -- 출력금액
+		,출력일자 as printDt	 -- 출력일자
+	From 기부금영수증
+	where 일련번호	=	#{printDt} 
+	order by 일련번호
+</select>
+  <select id="SelectContributeList" parameterType="com.mibbeun.config.Vo.ContributeVo" resultType="com.mibbeun.config.Vo.ContributeVo">
+	Select 
+		 일련번호 as indexNo	 -- 일련번호
+		,코드분류 as codeGb	 -- 코드분류
+		,년도 as year	 -- 년도
+		,기본일자 as baseDt	 -- 기본일자
+		,증명일자 as sinDt	 -- 증명일자
+		,이름 as name	 -- 이름
+		,출력이름 as printNm	 -- 출력이름
+		,주민번호 as jumnNo	 -- 주민번호
+		,주소 as addr	 -- 주소
+		,분류 as typeGb	 -- 분류
+		,출력회수 as printCount	 -- 출력회수
+		,출력금액 as printAmt	 -- 출력금액
+		,출력일자 as printDt	 -- 출력일자
+	From 기부금영수증
+	where 년도	=	#{year} 
+	  and 코드분류	=	#{codeGb} 
+	order by 일련번호
+</select>
+  <insert id="InsertContribute" parameterType="com.mibbeun.config.Vo.ContributeVo">
+	insert into 기부금영수증( 
+		 일련번호	 -- 일련번호
+		,코드분류	-- 코드분류
+		,년도	-- 년도
+		,기본일자	-- 기본일자
+		,증명일자	-- 증명일자
+		,이름	-- 이름
+		,출력이름	-- 출력이름
+		,주민번호	-- 주민번호
+		,주소	-- 주소
+		,분류	-- 분류
+		,출력회수	-- 출력회수
+		,출력금액	-- 출력금액
+		,출력일자	-- 출력일자
+	) Values ( 
+		 #{indexNo}	 -- 일련번호
+		,#{codeGb}	 -- 코드분류
+		,#{year}	 -- 년도
+		,#{baseDt}	 -- 기본일자
+		,#{sinDt}	 -- 증명일자
+		,#{name}	 -- 이름
+		,#{printNm}	 -- 출력이름
+		,#{jumnNo}	 -- 주민번호
+		,#{addr}	 -- 주소
+		,#{typeGb}	 -- 분류
+		,#{printCount}	 -- 출력회수
+		,#{printAmt}	 -- 출력금액
+		,now()	 -- 출력일자
+)
+</insert>
+  <update id="UpdateContribute" parameterType="com.mibbeun.config.Vo.ContributeVo">
+	update 기부금영수증 
+	Set 
+		  일련번호	 = #{indexNo}	-- 일련번호
+		, 코드분류	 = #{codeGb}	-- 코드분류
+		, 기본일자	 = #{baseDt}	-- 기본일자
+		, 증명일자	 = #{sinDt}	-- 증명일자
+		, 이름	 = #{name}	-- 이름
+		, 출력이름	 = #{printNm}	-- 출력이름
+		, 주민번호	 = #{jumnNo}	-- 주민번호
+		, 주소	 = #{addr}	-- 주소
+		, 분류	 = #{typeGb}	-- 분류
+		, 출력회수	 = #{printCount}	-- 출력회수
+		, 출력금액	 = #{printAmt}	-- 출력금액
+		, 출력일자	 = now()	-- 출력일자
+	where 일련번호	 = #{indexNo}
+	  and 년도	 = #{year}	-- 년도
+  </update>
+  <update id="DeleteContribute" parameterType="com.mibbeun.config.Vo.ContributeVo">
+	delete from 기부금영수증 
+	where 일련번호 = #{indexNo}
+	  and 년도	 = #{year}	-- 년도
+  </update> 
+
+  <update id="NewYearMakeContribute" parameterType="com.mibbeun.config.Vo.ContributeVo">
+    <![CDATA[
+	   Insert into 기부금영수증
+		( 일련번호 ,코드분류 ,년도 ,기본일자 ,증명일자 ,이름 ,출력이름 ,주민번호 ,주소 ,분류 ,출력회수 ,출력금액,출력일자 )
+	   SELECT             
+			    CAST((CAST(CONTI.년도 AS INTEGER)+1) AS TEXT) || '-' || substr(CONTI.일련번호,6,2) as SeqNo 
+			   --,CONTI2.일련번호 as SeqNo2 
+			   ,CONTI.코드분류 as CodeType 
+			   ,CAST((CAST(CONTI.년도 AS INTEGER)+1) AS TEXT) as Year 
+			   ,CONTI.기본일자  as BaseDt                 
+			   ,CONTI.증명일자  as ContriDt               
+			   ,CONTI.이름    as ContriName               
+			   ,CONTI.출력이름    as PrintName            
+			   ,CONTI.주민번호  as jumin                  
+			   ,CONTI.주소    as Addr                     
+			   ,CONTI.분류    as typeKind                 
+			   ,0 as PrintCnt               
+			   ,AMT.Tot_Amt  as PrintAmt                  
+			   , now()                                    
+	 from 기부금영수증  CONTI                        
+       LEFT OUTER JOIN                           
+        ( SELECT AA.MFamily_No as MFamily_No,    
+		              AA.MFamily_Name as MFamily_Name, 
+		             Sum(AA.Tot_Amt) AS Tot_Amt,      
+		             AA.Year as Year                    
+		       FROM                                    
+		           (                                   
+ 				      SELECT 가족.대표번호 as MFamily_No, 
+ 					    가족.대표 as MFamily_Name,         
+ 					    Sum(수입.금액) AS Tot_Amt,         
+ 					    수입.년도 as Year			             
+ 				      FROM ((가족구성원                   
+ 						 INNER JOIN 수입                      
+ 						       ON 가족구성원.성명 = 수입.이름1 
+ 						       And   수입.년도 = #{year}       
+ 						       And   수입.코드분류 = #{codeGb} )    
+ 						 INNER JOIN 가족                      
+ 						       ON 가족구성원.대표번호 = 가족.대표번호)
+ 				     WHERE 가족.대표번호 <> '10330'               
+ 				     GROUP BY 가족.대표번호,  가족.대표,수입.년도 
+ 				     UNION ALL                                    
+ 				     SELECT 가족구성원.개인번호 as MFamily_No,    
+ 					    가족구성원.성명     as MFamily_Name,         
+ 					    Sum(수입.금액) AS Tot_Amt,             
+ 					    수입.년도 as Year                        
+ 				      FROM (가족구성원                                                  
+ 						 INNER JOIN 수입                                       
+ 						       ON 가족구성원.성명 = 수입.이름1        
+ 						       And   수입.년도 = #{year}       
+ 						       And   수입.코드분류 = #{codeGb} )             
+ 				     WHERE 가족구성원.경제활동 >= '1'             
+ 				     GROUP BY 가족구성원.개인번호,  가족구성원.성명, 수입.년도
+ 				     UNION ALL                                    
+ 				     SELECT 가족.대표번호 as MFamily_No,          
+ 					    가족.대표 as MFamily_Name,                  
+ 					    Sum(주일헌금.금액) AS Tot_Amt,              
+ 					    주일헌금.년도 as Year                       
+ 				      FROM ((가족구성원                           
+ 						 INNER JOIN 주일헌금                          
+ 						       ON    가족구성원.성명 = 주일헌금.이름1 
+ 						       And   주일헌금.년도 = #{year}          
+ 						       And   주일헌금.코드분류 = #{codeGb} )        
+ 						 INNER JOIN 가족                                 
+ 						       ON 가족구성원.대표번호 = 가족.대표번호)   
+ 				     WHERE 가족.대표번호 <> '10330'                  
+ 				     GROUP BY 가족.대표번호,  가족.대표,주일헌금.년도
+ 				     UNION ALL                                       
+ 				     SELECT 가족구성원.개인번호 as MFamily_No,       
+ 					    가족구성원.성명     as MFamily_Name,           
+ 					    Sum(주일헌금.금액) AS Tot_Amt,                 
+ 					    주일헌금.년도 as Year                          
+ 				      FROM (가족구성원                               
+ 						 INNER JOIN 주일헌금                            
+ 						       ON 가족구성원.성명 = 주일헌금.이름1      
+ 						       And   주일헌금.년도 = #{year}            
+ 						       And   주일헌금.코드분류 = #{codeGb} )          
+ 				     WHERE 가족구성원.경제활동 >= '1'               
+ 				     GROUP BY 가족구성원.개인번호,  가족구성원.성명, 주일헌금.년도
+ 				  ) AA	                                            
+			      GROUP BY AA.MFamily_No, AA.MFamily_Name, AA.Year		     
+		      ) AMT                                               
+		      ON CONTI.이름 = AMT.MFamily_Name	                   
+	          and CONTI.년도 = CAST((CAST(AMT.Year AS INTEGER)-1) AS TEXT)
+       LEFT OUTER JOIN                           
+            기부금영수증  CONTI2                        
+            On CONTI2.일련번호  =  CAST((CAST(CONTI.년도 AS INTEGER)+1) AS TEXT) || '-' || substr(CONTI.일련번호,6,2) 
+	      where CONTI.년도 = CAST((CAST(#{year} AS INTEGER)-1) AS TEXT)
+	      order by CONTI.일련번호
+	   ]]>   	 
+  </update>	       
+  <update id="MergeContribute" parameterType="com.mibbeun.config.Vo.ContributeVo">
+	Merge  into  기부금영수증  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.일련번호 = #{indexNo}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 년도	 = #{year}	 -- 년도
+		, 기본일자	 = #{baseDt}	 -- 기본일자
+		, 증명일자	 = #{sinDt}	 -- 증명일자
+		, 이름	 = #{name}	 -- 이름
+		, 출력이름	 = #{printNm}	 -- 출력이름
+		, 주민번호	 = #{jumnNo}	 -- 주민번호
+		, 주소	 = #{addr}	 -- 주소
+		, 분류	 = #{typeGb}	 -- 분류
+		, 출력회수	 = #{printCount}	 -- 출력회수
+		, 출력금액	 = #{printAmt}	 -- 출력금액
+		, 출력일자	 = #{printDt}	 -- 출력일자
+	When not Matched then 
+	insert ( 
+		 일련번호	 -- 일련번호
+		,코드분류	 -- 코드분류
+		,년도	 -- 년도
+		,기본일자	 -- 기본일자
+		,증명일자	 -- 증명일자
+		,이름	 -- 이름
+		,출력이름	 -- 출력이름
+		,주민번호	 -- 주민번호
+		,주소	 -- 주소
+		,분류	 -- 분류
+		,출력회수	 -- 출력회수
+		,출력금액	 -- 출력금액
+		,출력일자	 -- 출력일자
+	) Values ( 
+		 #{indexNo}	 -- 일련번호
+		,#{codeGb}	 -- 코드분류
+		,#{year}	 -- 년도
+		,#{baseDt}	 -- 기본일자
+		,#{sinDt}	 -- 증명일자
+		,#{name}	 -- 이름
+		,#{printNm}	 -- 출력이름
+		,#{jumnNo}	 -- 주민번호
+		,#{addr}	 -- 주소
+		,#{typeGb}	 -- 분류
+		,#{printCount}	 -- 출력회수
+		,#{printAmt}	 -- 출력금액
+		,#{printDt}	 -- 출력일자
+	)
+</update>
+</mapper>

@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.config.Map.ReserveOutputMap">
+
+  <select id="SelectReserveOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo" resultType="com.mibbeun.config.Vo.ReserveOutputVo">
+	Select 
+		 항코드 as code2	 -- 항코드
+		,관코드 as code1	 -- 관코드
+		,목코드 as code3	 -- 목코드
+		,날짜 as year	 -- 날짜
+		,코드분류 as codeGb	 -- 코드분류
+		,순서 as seqNo	 -- 순서
+		,예산액 as budgetAmt	 -- 예산액
+		,예산비고 as budgetCnte	 -- 예산비고
+		,사용여부 as userYn	 -- 사용여부
+	From 예산지출
+	where 코드분류	=	#{codeGb} 
+	  and 날짜	=	#{year} 	
+	order by 항코드
+</select>
+  <select id="SelectReserveOutputList" parameterType="com.mibbeun.config.Vo.ReserveOutputVo" resultType="com.mibbeun.config.Vo.ReserveOutputVo">
+		 SELECT 
+		        CoutOut.관코드 As code1,
+		        CoutOut.항코드 As code2, 
+		        CoutOut.목코드      As code3, 
+		        CoutOut.코드분류 As codeGb, 
+		        CoutConf1.관       As code1Nm,
+		        CoutConf2.항       As code2Nm, 
+		        CoutConf3.목       As code3Nm, 
+		        CoutOut.날짜        As year, 
+		        CoutOut.순서        As seqNO, 
+		        CoutOut.예산액     As budgetAmt, 
+		        CoutOut.예산비고   As budgetCnte, 
+		        CoutOut.사용여부   As userYn 
+		 FROM 예산지출 CoutOut, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+		 Where  CoutOut.관코드  =  CoutConf1.관코드 
+		 AND    CoutOut.코드분류  =  CoutConf1.코드분류
+		 AND    CoutOut.관코드  =  CoutConf2.관코드
+		 AND    CoutOut.항코드  =  CoutConf2.항코드 
+		 AND    CoutOut.코드분류  =  CoutConf2.코드분류
+		 AND    CoutOut.관코드  =  CoutConf3.관코드
+		 AND    CoutOut.항코드  =  CoutConf3.항코드 
+		 AND    CoutOut.목코드  =  CoutConf3.목코드
+		 AND    CoutOut.코드분류  =  CoutConf3.코드분류
+		 AND    CoutConf3.사용여부 = '1' 
+ 	     and    CoutOut.코드분류	=	#{codeGb} 
+	     and    CoutOut.날짜	=	#{year} 
+       Order by CoutOut.관코드,CoutOut.항코드,CoutOut.목코드 
+</select>
+  <insert id="InsertReserveOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo">
+	insert into 예산지출( 
+		 관코드	-- 관코드
+		,항코드	 -- 항코드
+		,목코드	-- 목코드
+		,날짜	-- 날짜
+		,코드분류	-- 코드분류
+		,순서	-- 순서
+		,예산액	-- 예산액
+		,예산비고	-- 예산비고
+		,사용여부	-- 사용여부
+	) Values ( 
+		 #{code1}	 -- 항코드
+		,#{code2}	 -- 관코드
+		,#{code3}	 -- 목코드
+		,#{year}	 -- 날짜
+		,#{codeGb}	 -- 코드분류
+		,#{seqNo}	 -- 순서
+		,#{budgetAmt}	 -- 예산액
+		,#{budgetCnte}	 -- 예산비고
+		,#{userYn}	 -- 사용여부
+)
+</insert>
+  <update id="UpdateReserveOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo">
+	update 예산지출 
+	Set 
+		  순서	 = #{seqNo}	-- 순서
+		, 예산액	 = #{budgetAmt}	-- 예산액
+		, 예산비고	 = #{budgetCnte}	-- 예산비고
+		, 사용여부	 = #{userYn}	-- 사용여부
+	where 항코드	 = #{code2}
+	  and 관코드	 = #{code1}	-- 관코드
+	  and 목코드	 = #{code3}	-- 목코드
+	  and 날짜	 = #{year}	-- 날짜
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+</update>
+
+  <update id="DeleteReserveOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo">
+	delete from 예산지출 
+	where 항코드	 = #{code2}
+	  and 관코드	 = #{code1}	-- 관코드
+	  and 목코드	 = #{code3}	-- 목코드
+	  and 날짜	 = #{year}	-- 날짜
+	  and 코드분류	 = #{codeGb}	-- 코드분류
+  </update>
+  <update id="YearCopyReserveOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo">
+	 Insert Into 예산지출 
+	 (                    
+	    	 항코드          
+	 		,관코드           
+	 		,목코드           
+	 		,날짜             
+	 		,순서             
+	 		,예산액           
+	 		,예산비고         
+	 		,사용여부         
+	 		,코드분류         
+	  )                   
+	  Select	항코드      
+	 		,관코드           
+	 		,목코드           
+	 		,#{year}             
+	 		,순서             
+	 		,예산액           
+	 		,예산비고         
+	 		,사용여부         
+	 		,코드분류         
+	  From	예산지출      	      
+	  Where 날짜 = #{befYear}     	      
+	  and 사용여부 = '1'      	      
+	  AND  코드분류  = #{codeGb}
+  </update>
+  <update id="ConstCompMakeOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo">
+	 Insert Into 예산지출 
+	 (                    
+			 항코드          
+			,관코드           
+			,목코드           
+			,날짜             
+			,순서             
+			,예산액           
+			,예산비고         
+			,사용여부         
+			,코드분류         
+	  )                   
+	 SELECT 지출.계정코드2,                               
+			지출.계정코드1,                               
+			지출.계정코드3,                               
+			지출.년도                                     
+			,0              
+			,0           
+			,''          
+			,1          
+			,지출.코드분류         
+	 FROM 지출 Left Outer JOIN 예산지출                   
+					 ON  (지출.년도 = 예산지출.날짜)      
+					AND (지출.계정코드3 = 예산지출.목코드) 
+					AND (지출.계정코드2 = 예산지출.항코드) 
+					AND (지출.계정코드1 = 예산지출.관코드)
+					AND (지출.코드분류  = 예산지출.코드분류)
+	 where 예산지출.목코드 is null                        
+	 and 지출.년도 = #{year}               
+	 AND  지출.코드분류  = #{codeGb} 
+	 Group by 지출.계정코드1,지출.계정코드2,지출.계정코드3,지출.년도,지출.코드분류  
+  </update>
+	    
+  <update id="MergeReserveOutput" parameterType="com.mibbeun.config.Vo.ReserveOutputVo">
+	Merge  into  예산지출  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.항코드 = #{code2}) 
+	When Matched then 
+	update  
+	Set 
+		  관코드	 = #{code1}	 -- 관코드
+		, 목코드	 = #{code3}	 -- 목코드
+		, 날짜	 = #{year}	 -- 날짜
+		, 코드분류	 = #{codeGb}	 -- 코드분류
+		, 순서	 = #{seqNo}	 -- 순서
+		, 예산액	 = #{budgetAmt}	 -- 예산액
+		, 예산비고	 = #{budgetCnte}	 -- 예산비고
+		, 사용여부	 = #{userYn}	 -- 사용여부
+	When not Matched then 
+	insert ( 
+		 항코드	 -- 항코드
+		,관코드	 -- 관코드
+		,목코드	 -- 목코드
+		,날짜	 -- 날짜
+		,코드분류	 -- 코드분류
+		,순서	 -- 순서
+		,예산액	 -- 예산액
+		,예산비고	 -- 예산비고
+		,사용여부	 -- 사용여부
+	) Values ( 
+		 #{code2}	 -- 항코드
+		,#{code1}	 -- 관코드
+		,#{code3}	 -- 목코드
+		,#{year}	 -- 날짜
+		,#{codeGb}	 -- 코드분류
+		,#{seqNo}	 -- 순서
+		,#{reserAmt}	 -- 예산액
+		,#{reserCnte}	 -- 예산비고
+		,#{userYn}	 -- 사용여부
+	)
+</update>
+</mapper>

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.InputAmtMSelectMap">
+
+  <select id="SelectInputAmtMSelect" parameterType="com.mibbeun.amt.Vo.InputAmtMSelectVo" resultType="com.mibbeun.amt.Vo.InputAmtMSelectVo">
+	 SELECT InAmt.코드  As inputCode, 
+	        InAmt.날짜  as inputDate, 
+	        InAmt.이름1 as inputNm1, 
+	        InAmt.이름2 as inputNm2, 
+	        InAmt.이름3 as inputNm3, 
+	        InAmt.금액  as inputAmt, 
+	        InAmt.비고  as inputCnt, 
+	        InAmt.성도코드1  as inputFmCd1, 
+	        InAmt.성도코드2  as inputFmCd2, 
+	        InAmt.분류       as inputKind, 
+	        InAmt.계정코드2  as inputFlCode2,  
+	        InAmt.계정코드3  as inputFlCode3, 
+	        InAmt.코드분류   as codeType, 
+	        CoutConf2.항       As inputFlNm2, 
+	        CoutConf3.목       As inputFlNm3, 
+	        InAmt.년도  As year
+	 FROM 수입 InAmt, 수입항 CoutConf2, 수입목 CoutConf3 
+	 WHERE  InAmt.계정코드2  =  CoutConf2.항코드 
+	 AND    InAmt.코드분류   =  CoutConf2.코드분류
+	 AND    InAmt.코드분류   =  CoutConf3.코드분류
+	 AND    InAmt.계정코드2  =  CoutConf3.항코드
+	 AND    InAmt.계정코드3  =  CoutConf3.목코드    
+    <if test='codeType != null and codeType != ""' >
+     AND  InAmt.코드분류 = #{codeType}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  InAmt.년도 = #{year}
+    </if>      
+    
+    <if test='inputCode != null and inputCode != ""'>
+      AND  InAmt.코드 = #{inputCode}
+    </if>
+    <choose>
+      <when test='inputCode != null and inputCode != ""'>
+         AND  InAmt.코드 = #{inputCode}
+      </when>
+     <otherwise>
+        AND  InAmt.코드 = (Select Max(코드) From  수입)
+     </otherwise>
+    </choose>    
+</select>
+
+<select id="SelectInputAmtMSelectList" parameterType="com.mibbeun.amt.Vo.InputAmtMSelectVo" resultType="com.mibbeun.amt.Vo.InputAmtMSelectVo">
+     SELECT InAmt.코드  As inputCode, 
+	        InAmt.날짜  as inputDate, 
+	        InAmt.이름1 as inputNm1, 
+	        InAmt.이름2 as inputNm2, 
+	        InAmt.이름3 as inputNm3, 
+	        InAmt.금액  as inputAmt, 
+	        InAmt.비고  as inputCnt, 
+	        InAmt.성도코드1  as inputFmCd1, 
+	        InAmt.성도코드2  as inputFmCd2, 
+	        InAmt.분류       as inputKind, 
+	        InAmt.계정코드2  as inputFlCode2,  
+	        InAmt.계정코드3  as inputFlCode3, 
+	        InAmt.코드분류   as codeGb, 
+	        CoutConf2.항       As inputFlNm2, 
+	        CoutConf3.목       As inputFlNm3, 
+	        InAmt.년도  As year
+	 FROM 수입 InAmt, 수입항 CoutConf2, 수입목 CoutConf3 
+	 WHERE  InAmt.계정코드2  =  CoutConf2.항코드 
+	 AND    InAmt.코드분류   =  CoutConf2.코드분류
+	 AND    InAmt.코드분류   =  CoutConf3.코드분류
+	 AND    InAmt.계정코드2  =  CoutConf3.항코드
+	 AND    InAmt.계정코드3  =  CoutConf3.목코드    
+	
+    <if test='codeGb != null and codeGb != "" '>
+     AND  InAmt.코드분류 = #{codeGb}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  InAmt.년도 = #{year}
+    </if>  
+    
+    <if test='baseCode != null and baseCode != ""'>
+      AND ( InAmt.성도코드1 in (SELECT 개인번호 
+                           FROM 가족구성원
+                          where 대표번호 =  #{baseCode} )
+          OR InAmt.성도코드2 in (SELECT 개인번호 
+                           FROM 가족구성원
+                          where 대표번호 =  #{baseCode} ))                          
+    </if>  
+    
+    <if test='inputCode != null and inputCode != 0'>
+      AND  InAmt.코드 = #{inputCode}
+    </if>
+    
+	<if test='fmInputDate != null and fmInputDate != ""'>
+	  <![CDATA[
+         AND  InAmt.날짜  >= #{fmInputDate}
+     ]]>    
+    </if>      
+    
+	<if test='toInputDate != null and toInputDate != ""'>
+	   <![CDATA[
+     	 AND  InAmt.날짜  <= #{toInputDate}
+     	]]>
+    </if>         
+    
+	<if test='inputType != null and inputType.equals("1") '>
+    	 <if test='inputFmCd1 != null and inputFmCd1 != ""'>
+    	 AND  InAmt.성도코드1 = #{inputFmCd1}
+    	 </if>     
+    </if> 
+	
+	<if test='inputType != null and inputType.equals("2") '>
+    	 <if test='inputFmCd2 != null and inputFmCd2 != ""'>
+        	 AND  mid(InAmt.성도코드1,1,5) = substring(#{inputFmCd2},0,5) 
+     	 </if>     
+    </if>   
+	   
+    <if test='inputNm1 != null and inputNm1 !=  ""'>
+       AND  (InAmt.이름1 like '%'||#{inputNm1}||'%' or InAmt.이름2 like '%'||#{inputNm1}||'%') 
+    </if> 
+
+    <if test='inputFmCd1 != null and inputFmCd1 !=  ""'>
+       AND  (InAmt.성도코드1 = #{inputFmCd1} or InAmt.성도코드2 = #{inputFmCd1}) 
+    </if> 
+    
+    <if test='inputFlCode2 != null and inputFlCode2 != 0'>
+      AND  InAmt.계정코드2 = #{inputFlCode2} 
+    </if> 
+    <if test='inputFlCode3 != null and inputFlCode3 != 0'>
+      AND  InAmt.계정코드3 = #{inputFlCode3} 
+    </if> 
+    <if test='inputCnt != null  and inputCnt !=  ""'>
+      AND  InAmt.비고 = '%'||#{inputCnt}||'%' 
+    </if>     
+    
+  Order by InAmt.날짜,InAmt.코드 desc, InAmt.코드 	
+</select>
+
+  <select id="SelectInputSunAmtMSelect" parameterType="com.mibbeun.amt.Vo.InputAmtMSelectVo" resultType="com.mibbeun.amt.Vo.InputAmtMSelectVo">
+	 SELECT InAmt.코드  As inputCode, 
+	        InAmt.날짜  as inputDate, 
+	        InAmt.이름1 as inputNm1, 
+	        InAmt.이름2 as inputNm2, 
+	        InAmt.금액  as inputAmt, 
+	        InAmt.비고  as inputCnt, 
+	        InAmt.성도코드1  as inputFmCd1, 
+	        InAmt.성도코드2  as inputFmCd2, 
+	        InAmt.분류       as inputKind, 
+	        InAmt.코드분류   as codeType, 
+	        InAmt.년도  As year
+	 FROM 주일헌금 InAmt
+	 WHERE  1  =  1 	 
+	     <if test='codeType != null and codeType != ""' >
+     AND  InAmt.코드분류 = #{codeType}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  InAmt.년도 = #{year}
+    </if>      
+    
+    <if test='inputCode != null and inputCode != ""'>
+      AND  InAmt.코드 = #{inputCode}
+    </if>
+    <choose>
+      <when test='inputCode != null and inputCode != ""'>
+         AND  InAmt.코드 = #{inputCode}
+      </when>
+     <otherwise>
+        AND  InAmt.코드 = (Select Max(코드) From  주일헌금)
+     </otherwise>
+    </choose>    
+</select>
+
+<select id="SelectInputSunAmtMSelectList" parameterType="com.mibbeun.amt.Vo.InputAmtMSelectVo" resultType="com.mibbeun.amt.Vo.InputAmtMSelectVo">
+     SELECT InAmt.코드  As inputCode, 
+	        InAmt.날짜  as inputDate, 
+	        InAmt.이름1 as inputNm1, 
+	        InAmt.이름2 as inputNm2, 
+	        InAmt.금액  as inputAmt, 
+	        InAmt.비고  as inputCnt, 
+	        InAmt.성도코드1  as inputFmCd1, 
+	        InAmt.성도코드2  as inputFmCd2, 
+	        InAmt.분류       as inputKind, 
+	        InAmt.코드분류   as codeGb, 
+	        InAmt.년도  As year
+	 FROM 주일헌금 InAmt
+	 WHERE  1  =  1 
+    <if test='codeGb != null and codeGb != "" '>
+     AND  InAmt.코드분류 = #{codeGb}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  InAmt.년도 = #{year}
+    </if>      
+    
+    <if test='inputCode != null and inputCode != 0'>
+      AND  InAmt.코드 = #{inputCode}
+    </if>
+    
+    <if test='baseCode != null and baseCode != ""'>
+      AND ( InAmt.성도코드1 in (SELECT 개인번호 
+                           FROM 가족구성원
+                          where 대표번호 =  #{baseCode} )
+          OR InAmt.성도코드2 in (SELECT 개인번호 
+                           FROM 가족구성원
+                          where 대표번호 =  #{baseCode} ))                          
+    </if>  
+        
+	<if test='fmInputDate != null and fmInputDate != ""'>
+	  <![CDATA[
+         AND  InAmt.날짜  >= #{fmInputDate}
+     ]]>    
+    </if>      
+    
+	<if test='toInputDate != null and toInputDate != ""'>
+	   <![CDATA[
+     	 AND  InAmt.날짜  <= #{toInputDate}
+     	]]>
+    </if>         
+    
+   <choose>
+      <when test='inputFmCd1 != null and inputFmCd1 != ""'>
+          AND (InAmt.성도코드1 = #{inputFmCd1}
+              OR InAmt.성도코드2 = #{inputFmCd1})
+      </when>
+      <when test='inputNm1 != null and inputNm1 != ""'>
+          AND (InAmt.이름1 like '%'||#{inputNm1}||'%' or InAmt.이름2 like '%'||#{inputNm1}||'%')
+      </when>
+     <otherwise>
+     </otherwise>
+    </choose>    
+	
+	<if test='inputType != null and inputType.equals("2") '>
+    	 <if test='inputFmCd2 != null and inputFmCd2 != ""'>
+        	 AND  mid(InAmt.성도코드1,1,5) = substring(#{inputFmCd2},0,5) 
+     	 </if>     
+    </if>   
+    
+  Order by InAmt.날짜, InAmt.코드 desc
+</select>
+</mapper>

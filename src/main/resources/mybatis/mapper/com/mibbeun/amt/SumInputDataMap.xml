@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.SumInputDataMap">
+
+  <select id="SelectSumInputData" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumInputDataVo">
+	 SELECT 수입항.항코드 As inputFlCode2,수입목.목코드 As inputFlCode3,
+	        수입.날짜 As adate ,  수입항.항 as inputFlNm2, 수입목.목 as inputFlNm3,
+	         Sum(수입.금액)  As totSum                        
+	 FROM 수입항 INNER JOIN (수입목 INNER JOIN 수입 ON 수입목.목코드 = 수입.계정코드3 AND 수입목.코드분류 = 수입.코드분류) 
+	                     ON 수입항.항코드 = 수입.계정코드2 AND 수입항.코드분류 = 수입.코드분류 
+	 WHERE 수입.날짜 = #{date}                                         
+	 And   수입.년도 = #{year}                                      
+	 And   수입.코드분류 = #{codeGb}
+	 GROUP BY 수입항.순서,수입목.순서,수입항.항코드,수입목.목코드,수입.날짜, 수입항.항, 수입목.목                 
+	 ORDER BY 수입항.순서,수입목.순서,1,2,3
+</select>
+  <select id="SelectSumInputDataList" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumInputDataVo">
+	 SELECT 수입항.항코드 As InputFLCode2,수입목.목코드 As InputFLCode3,
+	        수입.날짜 As ADate ,  수입항.항 as InputFLNm2, 수입목.목 as InputFLNm3,
+	         Sum(수입.금액)  As TotSum                        
+	 FROM 수입항 INNER JOIN (수입목 INNER JOIN 수입 ON 수입목.목코드 = 수입.계정코드3 AND 수입목.코드분류 = 수입.코드분류) 
+	                     ON 수입항.항코드 = 수입.계정코드2 AND 수입항.코드분류 = 수입.코드분류 
+	 WHERE 수입.날짜 = #{date}                                         
+	 And   수입.년도 = #{year}                                      
+	 And   수입.코드분류 = #{codeGb}
+	 GROUP BY 수입항.순서,수입목.순서,수입항.항코드,수입목.목코드,수입.날짜, 수입항.항, 수입목.목                 
+	 ORDER BY 수입항.순서,수입목.순서,1,2,3
+</select>
+</mapper>

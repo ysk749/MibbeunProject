@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.login.Map.CodeYearMap">
+
+  <select id="SelectCodeYear" parameterType="com.mibbeun.login.Vo.CodeYearVo" resultType="com.mibbeun.login.Vo.CodeYearVo">
+	Select 
+		 년도 as YearValue	 -- YearValue
+		,코드분류 as CodeGb	 -- CodeGb
+	From 년도구분
+
+</select>
+
+  <insert id="InsertCodeYear" parameterType="com.mibbeun.login.Vo.CodeYearVo">
+	insert into 년도구분( 
+		 년도	 -- YearValue
+		,코드분류	-- CodeGb
+	) Values ( 
+		 #{yearValue}	 -- YearValue
+		,#{codeGb}	 -- CodeGb
+)
+</insert>
+  <update id="UpdateCodeYear" parameterType="com.mibbeun.login.Vo.CodeYearVo">
+	update 년도구분 
+	Set 
+		  코드분류	 = #{codeGb}	-- CodeGb
+	where 년도	 = #{yearValue}
+</update>
+  <update id="MergeCodeYear" parameterType="com.mibbeun.login.Vo.CodeYearVo">
+	Merge  into  년도구분  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.년도 = #{yearValue}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- CodeGb
+	When not Matched then 
+	insert ( 
+		 년도	 -- YearValue
+		,코드분류	 -- CodeGb
+	) Values ( 
+		 #{yearValue}	 -- YearValue
+		,#{codeGb}	 -- CodeGb
+	)
+</update>
+</mapper>

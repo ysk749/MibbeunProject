@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.OutputCode3CnteMap">
+
+  <select id="SelectOutputCode3Cnte" parameterType="com.mibbeun.code.Vo.OutputCode3CnteVo" resultType="com.mibbeun.code.Vo.OutputCode3CnteVo">
+	Select 
+		 번호 as number	 -- 번호
+		,목코드 as code3	 -- 목코드
+		,순서 as seqNo	 -- 순서
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 지출목내역
+	where 번호	=	#{userYn} 
+	order by 번호
+</select>
+  <select id="SelectOutputCode3CnteList" parameterType="com.mibbeun.code.Vo.OutputCode3CnteVo" resultType="com.mibbeun.code.Vo.OutputCode3CnteVo">
+	Select 
+		 번호 as number	 -- 번호
+		,목코드 as code3	 -- 목코드
+		,순서 as seqNo	 -- 순서
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 지출목내역
+	where 번호	=	#{userYn} 
+	order by 번호
+</select>
+  <insert id="InsertOutputCode3Cnte" parameterType="com.mibbeun.code.Vo.OutputCode3CnteVo">
+	insert into 지출목내역( 
+		 번호	 -- 번호
+		,목코드	-- 목코드
+		,순서	-- 순서
+		,설명	-- 설명
+		,사용여부	-- 사용여부
+	) Values ( 
+		 #{number}	 -- 번호
+		,#{code3}	 -- 목코드
+		,#{seqNo}	 -- 순서
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+)
+</insert>
+  <update id="UpdateOutputCode3Cnte" parameterType="com.mibbeun.code.Vo.OutputCode3CnteVo">
+	update 지출목내역 
+	Set 
+		  번호	 = #{number}	-- 번호
+		, 목코드	 = #{code3}	-- 목코드
+		, 순서	 = #{seqNo}	-- 순서
+		, 설명	 = #{cnte}	-- 설명
+		, 사용여부	 = #{userYn}	-- 사용여부
+	where 번호	 = #{number}
+</update>
+  <update id="DeleteOutputCode3Cnte" parameterType="com.mibbeun.code.Vo.OutputCode3CnteVo">
+	delete from 지출목내역 
+	where 번호	 = #{number}
+</update>
+
+
+  <update id="MergeOutputCode3Cnte" parameterType="com.mibbeun.code.Vo.OutputCode3CnteVo">
+	Merge  into  지출목내역  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.번호 = #{number}) 
+	When Matched then 
+	update  
+	Set 
+		  목코드	 = #{code3}	 -- 목코드
+		, 순서	 = #{seqNo}	 -- 순서
+		, 설명	 = #{cnte}	 -- 설명
+		, 사용여부	 = #{userYn}	 -- 사용여부
+	When not Matched then 
+	insert ( 
+		 번호	 -- 번호
+		,목코드	 -- 목코드
+		,순서	 -- 순서
+		,설명	 -- 설명
+		,사용여부	 -- 사용여부
+	) Values ( 
+		 #{number}	 -- 번호
+		,#{code3}	 -- 목코드
+		,#{seqNo}	 -- 순서
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+	)
+</update>
+</mapper>

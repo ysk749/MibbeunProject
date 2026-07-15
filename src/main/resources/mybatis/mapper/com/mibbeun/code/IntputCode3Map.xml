@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.IntputCode3Map">
+
+  <select id="SelectIntputCode3" parameterType="com.mibbeun.code.Vo.IntputCode3Vo" resultType="com.mibbeun.code.Vo.IntputCode3Vo">
+	Select 
+		 코드분류 as codeGb	 -- 코드분류
+		,목코드 as code3	 -- 목코드
+		,목 as code3Nm	 -- 목
+		,예산액 as budgetAmt	 -- 예산액
+		,예산비고 as budgetCnte	 -- 예산비고
+		,순서 as seqNo	 -- 순서
+		,항코드 as code2	 -- 항코드
+		,관코드 as code1	 -- 관코드
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 수입목
+	where 코드분류  = #{codeGb}
+      and 목코드  = #{code3}
+    <if test='code1 != null and code1 != "" '>
+       AND 항코드  = #{code2}      
+    </if> 	
+	order by 순서
+</select>
+  <select id="SelectIntputCode3List" parameterType="com.mibbeun.code.Vo.IntputCode3Vo" resultType="com.mibbeun.code.Vo.IntputCode3Vo">
+	Select 
+		 코드분류 as codeGb	 -- 코드분류
+		,목코드 as code3	 -- 목코드
+		,목 as code3Nm	 -- 목
+		,예산액 as budgetAmt	 -- 예산액
+		,예산비고 as budgetCnte	 -- 예산비고
+		,순서 as seqNo	 -- 순서
+		,항코드 as code2	 -- 항코드
+		,관코드 as code1	 -- 관코드
+		,설명 as cnte	 -- 설명
+		,사용여부 as userYn	 -- 사용여부
+	From 수입목
+	where 코드분류  = #{codeGb}
+    <if test='code2 != null and code2 != "" '>
+       AND 항코드  = #{code2}      
+    </if> 	
+	order by 순서
+</select>
+
+  <insert id="InsertIntputCode3" parameterType="com.mibbeun.code.Vo.IntputCode3Vo">
+	insert into 수입목( 
+		 코드분류	 -- 코드분류
+		,목코드	-- 목코드
+		,목	-- 목
+		,예산액	-- 예산액
+		,예산비고	-- 예산비고
+		,순서	-- 순서
+		,항코드	-- 항코드
+		,관코드	-- 관코드
+		,설명	-- 설명
+		,사용여부	-- 사용여부
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{code3}	 -- 목코드
+		,#{code3Nm}	 -- 목
+		,#{budgetAmt}	 -- 예산액
+		,#{budgetCnte}	 -- 예산비고
+		,#{seqNo}	 -- 순서
+		,#{code2}	 -- 항코드
+		,#{code1}	 -- 관코드
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+)
+</insert>
+  <update id="UpdateIntputCode3" parameterType="com.mibbeun.code.Vo.IntputCode3Vo">
+	update 수입목 
+	Set 
+		  목	 = #{code3Nm}	-- 목
+		, 예산액	 = #{budgetAmt}	-- 예산액
+		, 예산비고	 = #{budgetCnte}	-- 예산비고
+		, 순서	 = #{seqNo}	-- 순서
+		, 설명	 = #{cnte}	-- 설명
+		, 사용여부	 = #{userYn}	-- 사용여부
+	where 코드분류	 = #{codeGb}
+	  and 목코드	 = #{code3}	-- 목코드
+	  and 항코드	 = #{code2}	-- 목코드
+	
+</update>
+
+  <update id="DeleteIntputCode3" parameterType="com.mibbeun.code.Vo.IntputCode3Vo">
+	delete from 수입목 
+	where 코드분류	 = #{codeGb}
+	  and 목코드	 = #{code3}	-- 목코드
+	  and 항코드	 = #{code2}	-- 목코드
+	
+</update>
+
+  <update id="MergeIntputCode3" parameterType="com.mibbeun.code.Vo.IntputCode3Vo">
+	Merge  into  수입목  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.코드분류 = #{codeGb} and 목코드	 = #{code3} and 항코드	 = #{code2}) 
+	When Matched then 
+	update  
+	Set 
+		  목코드	 = #{code3}	 -- 목코드
+		, 목	 = #{code3Nm}	 -- 목
+		, 예산액	 = #{budgetAmt}	 -- 예산액
+		, 예산비고	 = #{budgetCnte}	 -- 예산비고
+		, 순서	 = #{seqNo}	 -- 순서
+		, 항코드	 = #{code2}	 -- 항코드
+		, 관코드	 = #{code1}	 -- 관코드
+		, 설명	 = #{cnte}	 -- 설명
+		, 사용여부	 = #{userYn}	 -- 사용여부
+	When not Matched then 
+	insert ( 
+		 코드분류	 -- 코드분류
+		,목코드	 -- 목코드
+		,목	 -- 목
+		,예산액	 -- 예산액
+		,예산비고	 -- 예산비고
+		,순서	 -- 순서
+		,항코드	 -- 항코드
+		,관코드	 -- 관코드
+		,설명	 -- 설명
+		,사용여부	 -- 사용여부
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{code3}	 -- 목코드
+		,#{code3Nm}	 -- 목
+		,#{budgetAmt}	 -- 예산액
+		,#{budgetCnte}	 -- 예산비고
+		,#{seqNo}	 -- 순서
+		,#{code2}	 -- 항코드
+		,#{code1}	 -- 관코드
+		,#{cnte}	 -- 설명
+		,#{userYn}	 -- 사용여부
+	)
+</update>
+</mapper>

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.fml.Map.FamilyNoMap">
+
+  <select id="SelectFamilyNo" parameterType="com.mibbeun.fml.Vo.FamilyNoVo" resultType="com.mibbeun.fml.Vo.FamilyNoVo">
+	Select     -- 대표번호
+	 개인번호 AS familySubNo     -- 개인번호
+	 ,성명 As name                 -- 성명
+	 ,순번번호 As numSeq                -- 성명
+	 From  가족구성원 
+	 where 순번그룹 = (select max(순번그룹)  
+	                 From 가족구성원               
+	                 where 성명 = #{numName}  
+	                 and  순번그룹 &gt; 0)	   	
+	 order by 순번번호
+</select>
+  <select id="SelectFamilyNoList" parameterType="com.mibbeun.fml.Vo.FamilyNoVo" resultType="com.mibbeun.fml.Vo.FamilyNoVo">
+	Select     -- 대표번호
+	 개인번호 AS familySubNo     -- 개인번호
+	 ,성명 As name                 -- 성명
+	 ,순번번호 As numSeq                -- 성명
+	 From  가족구성원 
+	 where 순번그룹 = (select max(순번그룹)  
+	                 From 가족구성원               
+	                 where 성명 = #{numName}  
+	                 and  순번그룹 &gt; 0)	   	
+	 order by 순번번호
+</select>
+
+  <select id="SelectFamilyGroupList" parameterType="com.mibbeun.fml.Vo.FamilyNoVo" resultType="com.mibbeun.fml.Vo.FamilyNoVo">
+	Select     -- 대표번호
+	 개인번호 AS familySubNo     -- 개인번호
+	 ,성명 As name                 -- 성명
+	 ,순번번호 As numSeq                -- 성명
+	 From  가족구성원 
+	 where 순번그룹 = (select max(순번그룹)  
+	                 From 가족구성원               
+	                 where 순번번호 = #{numSeq}  
+	                 and  순번그룹 &gt; 0)	   	
+	 order by 순번번호
+</select>
+
+
+  <select id="SelectFamilyNoName" parameterType="com.mibbeun.fml.Vo.FamilyNoVo" resultType="com.mibbeun.fml.Vo.FamilyNoVo">
+	Select     -- 대표번호
+	 개인번호 AS familySubNo     -- 개인번호
+	 ,성명 As name                 -- 성명
+	 ,순번번호 As numSeq                -- 성명
+	 From  가족구성원 
+	 where 성명 = #{name}  
+</select>
+
+ <select id="MaxSeqNoFamily" parameterType="com.mibbeun.fml.Vo.FamilyNoVo" resultType="com.mibbeun.fml.Vo.FamilyNoVo">
+	Select 
+		 Max(A.순번번호) + 1 as seqNo	 -- 순번번호
+	From 가족구성원 A
+    <if test='numSeq != null and numSeq != 0' >
+      where A.대표번호	=	#{topNo} 
+    </if> 	 
+</select>
+</mapper>

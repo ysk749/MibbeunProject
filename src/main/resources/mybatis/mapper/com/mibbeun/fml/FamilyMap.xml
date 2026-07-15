@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.fml.Map.FamilyMap">
+
+  <select id="SelectFamily" parameterType="com.mibbeun.fml.Vo.FamilyVo" resultType="com.mibbeun.fml.Vo.FamilyVo">
+	Select 
+		 A.대표번호 as topNo	 -- 대표번호
+		,B.대표 as topNoNm
+		,A.개인번호 as nmNo	 -- 개인번호
+		,A.순서 as seqNo	 -- 순서
+		,A.성명 as nmName	 -- 성명
+		,A.가족관계 as familyRelation	 -- 가족관계
+		,(Select 코드명 from 코드 where  코드 = A.가족관계 and 구분 = '02')  as familyRelationNm
+		,A.생년월일 as birthDate	 -- 생년월일
+		,A.세례일 as baptismDate	 -- 세례일
+		,A.사랑방 as loveGroup	 -- 사랑방
+		,(Select 코드명 from 코드 where  코드 = A.사랑방 and 구분 = '01') as  loveGroupNm
+		,A.핸드폰 as hndTell	 -- 핸드폰
+		,A.직분 as duty	 -- 직분
+		,(Select 코드명 from 코드 where  코드 = A.직분 and 구분 = '03') as dutyNm
+		,A.전화 as tell	 -- 전화
+		,A.메일 as email	 -- 메일
+		,A.주소 as addr	 -- 주소
+		,A.잔여주소 as addrDu	 -- 잔여주소
+		,A.사용여부 as userYn	 -- 사용여부
+		,A.등록일 as regDate	 -- 등록일
+		,A.수정일 as upDate	 -- 수정일
+		,A.직업 as work	 -- 직업
+		,A.설명 as cnte	 -- 설명
+		,A.우편번호 as post	 -- 우편번호
+		,A.경제활동 as workActiveGb	 -- 경제활동
+		,A.순번그룹 as seqGroup	 -- 순번그룹
+		,A.순번번호 as codeSeqNo	 -- 순번번호
+		,A.인터넷통신 as web	 -- 인터넷통신
+	From 가족구성원 A left Outer Join 가족 B 
+	     on A.대표번호 = B.대표번호
+	where A.대표번호	=	#{topNo} 
+	  and A.개인번호	=	#{nmNo} 
+	order by A.순서
+</select>
+  <select id="SelectFamilyList" parameterType="com.mibbeun.fml.Vo.FamilyVo" resultType="com.mibbeun.fml.Vo.FamilyVo">
+     Select 
+		 A.대표번호 as topNo	 -- 대표번호
+		,B.대표 as topNoNm
+		,A.개인번호 as nmNo	 -- 개인번호
+		,A.순서 as seqNo	 -- 순서
+		,A.성명 as nmName	 -- 성명
+		,A.가족관계 as familyRelation	 -- 가족관계
+		,(Select 코드명 from 코드 where  코드 = A.가족관계 and 구분 = '02')  as familyRelationNm
+		,A.생년월일 as birthDate	 -- 생년월일
+		,A.세례일 as baptismDate	 -- 세례일
+		,A.사랑방 as loveGroup	 -- 사랑방
+		,(Select 코드명 from 코드 where  코드 = A.사랑방 and 구분 = '01') as  loveGroupNm
+		,A.핸드폰 as hndTell	 -- 핸드폰
+		,A.직분 as duty	 -- 직분
+		,(Select 코드명 from 코드 where  코드 = A.직분 and 구분 = '03') as dutyNm
+		,A.전화 as tell	 -- 전화
+		,A.메일 as email	 -- 메일
+		,A.주소 as addr	 -- 주소
+		,A.잔여주소 as addrDu	 -- 잔여주소
+		,A.사용여부 as userYn	 -- 사용여부
+		,A.등록일 as regDate	 -- 등록일
+		,A.수정일 as upDate	 -- 수정일
+		,A.직업 as work	 -- 직업
+		,A.설명 as cnte	 -- 설명
+		,A.우편번호 as post	 -- 우편번호
+		,A.경제활동 as workActiveGb	 -- 경제활동
+		,A.순번그룹 as seqGroup	 -- 순번그룹
+		,A.순번번호 as codeSeqNo	 -- 순번번호
+		,A.인터넷통신 as web	 -- 인터넷통신
+	From 가족구성원 A left Outer Join 가족 B
+	     on A.대표번호 = B.대표번호
+    <if test='topNo != null and topNo != ""' >
+     where A.대표번호	=	#{topNo} 
+    </if> 
+	order by A.순서	
+</select>
+
+  <insert id="InsertFamily" parameterType="com.mibbeun.fml.Vo.FamilyVo">
+ insert into 가족구성원( 
+		 대표번호	 -- 대표번호
+		,개인번호	-- 개인번호
+		,순서	-- 순서
+		,성명	-- 성명
+		,가족관계	-- 가족관계
+		,생년월일	-- 생년월일
+		,세례일	-- 세례일
+		,사랑방	-- 사랑방
+		,핸드폰	-- 핸드폰
+		,직분	-- 직분
+		,전화	-- 전화
+		,메일	-- 메일
+		,주소	-- 주소
+		,잔여주소	-- 잔여주소
+		,사용여부	-- 사용여부
+		,등록일	-- 등록일
+		,수정일	-- 수정일
+		,직업	-- 직업
+		,설명	-- 설명
+		,우편번호	-- 우편번호
+		,경제활동	-- 경제활동
+		,순번그룹	-- 순번그룹
+		,순번번호	-- 순번번호
+		,인터넷통신	-- 인터넷통신
+	) Values ( 
+		 #{topNo}	 -- 대표번호
+		,(
+			Select trim(TO_CHAR(CAST(Max(
+				      CASE WHEN 대표번호 = #{topNo} then 개인번호
+				           ELSE #{topNo} || '000'  
+				      END
+			           ) AS INTEGER) + 1,'00000000'))        
+			From 가족구성원  		
+  	     )	 -- 개인번호
+		,#{seqNo}	 -- 순서
+		,#{nmName}	 -- 성명
+		,#{familyRelation}	 -- 가족관계
+		,#{birthDate}	 -- 생년월일
+		,#{baptismDate}	 -- 세례일
+		,#{loveGroup}	 -- 사랑방
+		,#{hndTell}	 -- 핸드폰
+		,#{duty}	 -- 직분
+		,#{tell}	 -- 전화
+		,#{email}	 -- 메일
+		,#{addr}	 -- 주소
+		,#{addrDu}	 -- 잔여주소
+		,#{userYn}	 -- 사용여부
+		,TO_CHAR(now(), 'YYYYMMDDHH24MISS')	 -- 등록일
+		,TO_CHAR(now(), 'YYYYMMDDHH24MISS')	 -- 수정일
+		,#{work}	 -- 직업
+		,#{cnte}	 -- 설명
+		,#{post}	 -- 우편번호
+		,#{workActiveGb}	 -- 경제활동
+		,#{seqGroup}	 -- 순번그룹
+		,#{codeSeqNo}	 -- 순번번호
+		,#{web}	 -- 인터넷통신
+    )
+</insert>
+  <update id="UpdateFamily" parameterType="com.mibbeun.fml.Vo.FamilyVo">
+	update 가족구성원 
+	Set 
+		   순서	 = #{seqNo}	-- 순서
+		, 성명	 = #{nmName}	-- 성명
+		, 가족관계	 = #{familyRelation}	-- 가족관계
+		, 생년월일	 = #{birthDate}	-- 생년월일
+		, 세례일	 = #{baptismDate}	-- 세례일
+		, 사랑방	 = #{loveGroup}	-- 사랑방
+		, 핸드폰	 = #{hndTell}	-- 핸드폰
+		, 직분	 = #{duty}	-- 직분
+		, 전화	 = #{tell}	-- 전화
+		, 메일	 = #{email}	-- 메일
+		, 주소	 = #{addr}	-- 주소
+		, 잔여주소	 = #{addrDu}	-- 잔여주소
+		, 사용여부	 = #{userYn}	-- 사용여부
+		, 수정일	 = TO_CHAR(now(), 'YYYYMMDD')	-- 수정일
+		, 직업	 = #{work}	-- 직업
+		, 설명	 = #{cnte}	-- 설명
+		, 우편번호	 = #{post}	-- 우편번호
+		, 경제활동	 = #{workActiveGb}	-- 경제활동
+		, 순번그룹	 = #{seqGroup}	-- 순번그룹
+		, 순번번호	 = #{codeSeqNo}	-- 순번번호
+		, 인터넷통신	 = #{web}	-- 인터넷통신
+	where 대표번호	 = #{topNo}
+	  and 개인번호	 = #{nmNo}	-- 개인번호
+</update>
+  <update id="DeleteFamily" parameterType="com.mibbeun.fml.Vo.FamilyVo">
+	delete from 가족구성원 
+	where 대표번호 = #{topNo}
+	  and 개인번호	 = #{nmNo}	-- 개인번호
+</update>
+  <update id="MergeFamily" parameterType="com.mibbeun.fml.Vo.FamilyVo">
+	Merge  into  가족구성원  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.대표번호 = #{topNo} and 개인번호	 = #{nmNo}) 
+	When Matched then 
+	update  
+	Set 
+		  순서	 = #{seqNo}	 -- 순서
+		, 성명	 = #{nmName}	 -- 성명
+		, 가족관계	 = #{familyRelation}	 -- 가족관계
+		, 생년월일	 = #{birthDate}	 -- 생년월일
+		, 세례일	 = #{baptismDate}	 -- 세례일
+		, 사랑방	 = #{loveGroup}	 -- 사랑방
+		, 핸드폰	 = #{hndTell}	 -- 핸드폰
+		, 직분	 = #{duty}	 -- 직분
+		, 전화	 = #{tell}	 -- 전화
+		, 메일	 = #{email}	 -- 메일
+		, 주소	 = #{addr}	 -- 주소
+		, 잔여주소	 = #{addrDu}	 -- 잔여주소
+		, 사용여부	 = #{userYn}	 -- 사용여부
+		, 수정일	 = TO_CHAR(now(), 'YYYYMMDD')	 -- 수정일
+		, 직업	 = #{work}	 -- 직업
+		, 설명	 = #{cnte}	 -- 설명
+		, 우편번호	 = #{post}	 -- 우편번호
+		, 경제활동	 = #{workActiveGb}	 -- 경제활동
+		, 순번그룹	 = #{seqGroup}	 -- 순번그룹
+		, 순번번호	 = #{codeSeqNo}	 -- 순번번호
+		, 인터넷통신	 = #{web}	 -- 인터넷통신
+	When not Matched then 
+	insert ( 
+		 대표번호	 -- 대표번호
+		,개인번호	 -- 개인번호
+		,순서	 -- 순서
+		,성명	 -- 성명
+		,가족관계	 -- 가족관계
+		,생년월일	 -- 생년월일
+		,세례일	 -- 세례일
+		,사랑방	 -- 사랑방
+		,핸드폰	 -- 핸드폰
+		,직분	 -- 직분
+		,전화	 -- 전화
+		,메일	 -- 메일
+		,주소	 -- 주소
+		,잔여주소	 -- 잔여주소
+		,사용여부	 -- 사용여부
+		,등록일	 -- 등록일
+		,수정일	 -- 수정일
+		,직업	 -- 직업
+		,설명	 -- 설명
+		,우편번호	 -- 우편번호
+		,경제활동	 -- 경제활동
+		,순번그룹	 -- 순번그룹
+		,순번번호	 -- 순번번호
+		,인터넷통신	 -- 인터넷통신
+	) Values ( 
+		 #{topNo}	 -- 대표번호
+		,#{nmNo}	 -- 개인번호
+		,#{seqNo}	 -- 순서
+		,#{nmName}	 -- 성명
+		,#{familyRelation}	 -- 가족관계
+		,#{birthDate}	 -- 생년월일
+		,#{baptismDate}	 -- 세례일
+		,#{loveGroup}	 -- 사랑방
+		,#{hndTell}	 -- 핸드폰
+		,#{duty}	 -- 직분
+		,#{tell}	 -- 전화
+		,#{email}	 -- 메일
+		,#{addr}	 -- 주소
+		,#{addrDu}	 -- 잔여주소
+		,#{userYn}	 -- 사용여부
+		,TO_CHAR(now(), 'YYYYMMDDHH24MISS')	 -- 등록일
+		,TO_CHAR(now(), 'YYYYMMDD')	 -- 수정일
+		,#{work}	 -- 직업
+		,#{cnte}	 -- 설명
+		,#{post}	 -- 우편번호
+		,#{workActiveGb}	 -- 경제활동
+		,#{seqGroup}	 -- 순번그룹
+		,#{codeSeqNo}	 -- 순번번호
+		,#{web}	 -- 인터넷통신
+	)
+</update>
+</mapper>

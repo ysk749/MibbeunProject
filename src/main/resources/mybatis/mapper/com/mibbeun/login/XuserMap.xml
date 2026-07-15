@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.login.Map.XuserMap">
+
+  <select id="SelectXuser" parameterType="com.mibbeun.login.Vo.XuserVo" resultType="com.mibbeun.login.Vo.XuserVo">
+	Select 
+		 user_id as userId	 -- user_id
+		,user_nm as userNm	 -- user_nm
+		,user_pswd as userPswd	 -- user_pswd
+		,admin_auth_yn as adminAuthYn	 -- admin_auth_yn
+		,delete_yn as deleteYn	 -- delete_yn
+		,use_yn as useYn	 -- use_yn
+	From xuser
+	where user_id	=	#{userId} 
+	  and user_pswd	=	#{userPswd} 
+	  LIMIT 1
+  </select>
+
+  <select id="SelectXuserList" parameterType="com.mibbeun.login.Vo.XuserVo" resultType="com.mibbeun.login.Vo.XuserVo">
+	Select 
+		 user_id as userId	 -- user_id
+		,user_nm as userNm	 -- user_nm
+		,user_pswd as userPswd	 -- user_pswd
+		,admin_auth_yn as adminAuthYn	 -- admin_auth_yn
+		,delete_yn as deleteYn	 -- delete_yn
+		,use_yn as useYn	 -- use_yn
+	From xuser
+	where user_id	=	#{userId} 
+	order by user_id
+</select>
+  <insert id="InsertXuser" parameterType="com.mibbeun.login.Vo.XuserVo">
+	insert into xuser( 
+		 user_id	 -- user_id
+		,user_nm	-- user_nm
+		,user_pswd	-- user_pswd
+		,admin_auth_yn	-- admin_auth_yn
+		,delete_yn	-- delete_yn
+		,use_yn	-- use_yn
+	) Values ( 
+		 #{userId}	 -- user_id
+		,#{userNm}	 -- user_nm
+		,#{userPswd}	 -- user_pswd
+		,#{adminAuthYn}	 -- admin_auth_yn
+		,#{deleteYn}	 -- delete_yn
+		,#{useYn}	 -- use_yn
+)
+</insert>
+  <update id="Updatexuser" parameterType="com.mibbeun.login.Vo.XuserVo">
+	update xuser 
+	Set 
+		  user_id	 = #{userId}	-- user_id
+		, user_nm	 = #{userNm}	-- user_nm
+		, user_pswd	 = #{userPswd}	-- user_pswd
+		, admin_auth_yn	 = #{adminAuthYn}	-- admin_auth_yn
+		, delete_yn	 = #{deleteYn}	-- delete_yn
+		, use_yn	 = #{useYn}	-- use_yn
+	where user_id	 = #{userId}
+</update>
+  <update id="Mergexuser" parameterType="com.mibbeun.login.Vo.XuserVo">
+	Merge  into  xuser  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.user_id = #{userId}) 
+	When Matched then 
+	update  
+	Set 
+		  user_nm	 = #{userNm}	 -- user_nm
+		, user_pswd	 = #{userPswd}	 -- user_pswd
+		, admin_auth_yn	 = #{adminAuthYn}	 -- admin_auth_yn
+		, delete_yn	 = #{deleteYn}	 -- delete_yn
+		, use_yn	 = #{useYn}	 -- use_yn
+	When not Matched then 
+	insert ( 
+		 user_id	 -- user_id
+		,user_nm	 -- user_nm
+		,user_pswd	 -- user_pswd
+		,admin_auth_yn	 -- admin_auth_yn
+		,delete_yn	 -- delete_yn
+		,use_yn	 -- use_yn
+	) Values ( 
+		 #{userId}	 -- user_id
+		,#{userNm}	 -- user_nm
+		,#{userPswd}	 -- user_pswd
+		,#{adminAuthYn}	 -- admin_auth_yn
+		,#{deleteYn}	 -- delete_yn
+		,#{useYn}	 -- use_yn
+	)
+</update>
+</mapper>

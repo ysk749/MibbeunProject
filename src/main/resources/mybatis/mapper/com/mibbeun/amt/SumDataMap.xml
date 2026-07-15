@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.SumDataMap">
+
+  <select id="SelectSumData" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumDataVo">
+  <![CDATA[
+	 Select Sum(AA.InSumAmt) as InSumAmt, 
+          Sum(AA.InAmt) As InAmt,
+          Sum(AA.InTAmt) As InTAmt,
+          Sum(AA.OutSumAmt) as OutSumAmt, 
+          Sum(AA.OutAmt) As OutAmt,
+          Sum(AA.OutTAmt) As OutTAmt,
+        ]]>          
+	<choose>
+	  <when test='typeGb != null and typeGb == "2"'>
+	    Sum(AA.BefAmt) As BefAmt,
+	  </when>
+	  <otherwise>
+	    Sum(AA.BefAmt +AA.InAmt - AA.OutAmt) As BefAmt,
+	  </otherwise>
+	</choose>
+  <![CDATA[
+          Sum(AA.BefAmt +AA.InAmt - AA.OutAmt + AA.InTAmt - AA.OutTAmt) As TotAmt
+   From (         
+     Select Sum(금액) as InSumAmt, 
+            Sum(IIF(날짜 < #{date},금액,0 )) As InAmt,
+            Sum(IIF(날짜 = #{date},금액,0 )) As InTAmt,
+            0 as OutSumAmt, 
+            0 As OutAmt,
+            0 As OutTAmt,
+            0 As BefAmt
+     from  수입
+     Where  년도 = #{year}
+     And    코드분류 =  #{codeGb}
+     UNION ALL
+     Select 0 as InSumAmt, 
+            0 As InAmt,
+            0 As InTAmt,
+            Sum(금액) as OutSumAmt, 
+            Sum(IIF(날짜 < #{date},금액,0 )) As OutAmt,
+            Sum(IIF(날짜 = #{date},금액,0 )) As OutTAmt,
+            0 As BefAmt
+     from  지출
+     Where  년도 = #{year}
+     And    코드분류 =  #{codeGb}
+     UNION ALL
+     Select 0 as InSumAmt, 
+            0 As InAmt,
+            0 As InTAmt,
+            0 as OutSumAmt, 
+            0 As OutAmt,
+            0 As OutTAmt,
+            sum(이월금) As BefAmt
+     from  환경 
+     Where  년도 = #{year}
+     And    코드분류 = #{codeGb}
+     ) AA
+     ]]>
+ </select>
+  <select id="SelectSumDataList" parameterType="com.mibbeun.amt.Vo.BaseDataVo" resultType="com.mibbeun.amt.Vo.SumDataVo">
+  <![CDATA[
+   Select Sum(AA.InSumAmt) as InSumAmt, 
+          Sum(AA.InAmt) As InAmt,
+          Sum(AA.InTAmt) As InTAmt,
+          Sum(AA.OutSumAmt) as OutSumAmt, 
+          Sum(AA.OutAmt) As OutAmt,
+          Sum(AA.OutTAmt) As OutTAmt,
+          Sum(AA.BefAmt +AA.InAmt - AA.OutAmt) As BefAmt,
+          Sum(AA.BefAmt +AA.InAmt - AA.OutAmt + AA.InTAmt - AA.OutTAmt) As TotAmt
+   From (         
+     Select Sum(금액) as InSumAmt, 
+            Sum(IIF(날짜 < #{date},금액,0 )) As InAmt,
+            Sum(IIF(날짜 = #{date},금액,0 )) As InTAmt,
+            0 as OutSumAmt, 
+            0 As OutAmt,
+            0 As OutTAmt,
+            0 As BefAmt
+     from  수입
+     Where  년도 = #{year}
+     And    코드분류 =  #{codeGb}
+     UNION ALL
+     Select 0 as InSumAmt, 
+            0 As InAmt,
+            0 As InTAmt,
+            Sum(금액) as OutSumAmt, 
+            Sum(IIF(날짜 < #{date},금액,0 )) As OutAmt,
+            Sum(IIF(날짜 = #{date},금액,0 )) As OutTAmt,
+            0 As BefAmt
+     from  지출
+     Where  년도 = #{year}
+     And    코드분류 =  #{codeGb}
+     UNION ALL
+     Select 0 as InSumAmt, 
+            0 As InAmt,
+            0 As InTAmt,
+            0 as OutSumAmt, 
+            0 As OutAmt,
+            0 As OutTAmt,
+            sum(이월금) As BefAmt
+     from  환경 
+     Where  년도 = #{year}
+     And    코드분류 = #{codeGb}
+     ) AA
+    ]]>
+</select>
+</mapper>

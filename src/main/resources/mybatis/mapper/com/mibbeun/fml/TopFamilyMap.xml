@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.fml.Map.TopFamilyMap">
+
+  <select id="SelectTopFamily" parameterType="com.mibbeun.fml.Vo.TopFamilyVo" resultType="com.mibbeun.fml.Vo.TopFamilyVo">
+	Select 
+		 대표번호 as topNo	 -- 대표번호
+		,대표 as nmNoNm	 -- 대표
+		,전화번호 as tell	 -- 전화번호
+		,핸드폰 as hndTell	 -- 핸드폰
+		,우편번호 as post	 -- 우편번호
+		,주소 as addr	 -- 주소
+		,잔여주소 as addrDu	 -- 잔여주소
+		,비고 as cnte	 -- 비고
+		,사용여부 as userYn	 -- 사용여부
+		,등록일 as regDate	 -- 등록일
+	From 가족
+	where 대표번호	=	#{regDate} 
+	order by 대표번호
+</select>
+  <select id="SelectTopFamilyList" parameterType="com.mibbeun.fml.Vo.TopFamilyVo" resultType="com.mibbeun.fml.Vo.TopFamilyVo">
+	Select 
+		 대표번호 as topNo	 -- 대표번호
+		,대표 as nmNoNm	 -- 대표
+		,전화번호 as tell	 -- 전화번호
+		,핸드폰 as hndTell	 -- 핸드폰
+		,우편번호 as post	 -- 우편번호
+		,주소 as addr	 -- 주소
+		,잔여주소 as addrDu	 -- 잔여주소
+		,비고 as cnte	 -- 비고
+		,사용여부 as userYn	 -- 사용여부
+		,등록일 as regDate	 -- 등록일
+	From 가족
+    <if test='nmNoNm != null and nmNoNm != ""'>
+       where  대표 like '%'|| #{nmNoNm} || '%' 
+    </if>  		
+	order by 대표번호
+</select>
+  <insert id="InsertTopFamily" parameterType="com.mibbeun.fml.Vo.TopFamilyVo">
+	insert into 가족( 
+		 대표번호	 -- 대표번호
+		,대표	-- 대표
+		,전화번호	-- 전화번호
+		,핸드폰	-- 핸드폰
+		,우편번호	-- 우편번호
+		,주소	-- 주소
+		,잔여주소	-- 잔여주소
+		,비고	-- 비고
+		,사용여부	-- 사용여부
+		,등록일	-- 등록일
+	) Values ( 
+		( Select trim(TO_CHAR(CAST(Max(대표번호) AS INTEGER) + 1,'00000')) From 가족)  -- 대표번호
+		,#{nmNoNm}	 -- 대표
+		,#{tell}	 -- 전화번호
+		,#{hndTell}	 -- 핸드폰
+		,#{post}	 -- 우편번호
+		,#{addr}	 -- 주소
+		,#{addrDu}	 -- 잔여주소
+		,#{cnte}	 -- 비고
+		,#{userYn}	 -- 사용여부
+		,TO_CHAR(now(), 'YYYYMMDDHH24MISS')	 -- 등록일
+)
+</insert>
+  <update id="UpdateTopFamily" parameterType="com.mibbeun.fml.Vo.TopFamilyVo">
+	update 가족 
+	Set 
+		  대표번호	 = #{topNo}	-- 대표번호
+		, 대표	 = #{nmNoNm}	-- 대표
+		, 전화번호	 = #{tell}	-- 전화번호
+		, 핸드폰	 = #{hndTell}	-- 핸드폰
+		, 우편번호	 = #{post}	-- 우편번호
+		, 주소	 = #{addr}	-- 주소
+		, 잔여주소	 = #{addrDu}	-- 잔여주소
+		, 비고	 = #{cnte}	-- 비고
+		, 사용여부	 = #{userYn}	-- 사용여부
+		, 등록일	 = #{regDate}	-- 등록일
+	where 대표번호	 = #{topNo}
+</update>
+  <update id="DeleteTopFamily" parameterType="com.mibbeun.fml.Vo.TopFamilyVo">
+	delete from 가족 
+	where 대표번호 = #{topNo}
+</update>
+  <update id="MergeTopFamily" parameterType="com.mibbeun.fml.Vo.TopFamilyVo">
+	Merge  into  가족  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.대표번호 = #{topNo}) 
+	When Matched then 
+	update  
+	Set 
+		  대표	 = #{nmNoNm}	 -- 대표
+		, 전화번호	 = #{tell}	 -- 전화번호
+		, 핸드폰	 = #{hndTell}	 -- 핸드폰
+		, 우편번호	 = #{post}	 -- 우편번호
+		, 주소	 = #{addr}	 -- 주소
+		, 잔여주소	 = #{addrDu}	 -- 잔여주소
+		, 비고	 = #{cnte}	 -- 비고
+		, 사용여부	 = #{userYn}	 -- 사용여부
+	When not Matched then 
+	insert ( 
+		 대표번호	 -- 대표번호
+		,대표	 -- 대표
+		,전화번호	 -- 전화번호
+		,핸드폰	 -- 핸드폰
+		,우편번호	 -- 우편번호
+		,주소	 -- 주소
+		,잔여주소	 -- 잔여주소
+		,비고	 -- 비고
+		,사용여부	 -- 사용여부
+		,등록일	 -- 등록일
+	) Values ( 
+		 #{topNo}	 -- 대표번호
+		,#{nmNoNm}	 -- 대표
+		,#{tell}	 -- 전화번호
+		,#{hndTell}	 -- 핸드폰
+		,#{post}	 -- 우편번호
+		,#{addr}	 -- 주소
+		,#{addrDu}	 -- 잔여주소
+		,#{cnte}	 -- 비고
+		,#{userYn}	 -- 사용여부
+		,TO_CHAR(now(), 'YYYYMMDDHH24MISS')	 -- 등록일
+	)
+</update>
+</mapper>

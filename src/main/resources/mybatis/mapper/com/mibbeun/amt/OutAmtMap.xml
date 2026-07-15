@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.OutAmtMap">
+
+  <update id="DeleteOutOtherDataAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	delete from 지출 
+	WHERE 지출.코드분류  ='1'
+	  and 지출.계정코드1 = 3
+	  and 년도	=	#{year} 
+	  and 날짜	=	#{date} 
+  </update>
+  
+  <insert id="InsertOutOtherDataAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	insert into 지출 (                                 
+	      코드분류,                                    
+	      날짜,                                        
+	      금액,                                        
+	      계정코드1,                                   
+	      계정코드2,                                   
+	      계정코드3,                                   
+	      년도                                         
+	   )                                               
+	 SELECT 코드분류, 날짜, sum(금액),  
+	        3 as 관코드,                 
+	        case when 계정코드2 = 2 then  13  -- 선교 
+	             when 계정코드2 = 9 then  14  -- 건축 
+	             when 계정코드2 = 8 then  30  -- 구제 
+	        end as 항코드,                          
+	        case when 계정코드3 = 4 then  57  -- 선교 
+	             when 계정코드3 = 3 then  87  -- 사랑 
+	             when 계정코드3 = 25 then  32  -- 건축 
+	             when 계정코드3 = 27 then  58  -- 구제 
+	        end as 목코드,  
+	        년도           
+	   FROM 수입           
+	   where 코드분류 = '1' 
+	   AND   년도  = #{year}   
+	   AND   날짜  = #{date}          
+	     and 계정코드2 in (2,8,9) 
+	   group by  코드분류, 날짜, 계정코드2, 계정코드3, 년도 
+	   order by 날짜 desc 
+  </insert>  
+
+  <select id="SelectOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo" resultType="com.mibbeun.amt.Vo.OutAmtVo">
+	Select 
+		 코드 as code	 -- 코드
+		,코드분류 as codeGb	 -- 코드분류
+		,날짜 as date	 -- 날짜
+		,금액 as amt	 -- 금액
+		,비고 as cnte	 -- 비고
+		,계정코드1 as code1	 -- 계정코드1
+		,계정코드2 as code2	 -- 계정코드2
+		,계정코드3 as code3	 -- 계정코드3
+		,년도 as year	 -- 년도
+		,입력일자 as inputDate	 -- 입력일자
+	From 지출
+	where 코드	=	#{code} 
+	order by 코드
+</select>
+  <select id="SelectOutAmtList" parameterType="com.mibbeun.amt.Vo.OutAmtVo" resultType="com.mibbeun.amt.Vo.OutAmtVo">
+	Select 
+		 코드 as code	 -- 코드
+		,코드분류 as codeGb	 -- 코드분류
+		,날짜 as date	 -- 날짜
+		,금액 as amt	 -- 금액
+		,비고 as cnte	 -- 비고
+		,계정코드1 as code1	 -- 계정코드1
+		,계정코드2 as code2	 -- 계정코드2
+		,계정코드3 as code3	 -- 계정코드3
+		,년도 as year	 -- 년도
+		,입력일자 as inputDate	 -- 입력일자
+	From 지출
+	where 날짜	=	#{date} 
+	order by 코드
+ </select>
+  <insert id="InsertOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	insert into 지출( 
+		 코드분류	-- 코드분류
+		,날짜	-- 날짜
+		,금액	-- 금액
+		,비고	-- 비고
+		,계정코드1	-- 계정코드1
+		,계정코드2	-- 계정코드2
+		,계정코드3	-- 계정코드3
+		,년도	-- 년도
+		,입력일자	-- 입력일자
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{date}	 -- 날짜
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{code1}	 -- 계정코드1
+		,#{code2}	 -- 계정코드2
+		,#{code3}	 -- 계정코드3
+		,#{year}	 -- 년도
+		,now()	 -- 입력일자
+   )
+</insert>
+  <update id="UpdateOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	update 지출 
+	Set 
+		  코드분류	 = #{codeGb}	-- 코드분류
+		, 날짜	 = #{date}	-- 날짜
+		, 금액	 = #{amt}	-- 금액
+		, 비고	 = #{cnte}	-- 비고
+		, 계정코드1	 = #{code1}	-- 계정코드1
+		, 계정코드2	 = #{code2}	-- 계정코드2
+		, 계정코드3	 = #{code3}	-- 계정코드3
+		, 년도	 = #{year}	-- 년도
+		, 입력일자	 = now()	-- 입력일자
+	where 코드	 = #{code}
+</update>
+  <update id="DeleteOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	delete from 지출 
+	where 코드	 = #{code}
+</update>
+  <update id="MergeOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	Merge  into  지출  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.코드 = #{code}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 날짜	 = #{date}	 -- 날짜
+		, 금액	 = #{amt}	 -- 금액
+		, 비고	 = #{cnte}	 -- 비고
+		, 계정코드1	 = #{code1}	 -- 계정코드1
+		, 계정코드2	 = #{code2}	 -- 계정코드2
+		, 계정코드3	 = #{code3}	 -- 계정코드3
+		, 년도	 = #{year}	 -- 년도
+		, 입력일자	 = #{inputDate}	 -- 입력일자
+		, 성도코드	 = #{pNo}	 -- 성도코드
+		, 이름	 = #{pName}	 -- 이름
+	When not Matched then 
+	insert ( 
+		 코드	 -- 코드
+		,코드분류	 -- 코드분류
+		,날짜	 -- 날짜
+		,금액	 -- 금액
+		,비고	 -- 비고
+		,계정코드1	 -- 계정코드1
+		,계정코드2	 -- 계정코드2
+		,계정코드3	 -- 계정코드3
+		,년도	 -- 년도
+		,입력일자	 -- 입력일자
+		,성도코드	 -- 성도코드
+		,이름	 -- 이름
+	) Values ( 
+		 #{code}	 -- 코드
+		,#{codeGb}	 -- 코드분류
+		,#{date}	 -- 날짜
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{code1}	 -- 계정코드1
+		,#{code2}	 -- 계정코드2
+		,#{code3}	 -- 계정코드3
+		,#{year}	 -- 년도
+		,#{inputDate}	 -- 입력일자
+		,#{pNo}	 -- 성도코드
+		,#{pName}	 -- 이름
+	)
+</update>
+</mapper>

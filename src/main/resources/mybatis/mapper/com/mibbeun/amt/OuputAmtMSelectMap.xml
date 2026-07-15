@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.OuputAmtMSelectMap">
+
+  <select id="SelectOuputAmtMSelect" parameterType="com.mibbeun.amt.Vo.OuputAmtMSelectVo" resultType="com.mibbeun.amt.Vo.OuputAmtMSelectVo">
+	 	 SELECT OutAmt.코드  As outputCode, 
+			OutAmt.날짜  as outputDate, 
+			OutAmt.금액  as outputAmt, 
+			OutAmt.비고  as outputCnt, 
+			OutAmt.계정코드1  as outputFlCode1,  
+			OutAmt.계정코드2  as outputFlCode2,  
+			OutAmt.계정코드3  as outputFlCode3, 
+			OutAmt.코드분류     As codeType, 
+			CoutConf1.관       As outputFlNm1,
+			CoutConf2.항       As outputFlNm2, 
+			CoutConf3.목       As outputFlNm3, 
+			OutAmt.년도       As year, 
+			OutAmt.성도코드       As outputNameCode, 
+			OutAmt.이름       As outputName 
+	 FROM  지출 OutAmt, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	 Where  OutAmt.계정코드1  =  CoutConf1.관코드 
+	 AND    OutAmt.코드분류   =  CoutConf1.코드분류
+	 AND    OutAmt.계정코드1  =  CoutConf2.관코드
+	 AND    OutAmt.계정코드2  =  CoutConf2.항코드      
+	 AND    OutAmt.코드분류   =  CoutConf2.코드분류
+	 AND    OutAmt.계정코드1  =  CoutConf3.관코드 
+	 AND    OutAmt.계정코드2  =  CoutConf3.항코드
+	 AND    OutAmt.계정코드3  =  CoutConf3.목코드          
+	 AND    OutAmt.코드분류   =  CoutConf3.코드분류
+
+    <if test='codeType != null and codeType != ""' >
+     AND  OutAmt.코드분류 = #{codeType}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  OutAmt.년도 = #{year}
+    </if>      
+
+    <choose>
+      <when test='outputCode != null and outputCode != ""'>
+         AND  OutAmt.코드 = #{outputCode}
+      </when>
+     <otherwise>
+        AND  OutAmt.코드 = (Select Max(코드) From  지출)
+     </otherwise>
+    </choose> 
+      
+</select>
+  <select id="SelectOuputAmtMSelectList" parameterType="com.mibbeun.amt.Vo.OuputAmtMSelectVo" resultType="com.mibbeun.amt.Vo.OuputAmtMSelectVo">
+	 	 SELECT OutAmt.코드  As outputCode, 
+			OutAmt.날짜  as outputDate, 
+			OutAmt.금액  as outputAmt, 
+			OutAmt.비고  as outputCnt, 
+			OutAmt.계정코드1  as outputFlCode1,  
+			OutAmt.계정코드2  as outputFlCode2,  
+			OutAmt.계정코드3  as outputFlCode3, 
+			OutAmt.코드분류     As codeType, 
+			CoutConf1.관       As outputFlNm1,
+			CoutConf2.항       As outputFlNm2, 
+			CoutConf3.목       As outputFlNm3, 
+			OutAmt.년도       As year, 
+			OutAmt.성도코드       As outputNameCode, 
+			OutAmt.이름       As outputName 
+	 FROM  지출 OutAmt, 지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	 Where  OutAmt.계정코드1  =  CoutConf1.관코드 
+	 AND    OutAmt.코드분류   =  CoutConf1.코드분류
+	 AND    OutAmt.계정코드1  =  CoutConf2.관코드
+	 AND    OutAmt.계정코드2  =  CoutConf2.항코드      
+	 AND    OutAmt.코드분류   =  CoutConf2.코드분류
+	 AND    OutAmt.계정코드1  =  CoutConf3.관코드 
+	 AND    OutAmt.계정코드2  =  CoutConf3.항코드
+	 AND    OutAmt.계정코드3  =  CoutConf3.목코드          
+	 AND    OutAmt.코드분류   =  CoutConf3.코드분류
+ 
+    <if test='codeGb != null and codeGb != "" '>
+     AND  OutAmt.코드분류 = #{codeGb}
+    </if>  
+       
+    <if test='year != null and year != ""'>
+      AND  OutAmt.년도 = #{year}
+    </if>      
+    
+    <if test='outputCode != null and outputCode != 0'>
+      AND  OutAmt.코드 = #{outputCode}
+    </if>
+    
+    <if test='outputCnt != null and outputCnt != ""'>
+      AND  OutAmt.비고 Like '%'||#{outputCnt}||'%'
+    </if>
+        
+	<if test='fmOutputDate != null and fmOutputDate != ""'>
+	  <![CDATA[
+         AND  OutAmt.날짜  >= #{fmOutputDate}
+     ]]>    
+    </if>      
+    
+	<if test='toOutputDate != null and toOutputDate != ""'>
+	   <![CDATA[
+     	 AND  OutAmt.날짜  <= #{toOutputDate}
+     	]]>
+    </if>         
+    
+	<if test='outputFlCode1 != null and outputFlCode1 != 0'>
+      AND  OutAmt.계정코드1 = #{outputFlCode1} 
+    </if> 
+    <if test='outputFlCode2 != null and outputFlCode2 != 0'>
+      AND  OutAmt.계정코드2 = #{outputFlCode2} 
+    </if>  
+    <if test='outputFlCode3 != null and outputFlCode3 != 0'>
+      AND  OutAmt.계정코드3 = #{outputFlCode3} 
+    </if>  	
+    <if test='outputNameCode != null and outputNameCode != 0'>
+      AND  OutAmt.성도코드 = #{outputNameCode} 
+    </if>  	
+     <if test='outputName != null and outputName != 0'>
+      AND  OutAmt.이름 = #{outputName} 
+    </if>  	
+    Order by OutAmt.날짜, OutAmt.코드 desc
+       
+</select>
+</mapper>

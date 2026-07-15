@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.utils.Map.VoSaveMap">
+
+  <select id="SelectVoSave" parameterType="com.mibbeun.utils.Vo.VoSaveVo" resultType="com.mibbeun.utils.Vo.VoSaveVo">
+	Select 
+		 id_code as idCode	 -- 
+		,id_nm as idNm	 -- 
+		,user_yn as userYn	 -- 
+		,reg_dttm as regDttm	 -- 
+		,update_dttm as updateDttm	 -- 
+	From STS_ID_MST
+	where id_code	=	#{idCode} 
+	order by id_code
+</select>
+  <select id="SelectVoSaveList" parameterType="com.mibbeun.utils.Vo.VoSaveVo" resultType="com.mibbeun.utils.Vo.VoSaveVo">
+	Select 
+		 id_code as idCode	 -- 
+		,id_nm as idNm	 -- 
+		,user_yn as userYn	 -- 
+		,reg_dttm as regDttm	 -- 
+		,update_dttm as updateDttm	 -- 
+	From STS_ID_MST
+	where id_code	=	#{idCode} 
+	order by id_code
+</select>
+  <insert id="InsertVoSave" parameterType="com.mibbeun.utils.Vo.VoSaveVo">
+	insert into STS_ID_MST( 
+		 id_code	 -- 
+		,id_nm	-- 
+		,user_yn	-- 
+		,reg_dttm	-- 
+		,update_dttm	-- 
+	) Values ( 
+		 #{idCode}	 -- 
+		,#{idNm}	 -- 
+		,#{userYn}	 -- 
+		,sysdate 
+		,sysdate
+)
+</insert>
+  <update id="UpdateVoSave" parameterType="com.mibbeun.utils.Vo.VoSaveVo">
+	update STS_ID_MST 
+	Set 
+		  id_code	 = #{idCode}	-- 
+		, id_nm	 = #{idNm}	-- 
+		, user_yn	 = #{userYn}	-- 
+		, update_dttm	 = sysdate
+	where id_code	 = #{idCode}
+</update>
+  <update id="MergeVoSave" parameterType="com.mibbeun.utils.Vo.VoSaveVo">
+	Merge  into  STS_ID_MST  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.id_code = #{idCode}) 
+	When Matched then 
+	update  
+	Set 
+		  id_nm	 = #{idNm}	 -- 
+		, user_yn	 = #{userYn}	 -- 
+		, update_dttm	 = sysdate	 -- 
+	When not Matched then 
+	insert ( 
+		 id_code	 -- 
+		,id_nm	 -- 
+		,user_yn	 -- 
+		,reg_dttm	 -- 
+		,update_dttm	 -- 
+	) Values ( 
+		 #{idCode}	 -- 
+		,#{idNm}	 -- 
+		,#{userYn}	 -- 
+		,sysdate
+		,sysdate
+	)
+</update>
+</mapper>

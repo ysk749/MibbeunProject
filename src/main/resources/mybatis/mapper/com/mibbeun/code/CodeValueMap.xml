@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.CodeValueMap">
+
+  <select id="SelectCodeValue" parameterType="com.mibbeun.code.Vo.CodeValueVo" resultType="com.mibbeun.code.Vo.CodeValueVo">
+	Select 
+		 구분 as gb	 -- 구분
+		,코드 as code	 -- 코드
+		,코드명 as codeNm	 -- 코드명
+		,설명 as cnte	 -- 설명
+	From 코드
+	where 구분	=	#{gb} 
+	order by 구분
+</select>
+  <select id="SelectCodeValueList" parameterType="com.mibbeun.code.Vo.CodeValueVo" resultType="com.mibbeun.code.Vo.CodeValueVo">
+	Select 
+		 구분 as gb	 -- 구분
+		,코드 as code	 -- 코드
+		,코드명 as codeNm	 -- 코드명
+		,설명 as cnte	 -- 설명
+	From 코드
+	where 구분	=	#{gb} 
+	order by 구분
+</select>
+  <insert id="InsertCodeValue" parameterType="com.mibbeun.code.Vo.CodeValueVo">
+	insert into 코드( 
+		 구분	 -- 구분
+		,코드	-- 코드
+		,코드명	-- 코드명
+		,설명	-- 설명
+	) Values ( 
+		 #{gb}	 -- 구분
+		,#{code}	 -- 코드
+		,#{codeNm}	 -- 코드명
+		,#{cnte}	 -- 설명
+)
+</insert>
+  <update id="UpdateCodeValue" parameterType="com.mibbeun.code.Vo.CodeValueVo">
+	update 코드 
+	Set 
+		  구분	 = #{gb}	-- 구분
+		, 코드	 = #{code}	-- 코드
+		, 코드명	 = #{codeNm}	-- 코드명
+		, 설명	 = #{cnte}	-- 설명
+	where 구분	 = #{gb}
+</update>
+  <update id="DeleteCodeValue" parameterType="com.mibbeun.code.Vo.CodeValueVo">
+	delete from 코드 
+	where 구분 = #{gb}
+</update>
+  <update id="MergeCodeValue" parameterType="com.mibbeun.code.Vo.CodeValueVo">
+	Merge  into  코드  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.구분 = #{gb}) 
+	When Matched then 
+	update  
+	Set 
+		  코드	 = #{code}	 -- 코드
+		, 코드명	 = #{codeNm}	 -- 코드명
+		, 설명	 = #{cnte}	 -- 설명
+	When not Matched then 
+	insert ( 
+		 구분	 -- 구분
+		,코드	 -- 코드
+		,코드명	 -- 코드명
+		,설명	 -- 설명
+	) Values ( 
+		 #{gb}	 -- 구분
+		,#{code}	 -- 코드
+		,#{codeNm}	 -- 코드명
+		,#{cnte}	 -- 설명
+	)
+</update>
+</mapper>

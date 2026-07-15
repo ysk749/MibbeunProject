@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.code.Map.OutputCodeListMap">
+
+  <select id="SelectOutputCodeList" parameterType="com.mibbeun.code.Vo.OutputCodeListVo" resultType="com.mibbeun.code.Vo.OutputCodeListVo">
+	SELECT 
+	       CoutConf3.관코드 As outputFlCode1,
+	       CoutConf3.항코드 As outputFlCode2, 
+	       CoutConf3.목코드      As outputFlCode3, 
+	       CoutConf3.코드분류 	       As codeType,
+	       RTrim(CoutConf1.관)       As outputFlNm1,
+	       RTrim(CoutConf2.항)       As outputFlNm2, 
+	       RTrim(CoutConf3.목)       As outputFlNm3, 
+	       CoutConf3.순서        As seqNO, 
+	       RTrim(CoutConf3.설명)        As cnte 
+	FROM  지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	Where  CoutConf3.관코드  =  CoutConf1.관코드 
+	AND    CoutConf3.코드분류  =  CoutConf1.코드분류
+	AND    CoutConf3.관코드  =  CoutConf2.관코드
+	AND    CoutConf3.항코드  =  CoutConf2.항코드 
+	AND    CoutConf3.코드분류  =  CoutConf2.코드분류
+	AND    CoutConf3.사용여부 >= '1' 
+	AND    CoutConf3.코드분류  = #{codeGb} 
+</select>
+  <select id="SelectOutputCodeListList" parameterType="com.mibbeun.code.Vo.OutputCodeListVo" resultType="com.mibbeun.code.Vo.OutputCodeListVo">
+	SELECT 
+	       CoutConf3.관코드 As outputFlCode1,
+	       CoutConf3.항코드 As outputFlCode2, 
+	       CoutConf3.목코드      As outputFlCode3, 
+	       CoutConf3.코드분류 	       As codeType,
+	       RTrim(CoutConf1.관)       As outputFlNm1,
+	       RTrim(CoutConf2.항)       As outputFlNm2, 
+	       RTrim(CoutConf3.목)       As outputFlNm3, 
+	       CoutConf3.순서        As seqNO, 
+	       RTrim(CoutConf3.설명)        As cnte 
+	FROM  지출관 CoutConf1, 지출항 CoutConf2, 지출목 CoutConf3 
+	Where  CoutConf3.관코드  =  CoutConf1.관코드 
+	AND    CoutConf3.코드분류  =  CoutConf1.코드분류
+	AND    CoutConf3.관코드  =  CoutConf2.관코드
+	AND    CoutConf3.항코드  =  CoutConf2.항코드 
+	AND    CoutConf3.코드분류  =  CoutConf2.코드분류
+	AND    CoutConf3.사용여부 >= '1' 
+	AND    CoutConf3.코드분류  = #{codeGb} 
+
+    <if test='outputFlNm3 != null and outputFlNm3 != "" '>
+       AND  replace(CoutConf3.목,' ','') like '%'||#{outputFlNm3}||'%' 
+    </if>  
+    Order by CoutConf3.순서,CoutConf3.목 
+
+</select>
+</mapper>

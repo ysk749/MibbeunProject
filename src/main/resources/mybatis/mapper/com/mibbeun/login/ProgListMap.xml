@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.login.Map.ProgListMap">
+
+  <select id="SelectProgList" parameterType="com.mibbeun.login.Vo.ProgListVo" resultType="com.mibbeun.login.Vo.ProgListVo">
+	  	select OWER_PRAM_CD as highmenuid, BB.PRAM_NM AS parentname,&apos;9&apos; As menugrade, 
+	  	        BB.PRAM_CD As lowmenuid,BB.PRAM_NM AS menuview,BB.PRAM_NM AS menuview, BB.SEQNO As sortseq, 
+	  	        Case when substr(OWER_PRAM_CD,2,1) = &apos;0&apos; then 4 else 0 end as imageindex 
+	  	from XPRAM_AUTH AA, XPRAM_LIST BB   
+	  	where AA.PRAM_CD = BB.PRAM_CD       
+	  	and   BB.USE_YN &lt; &apos;777&apos;             
+	  	and AA.USER_ID = #{userId}            
+	  	union all                           
+	  	select  &apos;000&apos; as highmenuid,   BB.PRAM_NM AS parentname, &apos;0&apos; As menugrade, 
+	  	         BB.OWER_PRAM_CD As lowmenuid, BB.PRAM_NM AS menuview,BB.PRAM_NM AS menukornm, BB.SEQNO  as sortseq, 
+	  	        Case when substr(OWER_PRAM_CD,1,1) &gt;= &apos;0&apos; then 2 else 0 end as imageindex 
+	  	from  XPRAM_LIST BB                
+	  	where use_yn like &apos;%00&apos;             
+	  	union all                            
+	  	select  &apos;000&apos; as highmenuid,   &apos;홈화면&apos; AS parentname, &apos;9&apos; As menugrade,                       
+	  	            &apos;Home1.fre&apos; As lowmenuid, &apos;홈화면&apos; AS menuview,&apos;홈화면&apos; AS menukornm, 0  as sortseq, 
+	  	        4  imageindex 	            
+	  	Order by 1,7,4  
+</select>
+
+  <select id="SelectProgListList" parameterType="com.mibbeun.login.Vo.ProgListVo" resultType="com.mibbeun.login.Vo.ProgListVo">
+  	
+	  	<![CDATA[
+	  	select OWER_PRAM_CD as highmenuid, BB.PRAM_NM AS parentname,'9' As menugrade, 
+	  	        BB.PRAM_CD As lowmenuid,BB.PRAM_NM AS menuview,BB.PRAM_NM AS menukornm, BB.SEQNO As sortseq, 
+	  	        Case when substr(OWER_PRAM_CD,2,1) = '0' then 4 else 0 end as imageindex 
+	  	from XPRAM_AUTH AA, XPRAM_LIST BB   
+	  	where AA.PRAM_CD = BB.PRAM_CD       
+	  	and   BB.USE_YN < '777'             
+	        and AA.USER_ID = #{userId}           
+	  	union all                           
+	  	select  '000' as highmenuid,   BB.PRAM_NM AS parentname, '0' As menugrade, 
+	  	         BB.OWER_PRAM_CD As lowmenuid, BB.PRAM_NM AS menuview,BB.PRAM_NM AS menukornm, BB.SEQNO  as sortseq, 
+	  	        Case when substr(OWER_PRAM_CD,1,1) >= '0' then 2 else 0 end as imageindex 
+	  	from  XPRAM_LIST BB                
+	  	where use_yn like '%00'             
+	  	union all                            
+	  	select  '000' as highmenuid,   '홈화면' AS parentname, '9' As menugrade,                       
+	  	            'Home1.fre' As lowmenuid, '홈화면' AS menuview,'홈화면' AS menukornm, 0  as sortseq, 
+	  	        4  imageindex 	
+		union all		
+	  	select  '000' as highmenuid,   '파일관리' AS parentname, '9' As menugrade,                       
+	  	            'FileWork.fre' As lowmenuid, '파일관리' AS menuview,'파일관리' AS menukornm, 9  as sortseq, 
+	  	        4  imageindex             
+	  	Order by 1,7,4   	  	
+	  	]]>
+</select>
+</mapper>
