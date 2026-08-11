@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.mibbeun.amt.Service.OutAmtTempService;
 import com.mibbeun.amt.Vo.OutAmtTempVo;
 import com.mibbeun.amt.Vo.OutAmtTempSVo;
+import com.mibbeun.amt.Service.OutAmtService;
+import com.mibbeun.amt.Vo.OutAmtVo;
 
 @RestController
 @RequestMapping("/")
@@ -20,6 +22,7 @@ import com.mibbeun.amt.Vo.OutAmtTempSVo;
 public class OutAmtTempController {  
 	@Autowired
 	OutAmtTempService outAmtTempService;
+	OutAmtService outAmtService;
 
 	// One Select
 	@RequestMapping(value="/outAmtTempOneID",method= {RequestMethod.POST})
@@ -46,6 +49,21 @@ public class OutAmtTempController {
 	@RequestMapping(value="/insertOutAmtTempID",method= {RequestMethod.POST})
 	public OutAmtTempVo InsertOutAmtTemp(@RequestBody OutAmtTempVo outAmtTempVo ) throws Exception { 
 		int iResult = outAmtTempService.insertOutAmtTemp(outAmtTempVo);
+		return outAmtTempVo;
+	}
+
+	
+	// insert 처리
+	@RequestMapping(value="/tempToinsertOutAmtID",method= {RequestMethod.POST})
+	public OutAmtTempVo tempToinsertOutAmtID(@RequestBody OutAmtTempVo outAmtTempVo ) throws Exception { 
+		outAmtTempVo.setUerYn("y");
+		int iResult = outAmtTempService.insertOutAmtTemp(outAmtTempVo);
+		if (iResult >= 1) {
+			OutAmtVo outAmtVo = new OutAmtVo();
+			BeanUtils.copyProperties(outAmtTempVo, outAmtVo);
+			iResult = outAmtService.insertOutAmt(outAmtVo); 
+					
+		}
 		return outAmtTempVo;
 	}
 

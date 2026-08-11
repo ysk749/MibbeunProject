@@ -34,4 +34,11 @@ public class FamilyVo {
 	String familyRelationNm;
 	String loveGroupNm;
 	String dutyNm;
+	String envelCode1;
+	String envelCode2;
+	String envelCode3;
+	String envelCode4;
+	String envelCode5;
+	String envelCode0;
+	
 }

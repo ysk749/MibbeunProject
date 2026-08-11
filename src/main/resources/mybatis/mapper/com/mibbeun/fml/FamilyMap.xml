@@ -32,6 +32,11 @@
 		,A.순번그룹 as seqGroup	 -- 순번그룹
 		,A.순번번호 as codeSeqNo	 -- 순번번호
 		,A.인터넷통신 as web	 -- 인터넷통신
+		,A.십일조 as envelCode1
+		,A.선교헌금 as envelCode2 
+		,A.건축헌금 as envelCode3 
+		,A.구제헌금 as envelCode4 
+		,A.주일헌금 as envelCode0
 	From 가족구성원 A left Outer Join 가족 B 
 	     on A.대표번호 = B.대표번호
 	where A.대표번호	=	#{topNo} 
@@ -68,6 +73,11 @@
 		,A.순번그룹 as seqGroup	 -- 순번그룹
 		,A.순번번호 as codeSeqNo	 -- 순번번호
 		,A.인터넷통신 as web	 -- 인터넷통신
+		,A.십일조 as envelCode1
+		,A.선교헌금 as envelCode2 
+		,A.건축헌금 as envelCode3 
+		,A.구제헌금 as envelCode4 
+		,A.주일헌금 as envelCode0
 	From 가족구성원 A left Outer Join 가족 B
 	     on A.대표번호 = B.대표번호
     <if test='topNo != null and topNo != ""' >
@@ -102,6 +112,11 @@
 		,순번그룹	-- 순번그룹
 		,순번번호	-- 순번번호
 		,인터넷통신	-- 인터넷통신
+		,십일조
+		,선교헌금 
+		,건축헌금 
+		,구제헌금 
+		,주일헌금
 	) Values ( 
 		 #{topNo}	 -- 대표번호
 		,(
@@ -134,6 +149,11 @@
 		,#{seqGroup}	 -- 순번그룹
 		,#{codeSeqNo}	 -- 순번번호
 		,#{web}	 -- 인터넷통신
+		,#{envelCode1}	 -- 십일조 
+		,#{envelCode2}	 -- 선교헌금
+		,#{envelCode3}	 -- 건축헌금
+		,#{envelCode4}	 -- 구제헌금 
+		,#{envelCode0}	 -- 주일헌금
     )
 </insert>
   <update id="UpdateFamily" parameterType="com.mibbeun.fml.Vo.FamilyVo">
@@ -160,6 +180,11 @@
 		, 순번그룹	 = #{seqGroup}	-- 순번그룹
 		, 순번번호	 = #{codeSeqNo}	-- 순번번호
 		, 인터넷통신	 = #{web}	-- 인터넷통신
+		, 십일조   = #{envelCode1}
+		, 선교헌금  = #{envelCode2} 
+		, 건축헌금  = #{envelCode3} 
+		, 구제헌금  = #{envelCode4} 
+		, 주일헌금  = #{envelCode0}
 	where 대표번호	 = #{topNo}
 	  and 개인번호	 = #{nmNo}	-- 개인번호
 </update>
@@ -196,6 +221,11 @@
 		, 순번그룹	 = #{seqGroup}	 -- 순번그룹
 		, 순번번호	 = #{codeSeqNo}	 -- 순번번호
 		, 인터넷통신	 = #{web}	 -- 인터넷통신
+		, 십일조   = #{envelCode1}
+		, 선교헌금  = #{envelCode2} 
+		, 건축헌금  = #{envelCode3} 
+		, 구제헌금  = #{envelCode4} 
+		, 주일헌금  = #{envelCode0}		
 	When not Matched then 
 	insert ( 
 		 대표번호	 -- 대표번호
@@ -222,6 +252,11 @@
 		,순번그룹	 -- 순번그룹
 		,순번번호	 -- 순번번호
 		,인터넷통신	 -- 인터넷통신
+		,십일조
+		,선교헌금 
+		,건축헌금 
+		,구제헌금 
+		,주일헌금		
 	) Values ( 
 		 #{topNo}	 -- 대표번호
 		,#{nmNo}	 -- 개인번호
@@ -247,6 +282,11 @@
 		,#{seqGroup}	 -- 순번그룹
 		,#{codeSeqNo}	 -- 순번번호
 		,#{web}	 -- 인터넷통신
+		,#{envelCode1}
+		,#{envelCode2} 
+		,#{envelCode3} 
+		,#{envelCode4} 
+		,#{envelCode0}
 	)
 </update>
 </mapper>
