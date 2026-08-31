@@ -1,8 +1,0 @@
-﻿{"ServiceIDs":"codeYearID","Response":{"codeYearVo":[{"dataCode":"\uB144\uB3C4","dataSize":"4","dataNm":"YearValue","dataType":"String"}
-,{"dataCode":"\uCF54\uB4DC\uBD84\uB958","dataSize":"1","dataNm":"CodeGb","dataType":"String"}
-],"codeYearListVo":[{"dataCode":"\uB144\uB3C4","dataSize":"4","dataNm":"YearValue","dataType":"String"}
-,{"dataCode":"\uCF54\uB4DC\uBD84\uB958","dataSize":"1","dataNm":"CodeGb","dataType":"String"}
-]}
-,"Request":[{"dataCode":"\uB144\uB3C4","dataSize":"4","dataNm":"YearValue","dataType":"String"}
-,{"dataCode":"\uCF54\uB4DC\uBD84\uB958","dataSize":"1","dataNm":"CodeGb","dataType":"String"}
-]}

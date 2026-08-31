@@ -1,8 +1,0 @@
-﻿{"ServiceIDs":"codeGbID","Response":{"codeGbVo":[{"dataCode":"codeGb","dataSize":"1","dataNm":"\uCF54\uB4DC\uBD84\uB958","dataType":"String"}
-,{"dataCode":"codeGbName","dataSize":"255","dataNm":"\uBD84\uB958\uBA85","dataType":"String"}
-],"codeGbListVo":[{"dataCode":"codeGb","dataSize":"1","dataNm":"\uCF54\uB4DC\uBD84\uB958","dataType":"String"}
-,{"dataCode":"codeGbName","dataSize":"255","dataNm":"\uBD84\uB958\uBA85","dataType":"String"}
-]}
-,"Request":[{"dataCode":"codeGb","dataSize":"1","dataNm":"\uCF54\uB4DC\uBD84\uB958","dataType":"String"}
-,{"dataCode":"codeGbName","dataSize":"255","dataNm":"\uBD84\uB958\uBA85","dataType":"String"}
-]}

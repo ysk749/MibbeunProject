@@ -1,8 +1,0 @@
-﻿{"ServiceIDs":"pmRelationID","Response":{"pmRelationVo":[{"dataCode":"tNo","dataSize":"8","dataNm":"\uAC00\uC871\uBA85","dataType":"String"}
-,{"dataCode":"pNo","dataSize":"8","dataNm":"\uAC00\uC871\uC6D0","dataType":"String"}
-],"pmRelationListVo":[{"dataCode":"tNo","dataSize":"8","dataNm":"\uAC00\uC871\uBA85","dataType":"String"}
-,{"dataCode":"pNo","dataSize":"8","dataNm":"\uAC00\uC871\uC6D0","dataType":"String"}
-]}
-,"Request":[{"dataCode":"tNo","dataSize":"8","dataNm":"\uAC00\uC871\uBA85","dataType":"String"}
-,{"dataCode":"pNo","dataSize":"8","dataNm":"\uAC00\uC871\uC6D0","dataType":"String"}
-]}
