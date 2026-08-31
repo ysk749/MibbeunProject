@@ -10,6 +10,7 @@ public interface OutAmtBefoMap {
 		List<OutAmtBefoVo>  SelectOutAmtBefoList(OutAmtBefoVo outAmtBefoVo);
 
 		int InsertOutAmtBefo(OutAmtBefoVo outAmtBefoVo);
+		int InsertOutAmtBefo2(OutAmtBefoVo outAmtBefoVo);
 
 		int UpdateOutAmtBefo(OutAmtBefoVo outAmtBefoVo);
 		int UpdateOutAmtBefo2(OutAmtBefoVo outAmtBefoVo);

@@ -4,7 +4,7 @@
 
   <select id="SelectOutAmtBefo" parameterType="com.mibbeun.amt.Vo.OutAmtBefoVo" resultType="com.mibbeun.amt.Vo.OutAmtBefoVo">
        SELECT OutAmt.코드  As code, 
-              OutAmt.날짜  as date, 
+              OutAmt.날짜  as sDate, 
               OutAmt.금액  as amt, 
               OutAmt.비고  as cnte, 
               OutAmt.계정코드1  as code1,  
@@ -15,12 +15,12 @@
               CoutConf2.항       As cdNm2, 
               CoutConf3.목       As cdNm3, 
               OutAmt.년도       As year, 
-              OutAmt.성도코드1       As pNo1, 
-              OutAmt.이름1       As pName1, 
-              OutAmt.성도코드2       As pNo2, 
-              OutAmt.이름2       As pName2, 
-              OutAmt.성도코드3       As pNo3, 
-              OutAmt.이름3       As pName3,
+              OutAmt.성도코드1       As sNo1, 
+              OutAmt.이름1       As sName1, 
+              OutAmt.성도코드2       As sNo2, 
+              OutAmt.이름2       As sName2, 
+              OutAmt.성도코드3       As sNo3, 
+              OutAmt.이름3       As sName3,
               OutAmt.WorkCd       As workCd, 
               OutAmt.UER_YN       As uerYn 
        FROM  지출_Befo OutAmt  
@@ -46,7 +46,7 @@
 	    </if>  
        
 	    <if test='year != null and year != ""'>
-	      AND  OutAmt.코드 = #{year}
+	      AND  OutAmt.년도 = #{year}
 	    </if>
            
     <choose>
@@ -61,7 +61,7 @@
   
   <select id="SelectOutAmtBefoList" parameterType="com.mibbeun.amt.Vo.OutAmtBefoVo" resultType="com.mibbeun.amt.Vo.OutAmtBefoVo">
        SELECT OutAmt.코드  As code, 
-              OutAmt.날짜  as date, 
+              OutAmt.날짜  as sDate, 
               OutAmt.금액  as amt, 
               OutAmt.비고  as cnte, 
               OutAmt.계정코드1  as code1,  
@@ -72,12 +72,12 @@
               CoutConf2.항       As cdNm2, 
               CoutConf3.목       As cdNm3, 
               OutAmt.년도       As year, 
-              OutAmt.성도코드1       As pNo1, 
-              OutAmt.이름1       As pName1, 
-              OutAmt.성도코드2       As pNo2, 
-              OutAmt.이름2       As pName2, 
-              OutAmt.성도코드3       As pNo3, 
-              OutAmt.이름3       As pName3, 
+              OutAmt.성도코드1       As sNo1, 
+              OutAmt.이름1       As sName1, 
+              OutAmt.성도코드2       As sNo2, 
+              OutAmt.이름2       As sName2, 
+              OutAmt.성도코드3       As sNo3, 
+              OutAmt.이름3       As sName3, 
               OutAmt.WorkCd       As workCd, 
               OutAmt.UER_YN       As uerYn 
        FROM  지출_Befo OutAmt  
@@ -144,7 +144,7 @@
 		,uer_yn	-- uer_yn
 	) Values ( 
 		 #{codeGb}	 -- 코드분류
-		,#{date}	 -- 날짜
+		,#{sDate}	 -- 날짜
 		,#{amt}	 -- 금액
 		,#{cnte}	 -- 비고
 		,#{code1}	 -- 계정코드1
@@ -152,21 +152,44 @@
 		,#{code3}	 -- 계정코드3
 		,#{year}	 -- 년도
 		,now()	 -- 입력일자
-		,#{pNo1}	 -- 성도코드
-		,#{pName1}	 -- 이름
-		,#{pNo2}	 -- 성도코드
-		,#{pName2}	 -- 이름
-		,#{pNo3}	 -- 성도코드
-		,#{pName3}	 -- 이름
+		,#{sNo1}	 -- 성도코드
+		,#{sName1}	 -- 이름
+		,#{sNo2}	 -- 성도코드
+		,#{sName2}	 -- 이름
+		,#{sNo3}	 -- 성도코드
+		,#{sName3}	 -- 이름
         ,#{workCd} 
 		,#{uerYn}	 -- uer_yn
 )
 </insert>
+
+ <select id="InsertOutAmtBefo2" parameterType="com.mibbeun.amt.Vo.OutAmtBefoVo" resultType="integer">
+	  SELECT SetAmtBefoInsertToSelect
+	   (
+	     #{codeGb,  jdbcType=VARCHAR}   -- 코드분류
+	    ,#{sDate,    jdbcType=VARCHAR}   -- 날짜
+	    ,#{amt,     jdbcType=NUMERIC}   -- 금액
+	    ,#{cnte,    jdbcType=VARCHAR}   -- 비고
+	    ,#{code1,   jdbcType=INTEGER}   -- 계정코드1
+	    ,#{code2,   jdbcType=INTEGER}   -- 계정코드2
+	    ,#{code3,   jdbcType=INTEGER}   -- 계정코드3
+	    ,#{year,    jdbcType=VARCHAR}   -- 년도
+	    ,#{sNo1,    jdbcType=VARCHAR}   -- 성도코드1
+	    ,#{sName1,  jdbcType=VARCHAR}   -- 이름1
+	    ,#{sNo2,    jdbcType=VARCHAR}   -- 성도코드2
+	    ,#{sName2,  jdbcType=VARCHAR}   -- 이름2
+	    ,#{sNo3,    jdbcType=VARCHAR}   -- 성도코드3
+	    ,#{sName3,  jdbcType=VARCHAR}   -- 이름3
+	    ,#{workCd,  jdbcType=VARCHAR}
+	    ,#{uerYn,   jdbcType=VARCHAR}   -- uer_yn		
+      )
+</select>
+
   <update id="UpdateOutAmtBefo" parameterType="com.mibbeun.amt.Vo.OutAmtBefoVo">
 	update 지출_Befo 
 	Set 
 		  코드분류	 = #{codeGb}	-- 코드분류
-		, 날짜	 = #{date}	-- 날짜
+		, 날짜	 = #{sDate}	-- 날짜
 		, 금액	 = #{amt}	-- 금액
 		, 비고	 = #{cnte}	-- 비고
 		, 계정코드1	 = #{code1}	-- 계정코드1
@@ -174,12 +197,12 @@
 		, 계정코드3	 = #{code3}	-- 계정코드3
 		, 년도	 = #{year}	-- 년도
 		, 입력일자	 = now()	-- 입력일자
-		, 성도코드1	 = #{pNo1}	-- 성도코드
-		, 이름1	 = #{pName1} -- 이름
-		, 성도코드2	 = #{pNo2}	-- 성도코드
-		, 이름2	 = #{pName2} -- 이름
-		, 성도코드3	 = #{pNo3}	-- 성도코드
-		, 이름3	 = #{pName3} -- 이름
+		, 성도코드1	 = #{sNo1}	-- 성도코드
+		, 이름1	 = #{sName1} -- 이름
+		, 성도코드2	 = #{sNo2}	-- 성도코드
+		, 이름2	 = #{sName2} -- 이름
+		, 성도코드3	 = #{sNo3}	-- 성도코드
+		, 이름3	 = #{sName3} -- 이름
         , WorkCd = #{workCd} 		
 		, uer_yn	 = #{uerYn}	-- uer_yn
 	where 코드	 = #{code}
@@ -189,7 +212,7 @@
 	update 지출_Befo 
 	Set 
 		  코드분류	 = #{codeGb}	-- 코드분류
-		, 날짜	 = #{date}	-- 날짜
+		, 날짜	 = #{sDate}	-- 날짜
 		, 금액	 = #{amt}	-- 금액
 		, 비고	 = #{cnte}	-- 비고
 		, 계정코드1	 = #{code1}	-- 계정코드1
@@ -197,10 +220,10 @@
 		, 계정코드3	 = #{code3}	-- 계정코드3
 		, 년도	 = #{year}	-- 년도
 		, 입력일자	 = now()	-- 입력일자
-		, 성도코드1	 = #{pNo1}	-- 성도코드
-		, 이름1	 = #{pName1} -- 이름
-		, 성도코드2	 = #{pNo2}	-- 성도코드
-		, 이름2	 = #{pName2} -- 이름
+		, 성도코드1	 = #{sNo1}	-- 성도코드
+		, 이름1	 = #{sName1} -- 이름
+		, 성도코드2	 = #{sNo2}	-- 성도코드
+		, 이름2	 = #{sName2} -- 이름
         , WorkCd = #{workCd} 		
 		, uer_yn	 = #{uerYn}	-- uer_yn
 	where 코드	 = #{code}
@@ -226,7 +249,7 @@
 	update 지출_Befo  
 	Set 
 		  코드분류	 = #{codeGb}	 -- 코드분류
-		, 날짜	 = #{date}	 -- 날짜
+		, 날짜	 = #{sDate}	 -- 날짜
 		, 금액	 = #{amt}	 -- 금액
 		, 비고	 = #{cnte}	 -- 비고
 		, 계정코드1	 = #{code1}	 -- 계정코드1
@@ -234,12 +257,12 @@
 		, 계정코드3	 = #{code3}	 -- 계정코드3
 		, 년도	 = #{year}	 -- 년도
 		, 입력일자	 = now()	 -- 입력일자
-		, 성도코드1	 = #{pNo1}	-- 성도코드
-		, 이름1	 = #{pName1} -- 이름
-		, 성도코드2	 = #{pNo2}	-- 성도코드
-		, 이름2	 = #{pName2} -- 이름
-		, 성도코드3	 = #{pNo3}	-- 성도코드
-		, 이름3	 = #{pName3} -- 이름
+		, 성도코드1	 = #{sNo1}	-- 성도코드
+		, 이름1	 = #{sName1} -- 이름
+		, 성도코드2	 = #{sNo2}	-- 성도코드
+		, 이름2	 = #{sName2} -- 이름
+		, 성도코드3	 = #{sNo3}	-- 성도코드
+		, 이름3	 = #{sName3} -- 이름
         , WorkCd = #{workCd} 		
 		, uer_yn	 = #{uerYn}	 -- uer_yn
 	where 코드 = #{code} 
@@ -268,7 +291,7 @@
 	Select 
 		 #{code}	 -- 코드
 		,#{codeGb}	 -- 코드분류
-		,#{date}	 -- 날짜
+		,#{sDate}	 -- 날짜
 		,#{amt}	 -- 금액
 		,#{cnte}	 -- 비고
 		,#{code1}	 -- 계정코드1
@@ -276,12 +299,12 @@
 		,#{code3}	 -- 계정코드3
 		,#{year}	 -- 년도
 		,now()	 -- 입력일자
-		,#{pNo1}	 -- 성도코드
-		,#{pName1}	 -- 이름
-		,#{pNo2}	 -- 성도코드
-		,#{pName2}	 -- 이름
-		,#{pNo3}	 -- 성도코드
-		,#{pName3}	 -- 이름
+		,#{sNo1}	 -- 성도코드
+		,#{sName1}	 -- 이름
+		,#{sNo2}	 -- 성도코드
+		,#{sName2}	 -- 이름
+		,#{sNo3}	 -- 성도코드
+		,#{sName3}	 -- 이름
         ,#{workCd} 
 		,#{uerYn}	 -- uer_yn
 	where not exists(select * from upsert)	

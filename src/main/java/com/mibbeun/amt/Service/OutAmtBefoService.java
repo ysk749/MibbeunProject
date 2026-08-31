@@ -22,6 +22,11 @@ public class OutAmtBefoService {
 	public int insertOutAmtBefo(OutAmtBefoVo outAmtBefoVo ) { 
 		return outAmtBefoMap.InsertOutAmtBefo(outAmtBefoVo);
 	}
+	
+	// insert
+	public int insertOutAmtBefo2(OutAmtBefoVo outAmtBefoVo ) { 
+		return outAmtBefoMap.InsertOutAmtBefo2(outAmtBefoVo);
+	}
 	// update
 	public int updateOutAmtBefo(OutAmtBefoVo outAmtBefoVo ) { 
 		return outAmtBefoMap.UpdateOutAmtBefo(outAmtBefoVo);

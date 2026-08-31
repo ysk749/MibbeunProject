@@ -39,7 +39,7 @@
 	    </if>  
        
 	    <if test='year != null and year != ""'>
-	      AND  OutAmt.코드 = #{year}
+	      AND  OutAmt.년도 = #{year}
 	    </if>
            
     <choose>

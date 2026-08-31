@@ -1,5 +1,7 @@
 package com.mibbeun;
 
+import java.nio.charset.StandardCharsets;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +28,18 @@ public class PostMappingAspect {
          if (attr != null) {
         	// attr.getSessionId()
              HttpServletRequest request = attr.getRequest();
+             /*
+             System.out.println("=================Begin============================");
+             
+             if (request instanceof ContentCachingRequestWrapper) {
+                 ContentCachingRequestWrapper wrapper = (ContentCachingRequestWrapper) request;
+                 String body = new String(wrapper.getContentAsByteArray(), StandardCharsets.UTF_8);
+                 System.out.println(body);
+             } else {
+                 System.out.println("Body를 읽을 수 없음 (캐싱 래퍼 미적용)");
+             }
+             System.out.println("=================End============================");
+             */
              
              String IsHttpSession = request.getHeader("IsHttpSession");
              // if (!joinPoint.getSignature().getName().equals("SelectXuserOne"))

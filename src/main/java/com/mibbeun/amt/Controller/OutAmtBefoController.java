@@ -1,20 +1,21 @@
 package com.mibbeun.amt.Controller;
-import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mibbeun.amt.Service.OutAmtBefoService;
 import com.mibbeun.amt.Vo.OutAmtBefoVo;
+import com.mibbeun.amt.Vo.OutAmtVo;
+import com.mibbeun.amt.Vo.OutAmtBefoIstVo;
 import com.mibbeun.amt.Vo.OutAmtBefoSVo;
 import com.mibbeun.amt.Service.OutAmtService;
-import com.mibbeun.amt.Vo.OutAmtVo;
 
 @RestController
 @RequestMapping("/")
@@ -52,6 +53,40 @@ public class OutAmtBefoController {
 		return outAmtBefoVo;
 	}
 
+	/*
+	@RequestMapping(value="/insertOutAmtBefo2ID",method= {RequestMethod.POST})
+	public OutAmtBefoVo InsertOutAmtBefo2(@RequestBody OutAmtBefoVo outAmtBefoVo ) throws Exception { 
+		int iResult = outAmtBefoService.insertOutAmtBefo2(outAmtBefoVo);
+		outAmtBefoVo.setCode(iResult);
+		return outAmtBefoVo;
+	}
+	*/	
+	
+	@RequestMapping(value="/insertOutAmtBefo2ID",method= {RequestMethod.POST})
+	public OutAmtBefoVo InsertOutAmtBefo2(@RequestBody byte[] Adata ) throws Exception { 
+		// Byte --> JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        //BIN ==> JSON
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        
+
+        //String json = objectMapper.writeValueAsString(Adata);
+        
+        JsonNode node = objectMapper.readTree(Adata);
+        System.out.println(node.toPrettyString());  // 보기 좋게 출력
+        OutAmtBefoIstVo befoVo = objectMapper.treeToValue(node, OutAmtBefoIstVo.class);
+        
+        OutAmtBefoVo outAmtBefoVo = new OutAmtBefoVo();
+        BeanUtils.copyProperties(outAmtBefoVo, befoVo);
+        
+        // OutAmtBefoVo outAmtBefoVo = objectMapper.readValue(Adata, OutAmtBefoVo.class);	
+        
+		int iResult = outAmtBefoService.insertOutAmtBefo2(outAmtBefoVo);
+		outAmtBefoVo.setCode(iResult);
+		return outAmtBefoVo;        
+	}	
+	
+	
 	
 	// insert 처리
 	@RequestMapping(value="/BefoToinsertOutAmtID",method= {RequestMethod.POST})
