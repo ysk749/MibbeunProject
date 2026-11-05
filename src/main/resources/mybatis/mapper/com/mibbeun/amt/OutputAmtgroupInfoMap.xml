@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../../../mybatis-3-mapper.dtd">
+<mapper namespace="com.mibbeun.amt.Map.OutputAmtgroupInfoMap">
+
+  <select id="SelectOutputAmtgroupInfo" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo" resultType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	Select 
+		 그룹코드 as groupCode	 -- 그룹코드
+		,코드분류 as codeGb	 -- 코드분류
+		,비밀번호 as password	 -- 비밀번호
+		,그룹설명 as groupName	 -- 그룹설명
+		,날짜 as date	 -- 날짜
+		,금액 as amt	 -- 금액
+		,비고 as cnte	 -- 비고
+		,성도코드1 as nmNo1	 -- 성도코드1
+		,이름1 as name1	 -- 이름1
+		,성도코드2 as nmNo2	 -- 성도코드2
+		,이름2 as name2	 -- 이름2
+		,성도코드3 as nmNo3	 -- 성도코드3
+		,이름3 as name3	 -- 이름3
+		,sns as sns	 -- sns
+		,은행 as bank	 -- 은행
+		,계좌번호 as bankNo	 -- 계좌번호
+		,핸드폰번호 as handNo	 -- 핸드폰번호
+		,년도 as year	 -- year
+		,workcd as workcd	 -- workcd
+	From 지출_groupInfo
+	where 그룹코드	=	#{groupCode} 
+	order by 그룹코드
+</select>
+  <select id="SelectOutputAmtgroupInfoList" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo" resultType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	Select 
+		 그룹코드 as groupCode	 -- 그룹코드
+		,코드분류 as codeGb	 -- 코드분류
+		,비밀번호 as password	 -- 비밀번호
+		,그룹설명 as groupName	 -- 그룹설명
+		,날짜 as date	 -- 날짜
+		,금액 as amt	 -- 금액
+		,비고 as cnte	 -- 비고
+		,성도코드1 as nmNo1	 -- 성도코드1
+		,이름1 as name1	 -- 이름1
+		,성도코드2 as nmNo2	 -- 성도코드2
+		,이름2 as name2	 -- 이름2
+		,성도코드3 as nmNo3	 -- 성도코드3
+		,이름3 as name3	 -- 이름3
+		,sns as sns	 -- sns
+		,은행 as bank	 -- 은행
+		,계좌번호 as bankNo	 -- 계좌번호
+		,핸드폰번호 as handNo	 -- 핸드폰번호
+		,년도 as year	 -- year
+		,workcd as workcd	 -- workcd
+	From 지출_groupInfo as Grb
+    WHERE   1  = 1
+	    <if test='codeGb != null and codeGb != ""' >
+	       AND  Grb.코드분류 = #{codeGb}
+	    </if>  
+        
+        <if test='name1 != null and name1 != ""' >
+	       AND  Grb.이름1 like '%'||#{name1}||'%'
+	    </if>  
+	    
+	    <if test='groupName != null and groupName !=  ""'>
+           AND  Grb.그룹설명 like '%'||#{groupName}||'%' 
+       </if> 
+       
+	    <if test='year != null and year != ""'>
+	      AND  Grb.년도 = #{year}
+	    </if>
+	    <if test='workcd != null and workcd != ""'>
+	      AND  Grb.workcd = #{workcd}
+	    </if>	
+	    
+	    <if test='fmDate != null and fmDate != ""'>
+	      <![CDATA[
+	      AND  Grb.날짜 >= #{fmDate}
+	      ]]>
+	    </if>
+	    <if test='toDate != null and toDate != ""'>
+	      <![CDATA[
+	      AND  Grb.날짜 <= #{toDate}
+	      ]]>
+	    </if>		        
+	order by 그룹코드
+</select>
+  <insert id="InsertOutputAmtgroupInfo" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	insert into 지출_groupInfo( 
+		 그룹코드	 -- 그룹코드
+		,코드분류	-- 코드분류
+		,비밀번호	-- 비밀번호
+		,그룹설명	-- 그룹설명
+		,날짜	-- 날짜
+		,금액	-- 금액
+		,비고	-- 비고
+		,성도코드1	-- 성도코드1
+		,이름1	-- 이름1
+		,성도코드2	-- 성도코드2
+		,이름2	-- 이름2
+		,성도코드3	-- 성도코드3
+		,이름3	-- 이름3
+		,sns	-- sns
+		,은행	-- 은행
+		,계좌번호	-- 계좌번호
+		,핸드폰번호	-- 핸드폰번호
+		,년도	-- year
+		,workcd	-- workcd
+	) Values ( 
+		 #{groupCode}	 -- 그룹코드
+		,#{codeGb}	 -- 코드분류
+		,#{password}	 -- 비밀번호
+		,#{groupName}	 -- 그룹설명
+		,#{date}	 -- 날짜
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{nmNo1}	 -- 성도코드1
+		,#{name1}	 -- 이름1
+		,#{nmNo2}	 -- 성도코드2
+		,#{name2}	 -- 이름2
+		,#{nmNo3}	 -- 성도코드3
+		,#{name3}	 -- 이름3
+		,#{sns}	 -- sns
+		,#{bank}	 -- 은행
+		,#{bankNo}	 -- 계좌번호
+		,#{handNo}	 -- 핸드폰번호
+		,#{year}	 -- year
+		,#{workcd}	 -- workcd
+)
+</insert>
+
+  <select id="SelectOutputAmtgroupInfoList_josn" parameterType="map" resultType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	  SELECT SetAmtBefoInsertToSelect(#{jsonData}::jsonb)
+  </select>
+
+  <select id="InsertOutputAmtgroupInfoJson" parameterType="map" resultType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	  SELECT * from SetInsertOutputGroupInfoJson(#{jsonData}::jsonb)
+  </select>
+
+  <update id="UpdateOutputAmtgroupInfo" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	update 지출_groupInfo 
+	Set 
+		  그룹코드	 = #{groupCode}	-- 그룹코드
+		, 코드분류	 = #{codeGb}	-- 코드분류
+	    <if test='password != null and password != ""'>
+	      , 비밀번호	 = #{password}	-- 비밀번호
+	    </if>		
+		, 그룹설명	 = #{groupName}	-- 그룹설명
+		, 날짜	 = #{date}	-- 날짜
+		, 금액	 = #{amt}	-- 금액
+		, 비고	 = #{cnte}	-- 비고
+		, 성도코드1	 = #{nmNo1}	-- 성도코드1
+		, 이름1	 = #{name1}	-- 이름1
+		, 성도코드2	 = #{nmNo2}	-- 성도코드2
+		, 이름2	 = #{name2}	-- 이름2
+		, 성도코드3	 = #{nmNo3}	-- 성도코드3
+		, 이름3	 = #{name3}	-- 이름3
+		, sns	 = #{sns}	-- sns
+		, 은행	 = #{bank}	-- 은행
+		, 계좌번호	 = #{bankNo}	-- 계좌번호
+		, 핸드폰번호	 = #{handNo}	-- 핸드폰번호
+		, 년도	 = #{year}	-- year
+		, workcd	 = #{workcd}	-- workcd
+	where 그룹코드	 = #{groupCode}
+</update>
+  <update id="DeleteOutputAmtgroupInfo" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	delete from 지출_groupInfo 
+	where 그룹코드 = #{groupCode}
+</update>
+  <update id="MergeOutputAmtgroupInfo" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupInfoVo">
+	Merge  into  지출_groupInfo  a 
+	using  (select 1 As from dual)  b 
+	   on  (A.그룹코드 = #{groupCode}) 
+	When Matched then 
+	update  
+	Set 
+		  코드분류	 = #{codeGb}	 -- 코드분류
+		, 비밀번호	 = #{password}	 -- 비밀번호
+		, 그룹설명	 = #{groupName}	 -- 그룹설명
+		, 날짜	 = #{date}	 -- 날짜
+		, 금액	 = #{amt}	 -- 금액
+		, 비고	 = #{cnte}	 -- 비고
+		, 성도코드1	 = #{nmNo1}	 -- 성도코드1
+		, 이름1	 = #{name1}	 -- 이름1
+		, 성도코드2	 = #{nmNo2}	 -- 성도코드2
+		, 이름2	 = #{name2}	 -- 이름2
+		, 성도코드3	 = #{nmNo3}	 -- 성도코드3
+		, 이름3	 = #{name3}	 -- 이름3
+		, sns	 = #{sns}	 -- sns
+		, 은행	 = #{bank}	 -- 은행
+		, 계좌번호	 = #{bankNo}	 -- 계좌번호
+		, 핸드폰번호	 = #{handNo}	 -- 핸드폰번호
+		, 년도	 = #{year}	 -- year
+		, workcd	 = #{workcd}	 -- workcd
+	When not Matched then 
+	insert ( 
+		 그룹코드	 -- 그룹코드
+		,코드분류	 -- 코드분류
+		,비밀번호	 -- 비밀번호
+		,그룹설명	 -- 그룹설명
+		,날짜	 -- 날짜
+		,금액	 -- 금액
+		,비고	 -- 비고
+		,성도코드1	 -- 성도코드1
+		,이름1	 -- 이름1
+		,성도코드2	 -- 성도코드2
+		,이름2	 -- 이름2
+		,성도코드3	 -- 성도코드3
+		,이름3	 -- 이름3
+		,sns	 -- sns
+		,은행	 -- 은행
+		,계좌번호	 -- 계좌번호
+		,핸드폰번호	 -- 핸드폰번호
+		,년도	 -- year
+		,workcd	 -- workcd
+	) Values ( 
+		 #{groupCode}	 -- 그룹코드
+		,#{codeGb}	 -- 코드분류
+		,#{password}	 -- 비밀번호
+		,#{groupName}	 -- 그룹설명
+		,#{date}	 -- 날짜
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{nmNo1}	 -- 성도코드1
+		,#{name1}	 -- 이름1
+		,#{nmNo2}	 -- 성도코드2
+		,#{name2}	 -- 이름2
+		,#{nmNo3}	 -- 성도코드3
+		,#{name3}	 -- 이름3
+		,#{sns}	 -- sns
+		,#{bank}	 -- 은행
+		,#{bankNo}	 -- 계좌번호
+		,#{handNo}	 -- 핸드폰번호
+		,#{year}	 -- year
+		,#{workcd}	 -- workcd
+	)
+</update>
+</mapper>

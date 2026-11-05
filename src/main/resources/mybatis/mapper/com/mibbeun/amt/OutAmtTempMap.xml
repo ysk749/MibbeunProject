@@ -116,8 +116,6 @@
 		,계정코드3	-- 계정코드3
 		,년도	-- 년도
 		,입력일자	-- 입력일자
-		,성도코드	-- 성도코드
-		,이름	-- 이름
 		,uer_yn	-- uer_yn
 	) Values ( 
 		 #{codeGb}	 -- 코드분류
@@ -129,8 +127,6 @@
 		,#{code3}	 -- 계정코드3
 		,#{year}	 -- 년도
 		,now()	 -- 입력일자
-		,#{pNo}	 -- 성도코드
-		,#{pName}	 -- 이름
 		,#{uerYn}	 -- uer_yn
 )
 </insert>
@@ -147,8 +143,6 @@
 		, 계정코드3	 = #{code3}	-- 계정코드3
 		, 년도	 = #{year}	-- 년도
 		, 입력일자	 = now()	-- 입력일자
-		, 성도코드	 = #{pNo}	-- 성도코드
-		, 이름	 = #{pName}	-- 이름
 		, uer_yn	 = #{uerYn}	-- uer_yn
 	where 코드	 = #{code}
 </update>
@@ -181,8 +175,6 @@ with upsert as  (
 		, 계정코드3	 = #{code3}	 -- 계정코드3
 		, 년도	 = #{year}	 -- 년도
 		, 입력일자	 = now()	 -- 입력일자
-		, 성도코드	 = #{nmNo}	 -- 성도코드
-		, 이름	 = #{name}	 -- 이름
 		, uer_yn	 = #{uerYn}	 -- uer_yn
 	where 코드 = #{code} 
 	   returning * 
@@ -198,8 +190,6 @@ with upsert as  (
 		,계정코드3	 -- 계정코드3
 		,년도	 -- 년도
 		,입력일자	 -- 입력일자
-		,성도코드	 -- 성도코드
-		,이름	 -- 이름
 		,uer_yn	 -- uer_yn
 	)  
 	Select 
@@ -213,8 +203,6 @@ with upsert as  (
 		,#{code3}	 -- 계정코드3
 		,#{year}	 -- 년도
 		,now()	 -- 입력일자
-		,#{nmNo}	 -- 성도코드
-		,#{name}	 -- 이름
 		,#{uerYn}	 -- uer_yn
 	where not exists(select * from upsert)	
 </update>

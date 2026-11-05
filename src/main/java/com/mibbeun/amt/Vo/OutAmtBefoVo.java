@@ -7,13 +7,8 @@ import lombok.Setter;
 
 public class OutAmtBefoVo {  
 	int code;
+	int groupCode;
 	String codeGb;
-	String sNo1;
-	String sName1;
-	String sNo2;
-	String sName2;
-	String sNo3;
-	String sName3;	
 	double amt;
 	String cnte;
 	int code1;
@@ -28,5 +23,12 @@ public class OutAmtBefoVo {
 	String cdNm2;
 	String cdNm3;
 	String workCd;
-	String sDate;
+	String date;
+	String patNo1;
+	String patName1;
+	String patNo2;
+	String patName2;
+	String patNo3;
+	String patName3;
+	int amtCode;
 }

@@ -16,12 +16,13 @@ public class OutAmtTempVo {
 	int code3;
 	String year;
 	String inputDate;
-	String pNo;
-	String pName;
 	String uerYn;
 	String fmDate;
 	String toDate;
 	String cdNm1;
 	String cdNm2;
 	String cdNm3;
+	String patNo;
+	String patName;
+
 }

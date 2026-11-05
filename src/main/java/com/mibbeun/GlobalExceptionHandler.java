@@ -24,7 +24,8 @@ public class GlobalExceptionHandler {
           //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_JSON_UTF8) // UTF-8 지정
+                .contentType(MediaType.APPLICATION_JSON) // UTF-8 지정
+                //.contentType(MediaType.APPLICATION_JSON_UTF8) // UTF-8 지정
                 .body(error);          
     }
 
@@ -38,7 +39,8 @@ public class GlobalExceptionHandler {
        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_JSON_UTF8) // UTF-8 지정
+                .contentType(MediaType.APPLICATION_JSON) // UTF-8 지정
+                //.contentType(MediaType.APPLICATION_JSON_UTF8) // UTF-8 지정
                 .body(error);        
     }
 
@@ -51,7 +53,8 @@ public class GlobalExceptionHandler {
         //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .contentType(MediaType.APPLICATION_JSON_UTF8) // UTF-8 지정
+                .contentType(MediaType.APPLICATION_JSON) // UTF-8 지정
+                //.contentType(MediaType.APPLICATION_JSON_UTF8) // UTF-8 지정
                 .body(error);
         
     }

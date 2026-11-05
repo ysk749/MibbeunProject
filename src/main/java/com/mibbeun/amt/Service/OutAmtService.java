@@ -31,6 +31,11 @@ public class OutAmtService {
 	public int insertOutAmt(OutAmtVo outAmtVo ) { 
 		return outAmtMap.InsertOutAmt(outAmtVo);
 	}
+	// insert
+	public int InsertInfoToOutAmt(OutAmtVo outAmtVo ) { 
+		return outAmtMap.InsertInfoToOutAmt(outAmtVo);
+	}	
+
 	// update
 	public int updateOutAmt(OutAmtVo outAmtVo ) { 
 		return outAmtMap.UpdateOutAmt(outAmtVo);

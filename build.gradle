@@ -1,11 +1,11 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.6'
+	id 'org.springframework.boot' version '4.0.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.mibbeun'
-version = '0.8.2'
+version = '0.0.2'
 
 java {
 	toolchain {
@@ -19,6 +19,7 @@ configurations {
 	}
 }
 
+
 repositories {
 	mavenCentral()
 }
@@ -26,8 +27,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-aspectj'
    	
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -35,7 +36,7 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:4.0.1'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
 	

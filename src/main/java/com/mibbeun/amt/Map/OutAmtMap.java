@@ -14,6 +14,7 @@ public interface OutAmtMap {
 		List<OutAmtVo>  SelectOutAmtList(OutAmtVo outAmtVo);
 
 		int InsertOutAmt(OutAmtVo outAmtVo);
+		int InsertInfoToOutAmt(OutAmtVo outAmtVo);
 
 		int UpdateOutAmt(OutAmtVo outAmtVo);
 		int DeleteOutAmt(OutAmtVo outAmtVo);

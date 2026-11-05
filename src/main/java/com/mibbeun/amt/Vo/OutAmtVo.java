@@ -16,6 +16,8 @@ public class OutAmtVo {
 	int code3;
 	String year;
 	String inputDate;
-	String pNo;
-	String name;
+	String patNo;
+	String patName;
+	int tmepCode;
+	int infoCode;
 }

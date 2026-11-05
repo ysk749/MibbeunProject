@@ -110,10 +110,10 @@
       AND  OutAmt.계정코드3 = #{outputFlCode3} 
     </if>  	
     <if test='outputNameCode != null and outputNameCode != 0'>
-      AND  OutAmt.성도코드 = #{outputNameCode} 
+      AND  OutAmt.성도코드1 = #{outputNameCode1} 
     </if>  	
      <if test='outputName != null and outputName != 0'>
-      AND  OutAmt.이름 = #{outputName} 
+      AND  OutAmt.이름1 = #{outputName1} 
     </if>  	
     Order by OutAmt.날짜, OutAmt.코드 desc
        

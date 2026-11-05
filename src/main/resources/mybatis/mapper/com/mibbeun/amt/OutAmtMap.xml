@@ -96,6 +96,31 @@
 		,now()	 -- 입력일자
    )
 </insert>
+  <insert id="InsertInfoToOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
+	insert into 지출( 
+		 코드분류	-- 코드분류
+		,날짜	-- 날짜
+		,금액	-- 금액
+		,비고	-- 비고
+		,계정코드1	-- 계정코드1
+		,계정코드2	-- 계정코드2
+		,계정코드3	-- 계정코드3
+		,info코드	-- 사전 지출 예약 table
+		,년도	-- 년도
+		,입력일자	-- 입력일자
+	) Values ( 
+		 #{codeGb}	 -- 코드분류
+		,#{date}	 -- 날짜
+		,#{amt}	 -- 금액
+		,#{cnte}	 -- 비고
+		,#{code1}	 -- 계정코드1
+		,#{code2}	 -- 계정코드2
+		,#{code3}	 -- 계정코드3
+		,#{infoCode}	 -- 사전 지출 예약 table3
+		,#{year}	 -- 년도
+		,now()	 -- 입력일자
+   )
+</insert>
   <update id="UpdateOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
 	update 지출 
 	Set 
@@ -130,8 +155,8 @@
 		, 계정코드3	 = #{code3}	 -- 계정코드3
 		, 년도	 = #{year}	 -- 년도
 		, 입력일자	 = #{inputDate}	 -- 입력일자
-		, 성도코드	 = #{pNo}	 -- 성도코드
-		, 이름	 = #{pName}	 -- 이름
+		, 성도코드	 = #{patNo}	 -- 성도코드
+		, 이름	 = #{patName}	 -- 이름
 	When not Matched then 
 	insert ( 
 		 코드	 -- 코드
@@ -157,8 +182,8 @@
 		,#{code3}	 -- 계정코드3
 		,#{year}	 -- 년도
 		,#{inputDate}	 -- 입력일자
-		,#{pNo}	 -- 성도코드
-		,#{pName}	 -- 이름
+		,#{patNo}	 -- 성도코드
+		,#{patName}	 -- 이름
 	)
 </update>
 </mapper>
