@@ -38,4 +38,13 @@ public class BudgetController {
 		outBudgetSVo.setBudgetListVo(budgetListVo);
 		return outBudgetSVo;
 	}	
+	
+	// Select List
+	@RequestMapping(value="/budgetOutputListGroupID",method= {RequestMethod.POST})
+	public BudgetSVo SelectBudgetOutputGroupList(@RequestBody BudgetVo budgetVo ) { 
+		List<BudgetVo> budgetListVo = budgetService.budgetOutputListGroupData(budgetVo);
+		BudgetSVo outBudgetSVo =  new BudgetSVo();
+		outBudgetSVo.setBudgetListVo(budgetListVo);
+		return outBudgetSVo;
+	}	
 }

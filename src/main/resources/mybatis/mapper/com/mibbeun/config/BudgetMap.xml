@@ -102,4 +102,47 @@
    ]]>
 </select>
 
+<select id="SelectBudgetOutputGroupList" parameterType="com.mibbeun.config.Vo.BudgetVo" resultType="com.mibbeun.config.Vo.BudgetVo">
+   <![CDATA[
+    	SELECT replace(지출관.관,' ','') as code1Nm, 
+	           replace(지출항.항,' ','') as code2Nm, 
+	           예산지출.코드분류 as codeGb, 
+	           예산지출.관코드 as code1, 
+	           예산지출.항코드 as code2, 
+	           예산지출.관코드 * 100 + 예산지출.항코드 * 10 +  예산지출.목코드  AS  keyNo, 
+	           Max(IIf(예산지출.날짜 = #{year},예산지출.순서,0)) AS  seqNo, 
+	           Max(iif(예산지출.날짜 = #{year} ,예산지출.예산비고, '')) as  cnte,
+	           Sum(iif(예산지출.날짜 = #{year},예산지출.예산액,0)) AS configAmt, 
+	           Sum(iif(예산지출.날짜 = #{bofYear},예산지출.예산액,0)) AS bofConfigAmt, 
+	           Sum(iif(예산지출.날짜 = #{pbofYear},예산지출.예산액,0)) AS pbofConfigAmt, 
+	           Sum(iif(예산지출.날짜 = #{year},ASUM.Amt,0)) AS amt, 
+	           Sum(iif(예산지출.날짜 = #{bofYear},ASUM.BofAmt,0)) AS bofAmt,
+	           Sum(iif(예산지출.날짜 = #{pbofYear},ASUM.PBofAmt,0)) AS pbofAmt
+	 FROM ((((예산지출 INNER JOIN 지출관 
+	                          On 예산지출.관코드 = 지출관.관코드
+	                          and 예산지출.코드분류  =  지출관.코드분류 )
+	                        INNER JOIN 지출항 
+	                          On  예산지출.관코드 = 지출항.관코드
+	                          And 예산지출.항코드 = 지출항.항코드
+	                          and 예산지출.코드분류  =  지출항.코드분류 )
+	                        LEFT JOIN (Select 지출.계정코드1,지출.계정코드2,지출.코드분류,지출.년도,
+	                                      Sum(iif(지출.년도 = #{year},지출.금액,0)) as Amt,           
+	                                      Sum(iif(지출.년도 = #{bofYear},지출.금액,0)) AS BofAmt,         
+	                                      Sum(iif(지출.년도 = #{pbofYear},지출.금액,0)) AS PBofAmt         
+	                                   from 지출                                                                                                                   
+	                                   where 지출.년도 >= #{pbofYear} and 지출.년도 <= #{year}       
+	                                   and   지출.코드분류 = #{codeGb}                                 
+	                                   group by 지출.계정코드1,지출.계정코드2,지출.코드분류,지출.년도
+	                                  ) ASUM                      
+	                         ON  예산지출.관코드 = ASUM.계정코드1
+	                         AND 예산지출.항코드 = ASUM.계정코드2 
+	                         and 예산지출.코드분류  =  ASUM.코드분류 
+	                         AND 예산지출.날짜 = ASUM.년도) 
+	   where 예산지출.날짜 >= #{pbofYear} and 예산지출.날짜 <= #{year} 
+	   and  예산지출.코드분류 =  #{codeGb} 
+	   GROUP BY 지출관.관, 지출항.항, 예산지출.관코드, 예산지출.항코드,예산지출.코드분류,지출관.순서,지출항.순서,지출목.순서
+	   Order BY 지출관.순서,지출항.순서,예산지출.관코드, 예산지출.항코드
+   ]]>
+</select>
+
 </mapper>

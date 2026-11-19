@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
 import com.mibbeun.amt.Vo.OutputAmtgroupItemVo;
+import com.mibbeun.amt.Vo.OutputAmtgroupItemSelVo;
 
 @Mapper
 public interface OutputAmtgroupItemMap {  
@@ -12,6 +13,10 @@ public interface OutputAmtgroupItemMap {
 		List<OutputAmtgroupItemVo>  SelectOutputAmtgroupItemList(OutputAmtgroupItemVo outputAmtgroupItemVo);
 
 		int InsertOutputAmtgroupItem(OutputAmtgroupItemVo outputAmtgroupItemVo);
+		
+		// List<OutputAmtgroupItemSelVo>  SelectOutputAmtgroupItemSelList(OutputAmtgroupItemSelVo outputAmtgroupItemSelVo);
+		List<OutputAmtgroupItemSelVo>  SelectOutputAmtgroupItemSelList(OutputAmtgroupItemSelVo outputAmtgroupItemSelVo);
+
 		//JSON Insert Select
 		OutputAmtgroupItemVo InsertOutputAmtgroupItemJson(@Param("jsonData") String jsonData);
 

@@ -49,6 +49,52 @@
         
 	order by 그룹코드,seqno,코드
   </select>
+  
+  <select id="SelectOutputAmtgroupItemSelList" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupItemSelVo" resultType="com.mibbeun.amt.Vo.OutputAmtgroupItemSelVo">
+	SELECT 
+		 AA.코드 as code	 -- 
+		,AA.그룹코드 as groupCode	 -- 
+		,AA.seqno as seqno	 -- 
+		,AA.코드분류 as codeGb	 -- 
+		,AA.날짜 as date	 -- 
+		,AA.금액 as amt	 -- 
+		,AA.비고 as cnte	 -- 
+		,AA.년도 as year	 -- 
+		,AA.입력일자 as inputDate	 -- 
+		,AA.workcd as workcd	 -- 
+		,BB.그룹설명 as groupName	 -- 
+		,BB.성도코드1 as nmNo1	 -- 
+		,BB.이름1 as name1	 -- 
+		,CC.계정코드1 as code1	 -- 
+		,CC.계정코드2 as code2	 -- 
+		,CC.계정코드3 as code3	
+	FROM 지출_groupitem AA
+	     inner join 지출_groupinfo BB
+	     on AA.그룹코드 = BB.그룹코드
+	     and AA.코드분류 = BB.코드분류
+	     left outer join 지출 CC
+	     on AA.그룹코드 = CC.그룹코드 
+	     and AA.코드 = CC.그룹지출코드
+	     and AA.코드분류 = CC.코드분류
+	where 1 = 1    
+    <if test='groupCode != null and groupCode != ""' >
+       AND  그룹코드 = #{groupCode}
+    </if>	
+    <if test='codeGb != null and codeGb != ""' >
+       AND  AA.코드분류 = #{codeGb}
+    </if>  	    
+    <if test='code1 != null and code1 != ""' >
+       AND  CC.계정코드1 = #{code1}
+    </if>  	    
+    <if test='code2 != null and code2 != ""' >
+       AND  CC.계정코드2 = #{code2}
+    </if>  	    
+    <if test='code3 != null and code3 != ""' >
+       AND  CC.계정코드3 = #{code3}
+    </if>    
+	order by AA.그룹코드, AA.seqno,AA.코드
+	     
+</select>  
   <insert id="InsertOutputAmtgroupItem" parameterType="com.mibbeun.amt.Vo.OutputAmtgroupItemVo">
   <![CDATA[
 	insert into 지출_groupitem( 

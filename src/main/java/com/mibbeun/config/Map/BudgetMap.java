@@ -9,4 +9,5 @@ public interface BudgetMap {
 
 		List<BudgetVo>  SelectBudgetInputList(BudgetVo budgetVo);
 		List<BudgetVo>  SelectBudgetOutputList(BudgetVo budgetVo);
+		List<BudgetVo>  SelectBudgetOutputGroupList(BudgetVo budgetVo);
 }

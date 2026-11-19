@@ -19,4 +19,9 @@ public class BudgetService {
 		return budgetMap.SelectBudgetOutputList(budgetVo);
 	}
 	
+	public List<BudgetVo> budgetOutputListGroupData(BudgetVo budgetVo ) { 
+		return budgetMap.SelectBudgetOutputGroupList(budgetVo);
+	}
+	
+	
 }

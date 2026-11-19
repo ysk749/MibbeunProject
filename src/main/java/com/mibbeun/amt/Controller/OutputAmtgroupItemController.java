@@ -16,6 +16,9 @@ import com.mibbeun.amt.Service.OutputAmtgroupItemService;
 import com.mibbeun.amt.Vo.OutputAmtgroupItemVo;
 import com.mibbeun.amt.Vo.OutAmtBefoVo;
 import com.mibbeun.amt.Vo.OutputAmtgroupItemSVo;
+import com.mibbeun.amt.Vo.OutputAmtgroupItemSelSVo;
+import com.mibbeun.amt.Vo.OutputAmtgroupItemSelVo;
+
 
 @RestController
 @RequestMapping("/")
@@ -45,6 +48,16 @@ public class OutputAmtgroupItemController {
 		return outputAmtgroupItemSVo;
 	}
 
+	// Select ItemJsoin List
+	@RequestMapping(value="/outputAmtgroupItemSelListID",method= {RequestMethod.POST})
+	public OutputAmtgroupItemSelSVo SelectOutputAmtgroupItemSelList(@RequestBody OutputAmtgroupItemSelVo outputAmtgroupItemSelVo ) { 
+		OutputAmtgroupItemSelVo inputOutputAmtgroupItemSelVo =  new OutputAmtgroupItemSelVo();
+		BeanUtils.copyProperties(outputAmtgroupItemSelVo, inputOutputAmtgroupItemSelVo);
+		List<OutputAmtgroupItemSelVo> outputAmtgroupItemSelListVo = outputAmtgroupItemService.outputAmtgroupItemSelListData(inputOutputAmtgroupItemSelVo);
+		OutputAmtgroupItemSelSVo outOutputAmtgroupItemSelSVo =  new OutputAmtgroupItemSelSVo();
+		outOutputAmtgroupItemSelSVo.setOutputAmtgroupItemSelListVo(outputAmtgroupItemSelListVo);
+		return outOutputAmtgroupItemSelSVo;
+	}
 	// insert
 	@RequestMapping(value="/insertOutputAmtgroupItemID",method= {RequestMethod.POST})
 	public OutputAmtgroupItemVo InsertOutputAmtgroupItem(@RequestBody OutputAmtgroupItemVo outputAmtgroupItemVo ) throws Exception { 
