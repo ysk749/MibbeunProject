@@ -109,7 +109,7 @@
 	           예산지출.코드분류 as codeGb, 
 	           예산지출.관코드 as code1, 
 	           예산지출.항코드 as code2, 
-	           예산지출.관코드 * 100 + 예산지출.항코드 * 10 +  예산지출.목코드  AS  keyNo, 
+	           예산지출.관코드 * 100 + 예산지출.항코드 * 10   AS  keyNo, 
 	           Max(IIf(예산지출.날짜 = #{year},예산지출.순서,0)) AS  seqNo, 
 	           Max(iif(예산지출.날짜 = #{year} ,예산지출.예산비고, '')) as  cnte,
 	           Sum(iif(예산지출.날짜 = #{year},예산지출.예산액,0)) AS configAmt, 
@@ -118,7 +118,7 @@
 	           Sum(iif(예산지출.날짜 = #{year},ASUM.Amt,0)) AS amt, 
 	           Sum(iif(예산지출.날짜 = #{bofYear},ASUM.BofAmt,0)) AS bofAmt,
 	           Sum(iif(예산지출.날짜 = #{pbofYear},ASUM.PBofAmt,0)) AS pbofAmt
-	 FROM ((((예산지출 INNER JOIN 지출관 
+	 FROM (((예산지출 INNER JOIN 지출관 
 	                          On 예산지출.관코드 = 지출관.관코드
 	                          and 예산지출.코드분류  =  지출관.코드분류 )
 	                        INNER JOIN 지출항 
@@ -140,7 +140,7 @@
 	                         AND 예산지출.날짜 = ASUM.년도) 
 	   where 예산지출.날짜 >= #{pbofYear} and 예산지출.날짜 <= #{year} 
 	   and  예산지출.코드분류 =  #{codeGb} 
-	   GROUP BY 지출관.관, 지출항.항, 예산지출.관코드, 예산지출.항코드,예산지출.코드분류,지출관.순서,지출항.순서,지출목.순서
+	   GROUP BY 지출관.관, 지출항.항, 예산지출.관코드, 예산지출.항코드,예산지출.코드분류,지출관.순서,지출항.순서
 	   Order BY 지출관.순서,지출항.순서,예산지출.관코드, 예산지출.항코드
    ]]>
 </select>

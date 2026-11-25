@@ -63,14 +63,14 @@ public class ReserveOutputController {
 		int iResult = reserveOutputService.deleteReserveOutput(reserveOutputVo);
 		return reserveOutputVo;
 	}
-	// º¹»ç
+	// ë³µì‚¬
 	@RequestMapping(value="/yearCopyReserveOutputID",method= {RequestMethod.POST})
 	public ReserveOutputVo YearCopyReserveOutput(@RequestBody ReserveOutputVo reserveOutputVo ) throws Exception { 
 		int iResult = reserveOutputService.yearCopyReserveOutput(reserveOutputVo);
 		return reserveOutputVo;
 	}
 	
-	// º¹»ç
+	// ë³µì‚¬
 	@RequestMapping(value="/constCompMakeOutputID",method= {RequestMethod.POST})
 	public ReserveOutputVo ConstCompMakeOutput(@RequestBody ReserveOutputVo reserveOutputVo ) throws Exception { 
 		int iResult = reserveOutputService.constCompMakeOutput(reserveOutputVo);

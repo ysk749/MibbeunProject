@@ -78,7 +78,7 @@
 	     and AA.코드분류 = CC.코드분류
 	where 1 = 1    
     <if test='groupCode != null and groupCode != ""' >
-       AND  그룹코드 = #{groupCode}
+       AND  AA.그룹코드 = #{groupCode}
     </if>	
     <if test='codeGb != null and codeGb != ""' >
        AND  AA.코드분류 = #{codeGb}

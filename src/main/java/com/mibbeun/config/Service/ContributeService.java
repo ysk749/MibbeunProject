@@ -31,7 +31,7 @@ public class ContributeService {
 		return contributeMap.DeleteContribute(contributeVo);
 	}
 	
-	//  ÀÌÀü ±âºÎ±İÀ» ÂüÁ¶ÇÏ¿© »õ·Î »ı¼º
+	//  ì´ì „ ê¸°ë¶€ê¸ˆì„ ì°¸ì¡°í•˜ì—¬ ìƒˆë¡œ ìƒì„±
 	public int newYearMakeContribute(ContributeVo contributeVo ) { 
 		return contributeMap.NewYearMakeContribute(contributeVo);
 	}	

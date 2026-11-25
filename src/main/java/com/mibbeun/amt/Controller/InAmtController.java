@@ -56,7 +56,7 @@ public class InAmtController {
 	@RequestMapping(value="/insertInAmtID_B",method={RequestMethod.POST})
 	public InAmtVo InsertInAmt_B(@RequestBody byte[] Adata ) throws Exception { 
 		ObjectMapper objectMapper = new ObjectMapper();
-		//ÆÄ¶ó¹ÌÅÍMap¿¡¼­?DTO¿¡?µé¾îÀÖÁö?¾Ê´Â?º¯¼ö°¡?ÀÖ¾îµµ?¹«½ÃÇÔ.
+		//íŒŒë¼ë¯¸í„°Mapì—ì„œ?DTOì—?ë“¤ì–´ìˆì§€?ì•ŠëŠ”?ë³€ìˆ˜ê°€?ìˆì–´ë„?ë¬´ì‹œí•¨.
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 		InAmtVo inAmtVo = objectMapper.readValue(Adata, InAmtVo.class);
 		int iResult = inAmtService.insertInAmt(inAmtVo);

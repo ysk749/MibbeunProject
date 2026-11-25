@@ -1,4 +1,4 @@
-﻿package com.mibbeun.amt.Vo;
+package com.mibbeun.amt.Vo;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -63,7 +63,7 @@ public class ContributeController {
 		return contributeVo;
 	}
 	
-	// ÀÌÀü ±âºÎ±İÀ» ÂüÁ¶ÇÏ¿© »õ·Î »ı¼º
+	// ì´ì „ ê¸°ë¶€ê¸ˆì„ ì°¸ì¡°í•˜ì—¬ ìƒˆë¡œ ìƒì„±
 	@RequestMapping(value="/newYearMakeContributeID",method= {RequestMethod.POST})
 	public ContributeVo NewyearMakeContribute(@RequestBody ContributeVo contributeVo ) throws Exception { 
 		int iResult = contributeService.newYearMakeContribute(contributeVo);

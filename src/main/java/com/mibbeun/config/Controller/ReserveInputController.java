@@ -65,14 +65,14 @@ public class ReserveInputController {
 		return reserveInputVo;
 	}
 	
-	// º¹»ç
+	// ë³µì‚¬
 	@RequestMapping(value="/yearCopyReserveInputID",method= {RequestMethod.POST})
 	public ReserveInputVo YearCopyReserveInput(@RequestBody ReserveInputVo reserveInputVo ) throws Exception { 
 		int iResult = reserveInputService.yearCopyReserveInput(reserveInputVo);
 		return reserveInputVo;
 	}
 	
-	// º¹»ç
+	// ë³µì‚¬
 	@RequestMapping(value="/constCompMakeInputID",method= {RequestMethod.POST})
 	public ReserveInputVo ConstCompMakeInput(@RequestBody ReserveInputVo reserveInputVo ) throws Exception { 
 		int iResult = reserveInputService.constCompMakeOutput(reserveInputVo);

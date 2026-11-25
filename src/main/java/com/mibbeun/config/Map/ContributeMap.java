@@ -15,7 +15,7 @@ public interface ContributeMap {
 
 		int DeleteContribute(ContributeVo contributeVo);
 
-		//  ÀÌÀü ±âºÎ±İÀ» ÂüÁ¶ÇÏ¿© »õ·Î »ı¼º
+		//  ì´ì „ ê¸°ë¶€ê¸ˆì„ ì°¸ì¡°í•˜ì—¬ ìƒˆë¡œ ìƒì„±
 		int NewYearMakeContribute(ContributeVo contributeVo);
 				
 		int MergeContribute(ContributeVo contributeVo);
