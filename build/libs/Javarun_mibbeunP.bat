@@ -1,0 +1,1 @@
+java -jar MibbeunProject-0.1.0.jar --server.port=8080
