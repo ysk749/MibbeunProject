@@ -1,6 +1,8 @@
 package com.mibbeun.amt.Map;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
+
 import com.mibbeun.amt.Vo.OutAmtVo;
 
 @Mapper
@@ -14,6 +16,8 @@ public interface OutAmtMap {
 		List<OutAmtVo>  SelectOutAmtList(OutAmtVo outAmtVo);
 
 		int InsertOutAmt(OutAmtVo outAmtVo);
+		int GroupItemToInsertOutAmtJson(@Param("jsonData") String jsonData);
+		
 		int InsertInfoToOutAmt(OutAmtVo outAmtVo);
 
 		int UpdateOutAmt(OutAmtVo outAmtVo);

@@ -31,6 +31,12 @@ public class OutAmtService {
 	public int insertOutAmt(OutAmtVo outAmtVo ) { 
 		return outAmtMap.InsertOutAmt(outAmtVo);
 	}
+	
+	public int groupItemToInsertOutAmtJson(String jsonData ) { 
+		return  outAmtMap.GroupItemToInsertOutAmtJson(jsonData);
+
+	}
+	
 	// insert
 	public int InsertInfoToOutAmt(OutAmtVo outAmtVo ) { 
 		return outAmtMap.InsertInfoToOutAmt(outAmtVo);

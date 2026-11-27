@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mibbeun.amt.Service.OutAmtService;
 import com.mibbeun.amt.Vo.OutAmtVo;
+import com.mibbeun.amt.Vo.OutputAmtgroupItemVo;
 import com.mibbeun.amt.Vo.OutAmtSVo;
 
 @RestController
@@ -55,7 +58,17 @@ public class HomeDataController {
 		int iResult = outAmtService.insertOutAmt(outAmtVo);
 		return outAmtVo;
 	}
-
+	
+	// update Group에 있는것 처리
+	@RequestMapping(value="groupItemToInsertOutAmtJsonID",method= {RequestMethod.POST})
+	public OutAmtVo GroupItemToInsertOutAmtJsonID(@RequestBody OutAmtVo outAmtVo ) throws Exception { 
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonData = objectMapper.writeValueAsString(outAmtVo);		
+		int iCode = outAmtService.groupItemToInsertOutAmtJson(jsonData);
+		outAmtVo.setCode(iCode);
+		return outAmtVo;
+	}
+	
 	// update
 	@RequestMapping(value="/updateOutAmtID",method= {RequestMethod.POST})
 	public OutAmtVo updateOutAmt(@RequestBody OutAmtVo outAmtVo ) throws Exception { 

@@ -96,6 +96,12 @@
 		,now()	 -- 입력일자
    )
 </insert>
+
+ <select id="GroupItemToInsertOutAmtJson" parameterType="map" resultType="int">
+	  SELECT setoutputgroupitemtoamtjson(#{jsonData}::jsonb) 
+</select>
+
+
   <insert id="InsertInfoToOutAmt" parameterType="com.mibbeun.amt.Vo.OutAmtVo">
 	insert into 지출( 
 		 코드분류	-- 코드분류

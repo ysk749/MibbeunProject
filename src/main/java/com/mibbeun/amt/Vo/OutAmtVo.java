@@ -19,5 +19,6 @@ public class OutAmtVo {
 	String patNo;
 	String patName;
 	int tmepCode;
-	int infoCode;
+	int groupCode;
+	int groupItemCode;
 }
